@@ -1,1 +1,303 @@
 
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function() {
+      // Use the raw URL for the header and footer from GitHub
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Complex XPath Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            min-height: 200px;
+        }
+        .section h2 {
+            color: #333;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item span {
+            font-size: 16px;
+            color: #333;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-blue {
+            background-color: #007BFF;
+        }
+        .btn-red {
+            background-color: #FF5733;
+        }
+        .btn-green {
+            background-color: #28A745;
+        }
+        .btn-yellow {
+            background-color: #FFC107;
+        }
+        .btn-purple {
+            background-color: #6F42C1;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .add-section-btn {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #17A2B8;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .add-section-btn:hover {
+            background-color: #138496;
+        }
+        
+        /* Custom Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 60%;
+            max-width: 500px;
+            position: relative; /* Ensures close button can be positioned in the bottom right */
+        }
+        .modal-header {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        .modal-footer {
+            text-align: right;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        .close {
+            color: #fff;
+            background-color: #DC3545; /* Red background */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .close:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+        .close:focus {
+            outline: none;
+        }
+
+        /* Adding Textboxes with the Same Name */
+        .textboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .textbox {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Interactive Complex XPath Test Page</h1>
+
+    <div class="container">
+        <div class="section" id="section1">
+            <h2>Section 1</h2>
+            <div class="item" id="item1">
+                <span>Item 1</span>
+                <button class="btn-blue" onclick="showPopup('Item 1 clicked')">Click Me</button>
+            </div>
+            <div class="item" id="item2">
+                <span>Item 2</span>
+                <button class="btn-red" onclick="showPopup('Item 2 clicked')">Click Me</button>
+            </div>
+            <div class="item" id="item7">
+                <span>Item 7</span>
+                <button class="btn-purple" onclick="showPopup('Item 7 clicked')">Click Me</button>
+            </div>
+        </div>
+
+        <div class="section" id="section2">
+            <h2>Section 2</h2>
+            <div class="item" id="item3">
+                <span>Item 3</span>
+                <button class="btn-green" onclick="showPopup('Item 3 clicked')">Click Me</button>
+            </div>
+            <div class="item" id="item4">
+                <span>Item 4</span>
+                <button class="btn-yellow" onclick="showPopup('Item 4 clicked')">Click Me</button>
+            </div>
+            <div class="item" id="item8">
+                <span>Item 8</span>
+                <button class="btn-blue" onclick="showPopup('Item 8 clicked')">Click Me</button>
+            </div>
+        </div>
+
+        <div class="section" id="section3">
+            <h2>Section 3</h2>
+            <div class="item" id="item5">
+                <span>Item 5</span>
+                <button class="btn-red" onclick="showPopup('Item 5 clicked')">Click Me</button>
+            </div>
+            <div class="item" id="item6">
+                <span>Item 6</span>
+                <button class="btn-purple" onclick="showPopup('Item 6 clicked')">Click Me</button>
+            </div>
+        </div>
+
+        <!-- Three identical text boxes -->
+        <div class="section">
+            <h2>Text Boxes</h2>
+            <div class="textboxes">
+                <input class="textbox" type="text" name="username" placeholder="Enter your name">
+                <input class="textbox" type="text" name="username" placeholder="Enter your name">
+                <input class="textbox" type="text" name="username" placeholder="Enter your name">
+            </div>
+        </div>
+    </div>
+
+    <button class="add-section-btn" onclick="addNewSection()">Add New Section</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Notification</h2>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Some message...</p>
+            </div>
+            <div class="modal-footer">
+                <button class="close" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to show the modal
+        function showPopup(message) {
+            const modal = document.getElementById("myModal");
+            const modalMessage = document.getElementById("modalMessage");
+            modalMessage.textContent = message;
+            modal.style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            const modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
+
+        // Function to add new section
+        function addNewSection() {
+            const container = document.querySelector('.container');
+            const newSection = document.createElement('div');
+            newSection.classList.add('section');
+            newSection.innerHTML = `
+                <h2>New Section</h2>
+                <div class="item">
+                    <span>New Item 1</span>
+                    <button class="btn-yellow" onclick="showPopup('New Item 1 clicked')">Click Me</button>
+                </div>
+                <div class="item">
+                    <span>New Item 2</span>
+                    <button class="btn-green" onclick="showPopup('New Item 2 clicked')">Click Me</button>
+                </div>
+            `;
+            container.appendChild(newSection);
+        }
+    </script>
+
+</body>
+</html>
+
+
+
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
