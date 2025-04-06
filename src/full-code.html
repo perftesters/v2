@@ -1,5 +1,5 @@
 
-
+<!-- --- Header Section --- -->
 <script>
   function loadFile(file, elementId) {
       fetch(file)
@@ -13,7 +13,7 @@
   window.onload = function() {
       // Use the raw URL for the header and footer from GitHub
       loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
-      loadFile('https://raw.githubusercontent.com/username/repository/branch/subdirectory/footer.html', 'footer');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
   }
 </script>
 
@@ -579,3 +579,4 @@
 </body>
 </html>
 <!-- --- Footer Section --- -->
+<div id="footer"></div>
