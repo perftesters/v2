@@ -1,1 +1,247 @@
 
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function() {
+      // Use the raw URL for the header and footer from GitHub
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            border: 2px solid #4CAF50; /* Added border around the container */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .upload-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background-color: #45a049;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            height: 25px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0;
+            border-radius: 5px;
+        }
+
+        .status {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .reset-btn {
+            margin-top: 20px;
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reset-btn:hover {
+            background-color: #e53935;
+        }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1000;
+            border: 2px solid #4CAF50; /* Added border to popup */
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .popup-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .popup-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Hide file input */
+        #file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>File Upload Simulator</h1>
+
+        <!-- Invisible file input for file selection -->
+        <input type="file" id="file-input" onchange="startUpload(event)">
+        
+        <button class="upload-btn" onclick="document.getElementById('file-input').click()">Upload File</button>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="status" id="status">Ready to upload...</div>
+        
+        <button class="reset-btn" onclick="resetUpload()">Reset</button>
+    </div>
+
+    <!-- Popup Window -->
+    <div class="popup-overlay" id="popup-overlay"></div>
+    <div class="popup" id="popup">
+        <h2>Upload Complete!</h2>
+        <button class="popup-btn" onclick="closePopup()">OK</button>
+    </div>
+
+    <script>
+        let progressInterval;
+        let progress = 0;
+
+        // Start the upload when a file is selected
+        function startUpload(event) {
+            const progressBar = document.getElementById('progress-bar');
+            const status = document.getElementById('status');
+            const uploadBtn = document.querySelector('.upload-btn');
+            
+            // Disable the upload button while uploading
+            uploadBtn.disabled = true;
+            status.textContent = "Uploading...";
+
+            // Simulate file upload
+            progress = 0;
+            progressBar.style.width = '0%'; // Reset progress bar at start
+
+            progressInterval = setInterval(function() {
+                progress += 5; // Increase progress by 5% at each step
+
+                if (progress <= 100) {
+                    progressBar.style.width = progress + '%'; // Update the width of the progress bar
+                    status.textContent = `Uploading... ${progress}%`; // Update the status
+                } else {
+                    clearInterval(progressInterval);
+                    status.textContent = "Upload Complete!";
+                    showPopup(); // Show the "Upload Complete!" popup
+                }
+            }, 300); // Simulate upload every 300ms
+        }
+
+        // Reset the upload progress
+        function resetUpload() {
+            const progressBar = document.getElementById('progress-bar');
+            const status = document.getElementById('status');
+            const uploadBtn = document.querySelector('.upload-btn');
+            
+            clearInterval(progressInterval); // Stop the upload simulation if reset is clicked
+            progress = 0;
+            progressBar.style.width = '0%'; // Reset progress bar
+            status.textContent = 'Ready to upload...'; // Reset status
+            uploadBtn.disabled = false; // Enable the upload button
+        }
+
+        // Function to show the popup
+        function showPopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('popup-overlay');
+
+            popup.style.display = 'block'; // Show popup
+            overlay.style.display = 'block'; // Show overlay
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('popup-overlay');
+
+            popup.style.display = 'none'; // Hide popup
+            overlay.style.display = 'none'; // Hide overlay
+        }
+    </script>
+
+</body>
+</html>
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
