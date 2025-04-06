@@ -1,0 +1,140 @@
+<!-- --- Menu Section --- -->
+<div class="navbar">
+  <div class="navbar-logo">
+    <img src="Images/logo-color.png" alt="PerfTesters Logo">
+    <h1>PerfTesters</h1>
+  </div>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <div class="nav-links" id="navLinks">
+    <div class="nav-item"><a href="#">🏠 Home</a></div>
+    <div class="nav-item" tabindex="0">
+      <a href="#">📚 Resources</a>
+      <div class="dropdown-content">
+        <a href="/01 LR Param Quiz.html">🎓 Trainings</a>
+        <a href="/quiz">🧠 Quizzes</a>
+        <a href="/interview-questions">💼 Interview Questions</a>
+        <a href="/demo-apps">🧪 Demo Apps</a>
+        <a href="/blogs">📝 Blogs</a>
+      </div>
+    </div>
+    <div class="nav-item" tabindex="0">
+      <a href="#">🛠️ Services</a>
+      <div class="dropdown-content">
+        <a href="/job-support">🆘 Job Support</a>
+        <a href="/website-development">🌐 Website Development</a>
+      </div>
+    </div>
+    <div class="nav-item"><a href="/social-media">📲 Follow Us</a></div>
+  </div>
+</div>
+
+<style>
+  /* --- Menu CSS --- */
+  .navbar {
+    background-color: #6a1b9a;
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+  }
+
+  .navbar h1 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-item a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    padding: 10px 0;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #7b1fa2;
+    border-radius: 5px;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 10px 15px;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dropdown-content a:last-child {
+    border-bottom: none;
+  }
+
+  .nav-item:hover .dropdown-content,
+  .nav-item:focus-within .dropdown-content {
+    display: block;
+  }
+
+  .nav-item > a::after {
+    content: ' ▼';
+    font-size: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      flex-direction: column;
+      display: none;
+      width: 100%;
+      padding-top: 15px;
+    }
+
+    .nav-links.show {
+      display: flex;
+    }
+
+    .menu-toggle {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  // JavaScript for menu toggle on mobile
+  function toggleMenu() {
+    const nav = document.getElementById("navLinks");
+    nav.classList.toggle("show");
+  }
+</script>
