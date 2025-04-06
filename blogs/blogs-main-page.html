@@ -1,1 +1,82 @@
 
+
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function() {
+      // Use the raw URL for the header and footer from GitHub
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Performance Testing Blog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <div class="max-w-6xl mx-auto py-12 px-4">
+    <h1 class="text-4xl font-bold text-center text-blue-600 mb-10">📝 Performance Testing Blog</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Blog Card 1 -->
+      <a href="blog-post-1.html" class="bg-white rounded-2xl shadow hover:shadow-lg p-6 transition block">
+        <h2 class="text-2xl font-semibold text-blue-700 mb-2">Getting Started with JMeter</h2>
+        <p class="text-gray-600 text-sm">Learn the basics of Apache JMeter, setup, and running your first test plan.</p>
+        <span class="text-xs text-gray-400 mt-3 block">Published: April 2025</span>
+      </a>
+
+      <!-- Blog Card 2 -->
+      <a href="blog-post-2.html" class="bg-white rounded-2xl shadow hover:shadow-lg p-6 transition block">
+        <h2 class="text-2xl font-semibold text-green-700 mb-2">How to Write Efficient LoadRunner Scripts</h2>
+        <p class="text-gray-600 text-sm">Tips and best practices for VuGen scripting and parameterization.</p>
+        <span class="text-xs text-gray-400 mt-3 block">Published: March 2025</span>
+      </a>
+
+      <!-- Blog Card 3 -->
+      <a href="blog-post-3.html" class="bg-white rounded-2xl shadow hover:shadow-lg p-6 transition block">
+        <h2 class="text-2xl font-semibold text-purple-700 mb-2">Browser Testing with k6</h2>
+        <p class="text-gray-600 text-sm">Explore how to automate real browser workflows using k6 browser module.</p>
+        <span class="text-xs text-gray-400 mt-3 block">Published: February 2025</span>
+      </a>
+
+      <!-- Blog Card 4 -->
+      <a href="blog-post-4.html" class="bg-white rounded-2xl shadow hover:shadow-lg p-6 transition block">
+        <h2 class="text-2xl font-semibold text-yellow-700 mb-2">API Testing for Performance</h2>
+        <p class="text-gray-600 text-sm">A guide to test REST APIs using different performance testing tools.</p>
+        <span class="text-xs text-gray-400 mt-3 block">Published: January 2025</span>
+      </a>
+
+      <!-- Blog Card 5 -->
+      <a href="blog-post-5.html" class="bg-white rounded-2xl shadow hover:shadow-lg p-6 transition block">
+        <h2 class="text-2xl font-semibold text-pink-700 mb-2">Top 5 Tools for Load Testing</h2>
+        <p class="text-gray-600 text-sm">Quick comparison of LoadRunner, JMeter, k6, Gatling, and Artillery.</p>
+        <span class="text-xs text-gray-400 mt-3 block">Published: December 2024</span>
+      </a>
+
+    </div>
+  </div>
+
+</body>
+</html>
+
+
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
