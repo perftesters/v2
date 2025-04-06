@@ -1,25 +1,3 @@
-
-
-<!-- --- Header Section --- -->
-<script>
-  function loadFile(file, elementId) {
-      fetch(file)
-          .then(response => response.text())
-          .then(data => {
-              document.getElementById(elementId).innerHTML = data;
-          })
-          .catch(error => console.error('Error loading file:', error));
-  }
-
-  window.onload = function() {
-      // Use the raw URL for the header and footer from GitHub
-      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
-      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
-  }
-</script>
-
-<div id="header"></div>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,32 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pacing Calculator</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f2f5;
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #header, #footer {
+      width: 100%;
+    }
+
+    .main-content {
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 100vh;
+      padding: 20px 0;
     }
 
     .calculator-container {
       background-color: #ffffff;
-      margin-top: 40px;
       padding: 25px 20px;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0,0,0,0.08);
       width: 100%;
-      max-width: 450px;
+      max-width: 500px;
     }
 
-    h1 {
+    h2 {
       text-align: center;
       font-size: 22px;
       color: #2c3e50;
       margin-bottom: 15px;
+    }
+  h1 {
+      
+      color: #ffffff;
+      font-weight: normal;
+      margin: 0;
+	font-size: 20px;
+      
     }
 
     .intro-text {
@@ -78,12 +74,8 @@
       border: 2px solid #3498db;
       border-radius: 8px;
       margin-bottom: 14px;
-      margin-right: 10px;
       background-color: #f9fcff;
       box-shadow: inset 0 2px 3px rgba(0,0,0,0.04);
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     input:focus {
@@ -193,68 +185,66 @@
       border-radius: 8px;
       border: 1px solid #ddd;
     }
-
-    @media (max-width: 600px) {
-      .calculator-container {
-        padding: 20px;
-      }
-    }
   </style>
 </head>
 <body>
+  <div id="header"></div>
 
-  <div class="calculator-container">
-    <div class="intro-text">
-      <p>Enter the details below to calculate pacing and virtual users.</p>
-    </div>
+  <div class="main-content">
+    <div class="calculator-container">
+      <div class="intro-text">
+        <p>Enter the details below to calculate pacing and virtual users.</p>
+      </div>
 
-    <h1>Performance Testing Pacing Calculator</h1>
+      <h2>Performance Testing Pacing Calculator</h2>
+      <button onclick="showFormula()">Show Formula</button>
 
-    <button onclick="showFormula()">Show Formula</button>
+      <label for="throughput">Total Transactions per Hour:</label>
+      <input type="number" id="throughput" placeholder="e.g., 1000" />
 
-    <label for="throughput">Total Transactions per Hour:</label>
-    <input type="number" id="throughput" placeholder="e.g., 1000" />
+      <label for="responseTime">1 Iteration Duration (sec):</label>
+      <input type="number" id="responseTime" placeholder="e.g., 2" />
 
-    <label for="responseTime">1 Iteration Duration (sec):</label>
-    <input type="number" id="responseTime" placeholder="e.g., 2" />
+      <label for="duration">Test Duration (minutes):</label>
+      <input type="number" id="duration" placeholder="e.g., 3" />
 
-    <label for="duration">Test Duration (minutes):</label>
-    <input type="number" id="duration" placeholder="e.g., 3" />
+      <label for="concurrentUsers">Concurrent Users:</label>
+      <input type="number" id="concurrentUsers" placeholder="e.g., 50" />
 
-    <label for="concurrentUsers">Concurrent Users:</label>
-    <input type="number" id="concurrentUsers" placeholder="e.g., 50" />
+      <button onclick="calculatePacing()">Calculate</button>
+      <button class="reset-btn" onclick="resetFields()">Reset</button>
 
-    <button onclick="calculatePacing()">Calculate</button>
-    <button class="reset-btn" onclick="resetFields()">Reset</button>
-
-    <table id="resultTable" style="display: none;">
-      <tr>
-        <th>Virtual Users (VUs)</th>
-        <th>Pacing/User (TPS)</th>
-        <th>Total Transactions</th>
-        <th>Test Duration (s)</th>
-      </tr>
-      <tr>
-        <td id="virtualUsers"></td>
-        <td id="pacingPerUser"></td>
-        <td id="totalTransactions"></td>
-        <td id="testDuration"></td>
-      </tr>
-    </table>
-
-    <div class="sample-example">
-      <h3>Sample Example</h3>
-      <table>
-        <tr><th>Transactions per Hour</th><td>500</td></tr>
-        <tr><th>Iteration Duration</th><td>2 sec</td></tr>
-        <tr><th>Test Duration</th><td>3 min</td></tr>
-        <tr><th>Concurrent Users</th><td>20</td></tr>
-        <tr><th>Expected VUs</th><td>17</td></tr>
-        <tr><th>Pacing/User</th><td>0.138 TPS</td></tr>
-        <tr><th>Total Transactions</th><td>25</td></tr>
+      <table id="resultTable" style="display: none;">
+        <tr>
+          <th>Virtual Users (VUs)</th>
+          <th>Pacing/User (TPS)</th>
+          <th>Total Transactions</th>
+          <th>Test Duration (s)</th>
+        </tr>
+        <tr>
+          <td id="virtualUsers"></td>
+          <td id="pacingPerUser"></td>
+          <td id="totalTransactions"></td>
+          <td id="testDuration"></td>
+        </tr>
       </table>
+
+      <div class="sample-example">
+        <h3>Sample Example</h3>
+        <table>
+          <tr><th>Transactions per Hour</th><td>500</td></tr>
+          <tr><th>Iteration Duration</th><td>2 sec</td></tr>
+          <tr><th>Test Duration</th><td>3 min</td></tr>
+          <tr><th>Concurrent Users</th><td>20</td></tr>
+          <tr><th>Expected VUs</th><td>17</td></tr>
+          <tr><th>Pacing/User</th><td>0.138 TPS</td></tr>
+          <tr><th>Total Transactions</th><td>25</td></tr>
+        </table>
+      </div>
     </div>
   </div>
+
+  <div id="footer"></div>
 
   <!-- Formula Modal -->
   <div id="formulaModal" class="modal">
@@ -269,12 +259,26 @@
   </div>
 
   <script>
+    // Load header and footer
+    function loadFile(file, elementId) {
+      fetch(file)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById(elementId).innerHTML = data;
+        })
+        .catch(error => console.error('Error loading file:', error));
+    }
+
+    window.onload = function () {
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/main/src/footer.html', 'footer');
+    }
+
     function calculatePacing() {
       const throughput = parseInt(document.getElementById('throughput').value);
       const responseTime = parseInt(document.getElementById('responseTime').value);
       const durationMinutes = parseInt(document.getElementById('duration').value);
       const concurrentUsers = parseInt(document.getElementById('concurrentUsers').value);
-
       const durationSeconds = durationMinutes * 60;
 
       if (isNaN(throughput) || isNaN(responseTime) || isNaN(durationMinutes) || isNaN(concurrentUsers) ||
@@ -310,7 +314,7 @@
       document.getElementById("formulaModal").style.display = "none";
     }
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       const modal = document.getElementById("formulaModal");
       if (event.target === modal) {
         modal.style.display = "none";
@@ -319,8 +323,3 @@
   </script>
 </body>
 </html>
-
-
-
-<!-- --- Footer Section --- -->
-<div id="footer"></div>
