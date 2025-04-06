@@ -1,1 +1,110 @@
 
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function() {
+      // Use the raw URL for the header and footer from GitHub
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Alerts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-items: center;
+        }
+        .popup-button {
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            width: 250px;
+        }
+        .popup-button:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Browser-Level Alerts</h1>
+    <div class="button-container">
+        <!-- Buttons that trigger the browser alerts -->
+        <button class="popup-button" style="background-color: #ffcc00;" onclick="showAlert()">Alert</button>
+        <button class="popup-button" style="background-color: #28a745;" onclick="showConfirm()">Confirm</button>
+        <button class="popup-button" style="background-color: #007bff;" onclick="showPrompt()">Prompt</button>
+    </div>
+
+    <script>
+        // Function for the browser alert
+        function showAlert() {
+            alert("This is a simple alert popup!");
+        }
+
+        // Function for the browser confirm
+        function showConfirm() {
+            const userResponse = confirm("Do you want to continue?");
+            if (userResponse) {
+                alert("You pressed Yes!");
+            } else {
+                alert("You pressed No!");
+            }
+        }
+
+        // Function for the browser prompt
+        function showPrompt() {
+            const userInput = prompt("What is your name?");
+            if (userInput != null) {
+                alert("Hello " + userInput + "!");
+            } else {
+                alert("You didn't provide your name!");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
