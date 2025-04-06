@@ -1,1 +1,452 @@
 
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function() {
+      // Use the raw URL for the header and footer from GitHub
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Simulation</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            margin: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        /* Input Styles */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        /* Button Styles */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #dcdcdc;
+            cursor: not-allowed;
+        }
+
+        /* Error and Success Messages */
+        .message {
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .error {
+            background-color: #ffcccc;
+            color: #ff0000;
+        }
+        .success {
+            background-color: #ccffcc;
+            color: #006400;
+        }
+
+        /* Product List */
+        .product {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            align-items: center;
+        }
+        .product span {
+            margin-left: 15px;
+            font-size: 16px;
+        }
+        .product button {
+            background-color: #008CBA;
+        }
+        .product button:hover {
+            background-color: #006F87;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background-color: #f4f7fb;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        .cart-summary h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .checkout-button {
+            background-color: #FF6347;
+        }
+        .checkout-button:hover {
+            background-color: #FF4500;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+        }
+
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        .popup h3 {
+            color: green;
+            text-align: center;
+        }
+        .popup .close-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup .close-btn:hover {
+            background-color: #45a049;
+        }
+
+        .popup .logout-btn {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #FF6347;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup .logout-btn:hover {
+            background-color: #FF4500;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* LoadRunner Message */
+        .loadrunner-message {
+            font-size: 14px;
+            color: #FF4500;
+            background-color: #FFFAF0;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Form -->
+<div id="loginPage" class="container">
+    <!-- LoadRunner TruClient Message -->
+    <div class="loadrunner-message">
+        This is a LoadRunner TruClient simulation demo application. It will not make real calls to the server.
+    </div>
+
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Enter Username (e.g., user)" required minlength="4" maxlength="20" pattern="[A-Za-z0-9]+" title="Username must be alphanumeric" />
+    <input type="password" id="password" placeholder="Enter Password (e.g., password123)" required minlength="6" maxlength="20" pattern=".*[0-9].*" title="Password must contain at least one number" />
+    <button onclick="login()" id="loginButton">Login</button>
+    <div id="errorMessage" class="message error"></div>
+    <button onclick="resetApp()">Reset</button>
+</div>
+
+<!-- Product Selection -->
+<div id="productPage" class="container" style="display:none;">
+    <h2>Select Products</h2>
+    <div class="product">
+        <span>Product 1 - ₹1000</span>
+        <button onclick="addToCart('Product 1', 1000)">Add to Cart</button>
+    </div>
+    <div class="product">
+        <span>Product 2 - ₹2000</span>
+        <button onclick="addToCart('Product 2', 2000)">Add to Cart</button>
+    </div>
+    <div class="product">
+        <span>Product 3 - ₹3000</span>
+        <button onclick="addToCart('Product 3', 3000)">Add to Cart</button>
+    </div>
+    <div class="product">
+        <span>Product 4 - ₹1500</span>
+        <button onclick="addToCart('Product 4', 1500)">Add to Cart</button>
+    </div>
+    <div class="product">
+        <span>Product 5 - ₹2500</span>
+        <button onclick="addToCart('Product 5', 2500)">Add to Cart</button>
+    </div>
+    <div class="cart-summary">
+        <h3>Cart</h3>
+        <ul id="cartList"></ul>
+        <button onclick="viewCart()">View Cart</button>
+        <button class="checkout-button" style="margin-top: 10px;" onclick="goToCheckout()">Go to Checkout</button>
+    </div>
+    <button onclick="resetApp()">Reset</button>
+</div>
+
+<!-- Checkout Page -->
+<div id="checkoutPage" class="container" style="display:none;">
+    <h2>Checkout</h2>
+    <p>Your total: ₹<span id="totalAmount"></span></p>
+    <p>Order ID: <span id="orderNumber"></span></p>
+    <input type="text" id="cardNumber" placeholder="Enter Card Number (e.g., 1234 5678 9876 5432)" required pattern="[0-9]{16}" maxlength="16" title="Card number should be 16 digits" />
+    <input type="text" id="cardHolder" placeholder="Enter Cardholder Name (e.g., John Doe)" required pattern="[A-Za-z\s]+" title="Cardholder name must only contain alphabets" />
+    <button onclick="makePayment()">Pay Now</button>
+    <div id="paymentMessage" class="message error"></div>
+    <button onclick="resetApp()">Reset</button>
+</div>
+
+<!-- Logout Page -->
+<div id="logoutPage" class="container" style="display:none;">
+    <h2>Welcome, <span id="userName"></span>!</h2>
+    <button class="logout-button" onclick="logout()">Logout</button>
+</div>
+
+<!-- Popup for Login -->
+<div id="loginPopup" class="popup">
+    <h3>Login Successful</h3>
+    <p>Your Auth Token: <span id="authTokenInPopup"></span></p>
+    <button class="close-btn" onclick="closeLoginPopup()">Close</button>
+</div>
+
+<!-- Overlay for Popup -->
+<div id="overlay" class="overlay"></div>
+
+<script>
+    function generateAuthToken() {
+        return 'auth_' + Math.random().toString(36).substr(2, 16) + Date.now().toString(36);
+    }
+
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username === '' || password === '') {
+            document.getElementById('errorMessage').textContent = 'Please fill in both fields.';
+            return;
+        }
+
+        if (username === 'user' && password === 'password123') {
+            const authToken = generateAuthToken();
+            sessionStorage.setItem('authToken', authToken);
+            sessionStorage.setItem('userName', username);
+            document.getElementById('errorMessage').textContent = '';
+            showLoginPopup(authToken);
+        } else {
+            document.getElementById('errorMessage').textContent = 'Invalid credentials. Please try again.';
+        }
+    }
+
+    function showLoginPopup(authToken) {
+        document.getElementById('authTokenInPopup').textContent = authToken;
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('loginPopup').style.display = 'block';
+        updateURLSection('products');
+    }
+
+    function closeLoginPopup() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('loginPopup').style.display = 'none';
+        forceReload();
+    }
+
+    // Update URL Section
+    function updateURLSection(section) {
+        window.location.hash = section;
+    }
+
+    // Force Page Reload
+    function forceReload() {
+        window.location.reload(true);
+    }
+
+    function resetApp() {
+        sessionStorage.clear();
+        document.getElementById('loginPage').style.display = 'block';
+        document.getElementById('productPage').style.display = 'none';
+        document.getElementById('checkoutPage').style.display = 'none';
+        document.getElementById('logoutPage').style.display = 'none';
+        updateURLSection('login');
+        forceReload();
+    }
+
+    // Show Product Page
+    function showProductPage() {
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('productPage').style.display = 'block';
+    }
+
+    // Add Product to Cart
+    let cart = [];
+    function addToCart(product, price) {
+        cart.push({ product, price });
+        document.getElementById('cartList').innerHTML = cart.map(item => `<li>${item.product} - ₹${item.price}</li>`).join('');
+    }
+
+    // View Cart
+    function viewCart() {
+        alert('Your Cart: \n' + cart.map(item => `${item.product} - ₹${item.price}`).join('\n'));
+    }
+
+    // Go to Checkout
+    function goToCheckout() {
+        const totalAmount = cart.reduce((total, item) => total + item.price, 0);
+        const orderNumber = generateOrderNumber();
+        document.getElementById('totalAmount').textContent = totalAmount;
+        document.getElementById('orderNumber').textContent = orderNumber;
+        document.getElementById('productPage').style.display = 'none';
+        document.getElementById('checkoutPage').style.display = 'block';
+    }
+
+    // Generate Order Number
+    function generateOrderNumber() {
+        return Math.floor(Math.random() * 1000000);
+    }
+
+    // Make Payment
+    function makePayment() {
+        const cardNumber = document.getElementById('cardNumber').value;
+        const cardHolder = document.getElementById('cardHolder').value;
+
+        const cardNumberRegex = /^[0-9]{16}$/;
+        if (!cardNumber.match(cardNumberRegex)) {
+            document.getElementById('paymentMessage').textContent = 'Please provide a valid card number!';
+            return;
+        }
+
+        const cardHolderRegex = /^[A-Za-z\s]+$/;
+        if (!cardHolder.match(cardHolderRegex)) {
+            document.getElementById('paymentMessage').textContent = 'Cardholder name must only contain alphabets!';
+            return;
+        }
+
+        // Simulate Successful Payment
+        document.getElementById('paymentMessage').textContent = 'Payment Successful!';
+
+        // Show the Payment Success Popup
+        const orderNumber = generateOrderNumber();
+        document.getElementById('orderIdInPopup').textContent = orderNumber;
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('paymentPopup').style.display = 'block';
+    }
+
+    // Logout
+    function logout() {
+        sessionStorage.clear();
+        forceReload();
+    }
+
+    // On Page Load, check if logged in
+    window.onload = function() {
+        const section = window.location.hash.replace('#', '');
+        if (sessionStorage.getItem('authToken')) {
+            if (section === 'products') {
+                showProductPage();
+            } else if (section === 'checkout') {
+                goToCheckout();
+            } else {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('productPage').style.display = 'none';
+                document.getElementById('checkoutPage').style.display = 'none';
+                document.getElementById('logoutPage').style.display = 'block';
+            }
+        } else {
+            document.getElementById('loginPage').style.display = 'block';
+        }
+    };
+</script>
+
+</body>
+</html>
+
+
+
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
