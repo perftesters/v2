@@ -1,1 +1,128 @@
 
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function() {
+      // Use the raw URL for the header and footer from GitHub
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoadRunner Practice Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(to right, #7b1fa2, #9c27b0);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      transition: 0.3s ease;
+      text-align: center;
+      border: 1px solid #eee;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+      border-color: #d1c4e9;
+    }
+    a {
+      text-decoration: none;
+      color: #6a1b9a;
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: block;
+    }
+    a:hover {
+      color: #4a148c;
+    }
+    footer {
+      background-color: #6a1b9a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+    }
+    footer a {
+      color: #fff59d;
+      text-decoration: underline;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>LoadRunner Practice Tools</h1>
+    <p>Enhance your scripting skills with real-world simulations and interactive elements</p>
+  </header>
+
+  <div class="container">
+    <div class="card"><a href="file-upload.html">📁 File Upload Simulation</a></div>
+    <div class="card"><a href="random-number.html">🔢 Random Number Generator</a></div>
+    <div class="card"><a href="random-popup.html">⚠️ Random Popup Generator</a></div>
+    <div class="card"><a href="browser-alerts.html">🔔 Browser-Level Alerts</a></div>
+    <div class="card"><a href="ecommerce-sim.html">🛒 E-commerce Simulation</a></div>
+    <div class="card"><a href="guid-generator.html">🧬 GUID Generator</a></div>
+    <div class="card"><a href="drag-drop.html">🧲 Drag & Drop Practice</a></div>
+    <div class="card"><a href="complex-xpath.html">🧪 Complex XPath Test</a></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 PerfTesters.com | Built with ❤️ for LoadRunner Practice</p>
+  </footer>
+
+</body>
+</html>
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
