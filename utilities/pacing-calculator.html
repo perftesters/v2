@@ -20,334 +20,303 @@
 
 <div id="header"></div>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Performance Testing Pacing Calculator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pacing Calculator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f7fc;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
     }
+
     .calculator-container {
-      background-color: #fff;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 500px;
+      background-color: #ffffff;
       margin-top: 40px;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 450px;
     }
+
+    h1 {
+      text-align: center;
+      font-size: 22px;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
     .intro-text {
-      margin-bottom: 20px;
       text-align: center;
-      font-size: 16px;
-      color: #555;
-    }
-    .calculator-container h1 {
-      text-align: center;
-      color: #2d3e50;
-      font-size: 24px;
+      font-size: 14px;
+      color: #666;
       margin-bottom: 20px;
     }
+
     label {
       display: block;
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 5px;
       color: #333;
-      margin-top: 15px;
+      font-weight: 500;
+      text-align: left;
     }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-top: 5px;
-    }
+
     input {
+      width: calc(100% - 10px);
+      padding: 10px;
+      font-size: 14px;
       border: 2px solid #3498db;
-      background: #f0f8ff;
-      box-shadow: inset 0 4px 6px rgba(0,0,0,0.1), inset 0 -4px 6px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      margin-bottom: 14px;
+      margin-right: 10px;
+      background-color: #f9fcff;
+      box-shadow: inset 0 2px 3px rgba(0,0,0,0.04);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
+
     input:focus {
       outline: none;
       border-color: #2980b9;
-      box-shadow: inset 0 4px 6px rgba(0,0,0,0.1), inset 0 -4px 6px rgba(0,0,0,0.1), 0 0 8px rgba(41, 128, 185, 0.5);
+      box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.2);
     }
+
     button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      cursor: pointer;
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
       font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      color: #fff;
+      background-color: #3498db;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 8px;
     }
+
     button:hover {
       background-color: #2980b9;
     }
+
+    button.reset-btn {
+      background-color: #e74c3c;
+    }
+
+    button.reset-btn:hover {
+      background-color: #c0392b;
+    }
+
     table {
       width: 100%;
-      margin-top: 20px;
       border-collapse: collapse;
+      margin-top: 18px;
     }
+
     table, th, td {
       border: 1px solid #ddd;
     }
+
     th, td {
-      padding: 10px;
+      padding: 8px;
       text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    .sample-example {
-      background-color: #f9f9f9;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 30px;
-      font-size: 16px;
-      color: #333;
-      border: 1px solid #ccc;
-    }
-    .margin-top {
-      margin-top: 30px;
-    }
-    @media (max-width: 600px) {
-      .calculator-container {
-        padding: 15px;
-        margin-top: 20px;
-        max-width: 90%;
-      }
-      input, button {
-        font-size: 14px;
-        padding: 8px;
-      }
+      font-size: 13px;
     }
 
-    /* Modal styles */
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .sample-example {
+      background-color: #fcfcfc;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-top: 25px;
+      border-radius: 10px;
+    }
+
+    .sample-example h3 {
+      margin-top: 0;
+    }
+
     .modal {
       display: none;
       position: fixed;
-      z-index: 1;
+      z-index: 10;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
+      overflow: auto;
       background-color: rgba(0, 0, 0, 0.5);
-      padding-top: 60px;
     }
+
     .modal-content {
       background-color: #fff;
-      margin: 5% auto;
+      margin: 10% auto;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 10px;
       width: 80%;
-      max-width: 500px;
+      max-width: 480px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
+
     .close {
-      color: #aaa;
       float: right;
-      font-size: 28px;
+      font-size: 26px;
       font-weight: bold;
-    }
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
+      color: #888;
       cursor: pointer;
     }
 
-    /* Formula Styles */
-    .formula {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 16px;
-      background-color: #f4f4f4;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-
-    /* Modal Content Styling */
-    .output-container {
-      font-family: Arial, sans-serif;
-      font-size: 16px;
+    .close:hover {
       color: #333;
     }
-    .output-container table {
-      width: 100%;
+
+    .formula {
+      background: #f4f4f4;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      padding: 12px;
+      border-radius: 8px;
       border: 1px solid #ddd;
-      border-collapse: collapse;
-      margin-top: 10px;
     }
-    .output-container table th, .output-container table td {
-      padding: 8px;
-      border: 1px solid #ddd;
-    }
-    .output-container table th {
-      background-color: #f2f2f2;
+
+    @media (max-width: 600px) {
+      .calculator-container {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="calculator-container">
-  <div class="intro-text">
-    <p>This is the pacing calculator for performance testing scenarios. Enter the following parameters to calculate the required pacing and virtual users.</p>
-  </div>
+  <div class="calculator-container">
+    <div class="intro-text">
+      <p>Enter the details below to calculate pacing and virtual users.</p>
+    </div>
 
-  <h1>Performance Testing Pacing Calculator</h1>
+    <h1>Performance Testing Pacing Calculator</h1>
 
-  <!-- Formula Button to show Modal -->
-  <button onclick="showFormula()">Show Formula</button>
+    <button onclick="showFormula()">Show Formula</button>
 
-  <div class="input-group">
     <label for="throughput">Total Transactions per Hour:</label>
-    <input type="number" id="throughput" placeholder="Enter total transactions per hour (e.g., 1000)" required>
-  </div>
+    <input type="number" id="throughput" placeholder="e.g., 1000" />
 
-  <div class="input-group">
-    <label for="responseTime">End-to-End 1 Iteration Duration (Including Think Time) (seconds):</label>
-    <input type="number" id="responseTime" placeholder="Enter iteration duration (e.g., 2)" required>
-  </div>
+    <label for="responseTime">1 Iteration Duration (sec):</label>
+    <input type="number" id="responseTime" placeholder="e.g., 2" />
 
-  <div class="input-group">
     <label for="duration">Test Duration (minutes):</label>
-    <input type="number" id="duration" placeholder="Enter test duration in minutes (e.g., 3)" required>
-  </div>
+    <input type="number" id="duration" placeholder="e.g., 3" />
 
-  <div class="input-group">
     <label for="concurrentUsers">Concurrent Users:</label>
-    <input type="number" id="concurrentUsers" placeholder="Enter number of concurrent users (e.g., 50)" required>
-  </div>
+    <input type="number" id="concurrentUsers" placeholder="e.g., 50" />
 
-  <button onclick="calculatePacing()">Calculate Pacing</button>
-  <button onclick="resetFields()" style="background-color: #e74c3c;">Reset</button>
-  
-  <!-- Output Table -->
-  <table id="resultTable" style="display: none;">
-    <tr>
-      <th>Virtual Users (VUs) Required</th>
-      <th>Pacing per User (Transactions per Second)</th>
-      <th>Total Transactions</th>
-      <th>Test Duration (seconds)</th>
-    </tr>
-    <tr id="resultRow">
-      <td id="virtualUsers"></td>
-      <td id="pacingPerUser"></td>
-      <td id="totalTransactions"></td>
-      <td id="testDuration"></td>
-    </tr>
-  </table>
+    <button onclick="calculatePacing()">Calculate</button>
+    <button class="reset-btn" onclick="resetFields()">Reset</button>
 
-  <div class="sample-example">
-    <h3>Sample Example</h3>
-    <table>
+    <table id="resultTable" style="display: none;">
       <tr>
-        <th>Total Transactions per Hour</th>
-        <td>500 transactions</td>
-      </tr>
-      <tr>
-        <th>End-to-End Iteration Duration</th>
-        <td>2 seconds</td>
-      </tr>
-      <tr>
-        <th>Test Duration</th>
-        <td>3 minutes</td>
-      </tr>
-      <tr>
-        <th>Concurrent Users</th>
-        <td>20 users</td>
-      </tr>
-      <tr>
-        <th>Expected Virtual Users</th>
-        <td>17</td>
-      </tr>
-      <tr>
-        <th>Pacing per User</th>
-        <td>0.138 transactions/sec</td>
-      </tr>
-      <tr>
+        <th>Virtual Users (VUs)</th>
+        <th>Pacing/User (TPS)</th>
         <th>Total Transactions</th>
-        <td>25</td>
+        <th>Test Duration (s)</th>
+      </tr>
+      <tr>
+        <td id="virtualUsers"></td>
+        <td id="pacingPerUser"></td>
+        <td id="totalTransactions"></td>
+        <td id="testDuration"></td>
       </tr>
     </table>
-  </div>
-</div>
 
-<!-- Modal for Formula -->
-<div id="formulaModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h3>Formula for Calculation:</h3>
-    <div class="formula">
-      <p><strong>Pacing per User (TPS) =</strong> Total Transactions per Hour ÷ 3600 ÷ Concurrent Users</p>
-      <p><strong>Virtual Users (VUs) =</strong> Total Transactions ÷ (Pacing per User × Test Duration in Seconds)</p>
+    <div class="sample-example">
+      <h3>Sample Example</h3>
+      <table>
+        <tr><th>Transactions per Hour</th><td>500</td></tr>
+        <tr><th>Iteration Duration</th><td>2 sec</td></tr>
+        <tr><th>Test Duration</th><td>3 min</td></tr>
+        <tr><th>Concurrent Users</th><td>20</td></tr>
+        <tr><th>Expected VUs</th><td>17</td></tr>
+        <tr><th>Pacing/User</th><td>0.138 TPS</td></tr>
+        <tr><th>Total Transactions</th><td>25</td></tr>
+      </table>
     </div>
   </div>
-</div>
 
-<script>
-  function calculatePacing() {
-    // Get input values
-    const throughput = parseInt(document.getElementById('throughput').value);
-    const responseTime = parseInt(document.getElementById('responseTime').value);
-    const durationMinutes = parseInt(document.getElementById('duration').value);
-    const concurrentUsers = parseInt(document.getElementById('concurrentUsers').value);
+  <!-- Formula Modal -->
+  <div id="formulaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Formula:</h3>
+      <div class="formula">
+        <p><strong>Pacing per User (TPS):</strong> Total Transactions per Hour ÷ 3600 ÷ Concurrent Users</p>
+        <p><strong>Virtual Users (VUs):</strong> Total Transactions ÷ (Pacing/User × Test Duration in seconds)</p>
+      </div>
+    </div>
+  </div>
 
-    // Convert minutes to seconds
-    const durationSeconds = durationMinutes * 60;
+  <script>
+    function calculatePacing() {
+      const throughput = parseInt(document.getElementById('throughput').value);
+      const responseTime = parseInt(document.getElementById('responseTime').value);
+      const durationMinutes = parseInt(document.getElementById('duration').value);
+      const concurrentUsers = parseInt(document.getElementById('concurrentUsers').value);
 
-    // Validate inputs
-    if (isNaN(throughput) || isNaN(responseTime) || isNaN(durationMinutes) || isNaN(concurrentUsers) ||
+      const durationSeconds = durationMinutes * 60;
+
+      if (isNaN(throughput) || isNaN(responseTime) || isNaN(durationMinutes) || isNaN(concurrentUsers) ||
         throughput <= 0 || responseTime <= 0 || durationMinutes <= 0 || concurrentUsers <= 0) {
-      alert("Please enter valid values for all fields.");
-      return;
+        alert("Please enter valid numbers for all fields.");
+        return;
+      }
+
+      const pacingPerUser = throughput / 3600 / concurrentUsers;
+      const totalTransactions = throughput * durationMinutes;
+      const virtualUsers = totalTransactions / (pacingPerUser * durationSeconds);
+
+      document.getElementById('virtualUsers').textContent = virtualUsers.toFixed(2);
+      document.getElementById('pacingPerUser').textContent = pacingPerUser.toFixed(3);
+      document.getElementById('totalTransactions').textContent = totalTransactions;
+      document.getElementById('testDuration').textContent = durationSeconds;
+
+      document.getElementById('resultTable').style.display = 'table';
     }
 
-    // Formula Calculations
-    const pacingPerUser = throughput / 3600 / concurrentUsers;
-    const totalTransactions = throughput * durationMinutes;
+    function resetFields() {
+      ['throughput', 'responseTime', 'duration', 'concurrentUsers'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('resultTable').style.display = 'none';
+    }
 
-    // Virtual Users calculation (for example purposes)
-    const virtualUsers = totalTransactions / (pacingPerUser * durationSeconds);
+    function showFormula() {
+      document.getElementById("formulaModal").style.display = "block";
+    }
 
-    // Display results in the table
-    document.getElementById('virtualUsers').textContent = virtualUsers.toFixed(2);
-    document.getElementById('pacingPerUser').textContent = pacingPerUser.toFixed(3);
-    document.getElementById('totalTransactions').textContent = totalTransactions;
-    document.getElementById('testDuration').textContent = durationSeconds;
+    function closeModal() {
+      document.getElementById("formulaModal").style.display = "none";
+    }
 
-    // Show results table
-    document.getElementById('resultTable').style.display = 'table';
-  }
-
-  function resetFields() {
-    document.getElementById('throughput').value = '';
-    document.getElementById('responseTime').value = '';
-    document.getElementById('duration').value = '';
-    document.getElementById('concurrentUsers').value = '';
-    document.getElementById('resultTable').style.display = 'none';
-  }
-
-  // Modal handling functions
-  function showFormula() {
-    document.getElementById("formulaModal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("formulaModal").style.display = "none";
-  }
-</script>
-
+    window.onclick = function(event) {
+      const modal = document.getElementById("formulaModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
 </body>
 </html>
 
