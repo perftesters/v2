@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoadRunner Parameterization Quiz: Test Your Knowledge!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      text-align: center;
+    }
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-weight: bold;
+      color: #333;
+      display: none;
+      font-size: 1.2em;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: left;
+      background-color: #e6f3ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    td {
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      text-align: left;
+    }
+    .options label {
+      display: block;
+      background: #f0f8ff;
+      padding: 6px 10px;
+      margin: 4px 0;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options label:hover {
+      background-color: #e0f0ff;
+      border-color: #66b2ff;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+    }
+    button {
+      background: #66b2ff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover:not(:disabled) {
+      background-color: #559eea;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 10px;
+      color: #856404;
+    }
+    #startBtn {
+      animation: pulse 1.5s infinite;
+      font-size: 1.2em;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      border-radius: 30px;
+      padding: 15px 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #quizTable td {
+      cursor: pointer;
+    }
+    .feedback {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="timer" id="timer">Time: 0s</div>
+    <h2 style="text-align: left;">LoadRunner Parameterization Quiz: Test Your Knowledge!</h2>
+    <!-- 👉 Instruction Section -->
+  <div id="instructions" style="margin-bottom: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>📘 Instructions:</h3>
+    <ul>
+      <li>This quiz contains multiple-choice questions on LoadRunner Parameterization.</li>
+      <li>Each question has one correct answer.</li>
+      <li>Click the "Start Quiz" button to begin.</li>
+      <li>You can navigate between questions using "Prev" and "Next" buttons.</li>
+      <li>Your total time will be recorded and shown at the end.</li>
+      <li>After finishing, you can review explanations for each question.</li>
+      <li>Try to score at least 80% to trigger a fun surprise! 🎉</li>
+    </ul>
+  </div>
+    <button id="startBtn">Start Quiz</button>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+  {
+    "question": "What is the key difference between 'Unique Once' and 'Unique Each Iteration' parameterization in LoadRunner?",
+    "options": [
+      "Unique Once assigns a new value for each virtual user only once",
+      "Unique Once assigns a new value for each iteration",
+      "Unique Each Iteration reuses the same value for all iterations",
+      "Unique Each Iteration generates a new value for each virtual user only once"
+    ],
+    "answer": "Unique Once assigns a new value for each virtual user only once",
+    "explanation": "With 'Unique Once', LoadRunner assigns a unique value for each virtual user, but this value is used across all iterations of that virtual user."
+  },
+  {
+    "question": "How does 'Unique Each Iteration' parameterization differ from 'Unique Once' in LoadRunner?",
+    "options": [
+      "Unique Each Iteration assigns the same value throughout the entire test",
+      "Unique Each Iteration assigns a new value on every iteration for each virtual user",
+      "Unique Once assigns a new value on every iteration for each virtual user",
+      "Unique Each Iteration generates values for all users at the same time"
+    ],
+    "answer": "Unique Each Iteration assigns a new value on every iteration for each virtual user",
+    "explanation": "'Unique Each Iteration' ensures that a new value is assigned for each iteration, allowing for more varied user behavior during load testing."
+  },
+  {
+    "question": "When should you use 'Unique Once' parameterization in LoadRunner?",
+    "options": [
+      "When you need each virtual user to have a different value across all iterations",
+      "When you want to generate unique values for each iteration of the test",
+      "When you need the same value for each virtual user across all iterations",
+      "When you want to assign a unique value to each virtual user, but maintain that value for all iterations"
+    ],
+    "answer": "When you want to assign a unique value to each virtual user, but maintain that value for all iterations",
+    "explanation": "'Unique Once' is typically used when a unique identifier is needed for each virtual user but should stay constant for that user across the entire test scenario."
+  },
+  {
+    "question": "What is the primary benefit of using 'Unique Each Iteration' parameterization in LoadRunner?",
+    "options": [
+      "It ensures every virtual user behaves in the same way during the test",
+      "It allows each virtual user to have a unique value in each iteration, simulating diverse actions",
+      "It limits the number of virtual users that can be tested simultaneously",
+      "It simplifies the testing process by reusing the same data for each iteration"
+    ],
+    "answer": "It allows each virtual user to have a unique value in each iteration, simulating diverse actions",
+    "explanation": "'Unique Each Iteration' helps in simulating more realistic user behavior by assigning different values to virtual users in each iteration."
+  },
+  {
+    "question": "Which scenario is best suited for 'Unique Once' parameterization in LoadRunner?",
+    "options": [
+      "When simulating long-running sessions where each user needs a different login credential",
+      "When simulating rapid changes in user behavior for every single iteration",
+      "When each virtual user interacts with the same data across multiple iterations",
+      "When you want all virtual users to share the same set of values across iterations"
+    ],
+    "answer": "When simulating long-running sessions where each user needs a different login credential",
+    "explanation": "'Unique Once' is ideal when you need each virtual user to be associated with unique, persistent values (like login credentials) that remain constant throughout their session."
+  },
+ {
+    "question": "What is the key purpose of parameterization in LoadRunner?",
+    "options": ["To increase the number of virtual users", "To simulate different user inputs", "To correlate dynamic values", "To generate load on the server"],
+    "answer": "To simulate different user inputs",
+    "explanation": "Parameterization in LoadRunner allows you to simulate real-world user behavior by using different inputs for each virtual user."
+  },
+  {
+    "question": "Which of the following is not a valid parameter type in LoadRunner?",
+    "options": ["Random", "Sequential", "Unique", "Custom Scripted"],
+    "answer": "Custom Scripted",
+    "explanation": "LoadRunner supports Random, Sequential, and Unique parameter types, but does not have a 'Custom Scripted' parameter type by default."
+  },
+  {
+    "question": "How do you create a parameterized script in LoadRunner?",
+    "options": ["By using the 'Insert' option in the script editor", "By using the 'Parameterize' option in VuGen", "By manually writing code", "By selecting 'Script Parameter' from the LoadRunner menu"],
+    "answer": "By using the 'Parameterize' option in VuGen",
+    "explanation": "In VuGen, the 'Parameterize' option allows you to define parameters that vary for each virtual user during the load test."
+  },
+  {
+    "question": "What happens when you select the 'Sequential' parameter type in LoadRunner?",
+    "options": ["The values are selected randomly", "Each value is used in the order they appear", "Values are used only once", "The parameter values repeat after a set number of iterations"],
+    "answer": "Each value is used in the order they appear",
+    "explanation": "With the 'Sequential' parameter type, values are used in the exact sequence, one after the other, and then they loop if needed."
+  },
+  {
+    "question": "Which of the following types of files can be used to store parameterized values in LoadRunner?",
+    "options": ["CSV", "XML", "Excel", "All of the above"],
+    "answer": "All of the above",
+    "explanation": "LoadRunner can use CSV, XML, and Excel files to store values for parameterization."
+  },
+  {
+    "question": "What is the function of 'lr_paramarr_random' in LoadRunner?",
+    "options": ["To return a random value from an array of parameters", "To generate sequential data for an array", "To store parameters globally", "To add parameters to the script"],
+    "answer": "To return a random value from an array of parameters",
+    "explanation": "'lr_paramarr_random' is a function that selects a random value from a predefined array of parameters during the test execution."
+  },
+  {
+    "question": "What is the main advantage of using parameterization in LoadRunner?",
+    "options": ["Reduced script size", "Increased simulation accuracy", "Decreased server load", "Improved test duration"],
+    "answer": "Increased simulation accuracy",
+    "explanation": "Parameterization increases simulation accuracy by allowing each virtual user to behave uniquely, simulating real-world user input."
+  },
+  {
+    "question": "How does LoadRunner handle parameterization with dynamic data, like session IDs?",
+    "options": ["It requires manual correlation", "It automatically correlates dynamic values", "It ignores dynamic data", "It treats dynamic data as static values"],
+    "answer": "It requires manual correlation",
+    "explanation": "LoadRunner typically requires manual correlation to handle dynamic values like session IDs, ensuring that the script works in a real-world environment."
+  },
+  {
+    "question": "What is the significance of the 'Init' and 'Action' sections in LoadRunner scripts when parameterizing?",
+    "options": ["'Init' is for initialization and 'Action' is for parameterized user actions", "'Init' is for parameterization only", "'Action' is for parameterization only", "'Init' and 'Action' are irrelevant to parameterization"],
+    "answer": "'Init' is for initialization and 'Action' is for parameterized user actions",
+    "explanation": "The 'Init' section initializes values, while the 'Action' section typically contains parameterized actions performed by the virtual user."
+  },
+  {
+    "question": "What type of LoadRunner parameterization is ideal for testing large amounts of data input over time?",
+    "options": ["Sequential", "Unique", "Random", "Fixed"],
+    "answer": "Unique",
+    "explanation": "The 'Unique' parameter type is ideal for testing large data inputs since each virtual user gets a unique value, simulating diverse user behavior."
+  },
+  {
+    "question": "Can you parameterize a LoadRunner script to simulate different user agents (browsers)?",
+    "options": ["Yes", "No", "Only with manual scripting", "Only with a custom plug-in"],
+    "answer": "Yes",
+    "explanation": "LoadRunner allows you to parameterize user agents, enabling the simulation of multiple browsers or devices during performance testing."
+  },
+  {
+    "question": "How do you validate that parameterization is working correctly in LoadRunner?",
+    "options": ["By reviewing script logs", "By checking the 'Result' window", "By comparing parameter values in the output", "All of the above"],
+    "answer": "All of the above",
+    "explanation": "You can validate parameterization by reviewing logs, checking output values, and verifying that different virtual users receive different parameter values."
+  },
+  {
+    "question": "What is the behavior of the 'Random' parameter type in LoadRunner?",
+    "options": ["It selects values randomly but without repetition", "It selects values randomly with possible repetition", "It picks a fixed value each time", "It uses all values before starting again"],
+    "answer": "It selects values randomly with possible repetition",
+    "explanation": "The 'Random' parameter type selects values randomly from the list, and it can repeat values if the list is shorter than the number of virtual users."
+  },
+  {
+    "question": "What happens if the parameterized data file in LoadRunner is missing or not found during a test?",
+    "options": ["The test will fail immediately", "The test will use default values", "The test will use random values", "The test will skip the parameterization step"],
+    "answer": "The test will fail immediately",
+    "explanation": "If the parameterized data file is missing or incorrect, LoadRunner will not be able to proceed with the test as expected, and the test will fail."
+  },
+  {
+    "question": "Which function is used to retrieve a parameter value in LoadRunner?",
+    "options": ["lr_get_param", "lr_param", "lr_eval", "lr_param_value"],
+    "answer": "lr_param",
+    "explanation": "The 'lr_param' function is used to retrieve the value of a parameter during script execution in LoadRunner."
+  },
+  {
+    "question": "Can you use parameterization with multiple load generators in LoadRunner?",
+    "options": ["Yes, it can be done", "No, parameterization works only on one load generator", "Yes, but with limitations", "No, each load generator needs its own script"],
+    "answer": "Yes, it can be done",
+    "explanation": "Parameterization can be used across multiple load generators to ensure that virtual users from different machines have access to the same parameterized data."
+  },
+  {
+    "question": "How can you make parameter values unique across virtual users in LoadRunner?",
+    "options": ["By using the 'Unique' parameter type", "By using the 'Sequential' parameter type", "By using the 'Random' parameter type", "By using manual scripting to assign values"],
+    "answer": "By using the 'Unique' parameter type",
+    "explanation": "The 'Unique' parameter type ensures that each virtual user gets a different value from the parameter list, making values unique across the test."
+  },
+  {
+    "question": "What is the 'Advanced' option in LoadRunner parameterization used for?",
+    "options": ["To define custom parameter types", "To control how LoadRunner handles parameter values", "To integrate external databases", "To adjust logging settings"],
+    "answer": "To control how LoadRunner handles parameter values",
+    "explanation": "The 'Advanced' option in LoadRunner parameterization allows users to specify additional controls, such as how to handle missing or duplicated parameter values."
+  },
+  {
+    "question": "What would happen if a parameter file exceeds the maximum size limit in LoadRunner?",
+    "options": ["The test will stop executing", "The parameter values will be truncated", "The test will ignore the file", "The test will run with the first set of values"],
+    "answer": "The parameter values will be truncated",
+    "explanation": "If the parameter file exceeds the size limit, LoadRunner will truncate the extra values and only use the first set of data that fits within the allowed size."
+  },
+  {
+    "question": "How can you parameterize a session token in LoadRunner?",
+    "options": ["By manually scripting the correlation", "By using the 'lr_param' function", "By automatically correlating the session token", "By defining it as a static parameter"],
+    "answer": "By manually scripting the correlation",
+    "explanation": "Session tokens are dynamic, and often require manual correlation in LoadRunner to ensure that each virtual user receives a valid token during the test."
+  },
+  {
+    "question": "Can you use LoadRunner parameterization for testing APIs?",
+    "options": ["Yes", "No", "Only for REST APIs", "Only for SOAP APIs"],
+    "answer": "Yes",
+    "explanation": "LoadRunner parameterization can be used to test APIs, whether they are RESTful or SOAP-based, by simulating different inputs for each virtual user."
+  },
+  {
+    "question": "How does LoadRunner handle parameterization with long string data (e.g., long URLs or messages)?",
+    "options": ["It truncates the data", "It handles them without any issues", "It requires manual adjustments", "It throws an error"],
+    "answer": "It handles them without any issues",
+    "explanation": "LoadRunner can handle long string data without issue during parameterization, as long as the data file format is compatible."
+  }];
+
+
+    let current = 0;
+    let answers = [];
+    let startTime;
+    let interval;
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    shuffleArray(questions);
+    questions.forEach(q => shuffleArray(q.options));
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizEl.style.display = 'block';
+      timerEl.style.display = 'block';
+      startTime = Date.now();
+      showQuestion(0);
+      interval = setInterval(updateTimer, 1000);
+    });
+
+    function showQuestion(index, reviewMode = false) {
+      const q = questions[index];
+      quizEl.innerHTML = '';
+
+      const progressDiv = document.createElement("div");
+      progressDiv.className = "progress";
+      progressDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+      quizEl.appendChild(progressDiv);
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.textContent = `${q.question}`;
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const table = document.createElement("table");
+      table.id = "quizTable";
+      q.options.forEach(opt => {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        const label = document.createElement("label");
+        label.textContent = opt;
+
+        if (reviewMode) {
+          if (opt === q.answer) label.classList.add("correct");
+          if (answers[index].selected === opt && opt !== q.answer) label.classList.add("incorrect");
+        } else {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "option";
+          input.value = opt;
+          if (answers[index] && answers[index].selected === opt) input.checked = true;
+          input.addEventListener('click', (e) => {
+            nextBtn.disabled = false;
+          });
+          label.prepend(input);
+        }
+
+        cell.appendChild(label);
+        row.appendChild(cell);
+        table.appendChild(row);
+      });
+      optionsDiv.appendChild(table);
+
+      if (reviewMode) {
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsDiv.appendChild(feedback);
+      }
+
+      const navContainer = document.createElement("div");
+      navContainer.style.display = "flex";
+      navContainer.style.justifyContent = "space-between";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "⬅ Prev";
+      prevBtn.disabled = index === 0;
+      prevBtn.onclick = () => {
+        current--;
+        showQuestion(current, reviewMode);
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.innerHTML = index === questions.length - 1 ? (reviewMode ? "Finish Review" : "Submit") : "Next ➡";
+      nextBtn.disabled = !reviewMode && !answers[index];
+
+      nextBtn.onclick = () => {
+        if (!reviewMode) {
+          const selected = optionsDiv.querySelector("input[name='option']:checked");
+          const answer = selected ? selected.value : "";
+          answers[index] = { selected: answer, correct: q.answer };
+        }
+
+        if (index + 1 < questions.length) {
+          current++;
+          showQuestion(current, reviewMode);
+        } else {
+          reviewMode ? resetQuiz() : showResult();
+        }
+      };
+
+      quizEl.appendChild(questionDiv);
+      quizEl.appendChild(optionsDiv);
+      navContainer.appendChild(prevBtn);
+      navContainer.appendChild(nextBtn);
+      quizEl.appendChild(navContainer);
+    }
+
+    function showResult() {
+      clearInterval(interval);
+      quizEl.style.display = "none";
+      resultEl.style.display = "block";
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        if (ans.selected === questions[i].answer) score++;
+      });
+
+      resultEl.innerHTML = `<p>You scored ${score} out of ${questions.length} in ${totalTime} seconds.</p>`;
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.textContent = "Review Answers";
+      reviewBtn.onclick = () => {
+        current = 0;
+        quizEl.style.display = "block";
+        resultEl.style.display = "none";
+        showQuestion(current, true);
+      };
+      resultEl.appendChild(reviewBtn);
+
+      if ((score / questions.length) * 100 >= 80) {
+        confetti();
+      }
+    }
+
+    function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+    
+    // Calculate minutes and seconds
+    const minutes = Math.floor(elapsed / 60); // Get the total minutes
+    const seconds = elapsed % 60; // Get the remaining seconds
+
+    // Format the time as "minutes:seconds", ensuring two-digit format for seconds
+    timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+
+    function confetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#bb0000', '#ffffff'];
+      (function frame() {
+        confettiEffect();
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    function confettiEffect() {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.width = '10px';
+      el.style.height = '10px';
+      el.style.background = 'radial-gradient(circle, #ff0, #f00)';
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.zIndex = 9999;
+      el.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(el);
+      setTimeout(() => document.body.removeChild(el), 2000);
+    }
+	
+	function resetQuiz() {
+  current = 0;
+  answers = [];
+  clearInterval(interval);
+  timerEl.textContent = "Time: 0s";
+  timerEl.style.display = "none";
+  resultEl.style.display = "none";
+  quizEl.style.display = "none";
+  document.getElementById("instructions").style.display = "block";
+  startBtn.style.display = "inline-block";
+
+  // Re-shuffle questions and options
+  shuffleArray(questions);
+  questions.forEach(q => shuffleArray(q.options));
+}
+
+
+  </script>
+  
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      document.getElementById("instructions").style.display = "none";
+    });
+  </script>
+  
+</body>
+</html>
