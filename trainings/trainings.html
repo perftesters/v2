@@ -19,6 +19,132 @@
 
 <div id="header"></div>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Load Testing Training List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <div class="max-w-4xl mx-auto py-10 px-4">
+    <h1 class="text-4xl font-bold text-center mb-8 text-blue-600">Load Testing Training List</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Card Template Start -->
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold mb-2 text-purple-700">🎯 LoadRunner</h2>
+          <ul class="list-disc ml-5 text-gray-700 space-y-1">
+            <li>Introduction to LoadRunner</li>
+            <li>VuGen Scripting</li>
+            <li>Controller Scenarios</li>
+          </ul>
+
+          <div class="hidden mt-2 extra-content">
+            <ul class="list-disc ml-5 text-gray-700 space-y-1">
+              <li>Analysis Reports</li>
+              <li>Correlation & Parameterization</li>
+            </ul>
+          </div>
+        </div>
+        <button onclick="toggleContent(this)" class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition">
+          Read More
+        </button>
+      </div>
+      <!-- Card Template End -->
+
+      <!-- Repeat for JMeter -->
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold mb-2 text-red-600">🔥 Apache JMeter</h2>
+          <ul class="list-disc ml-5 text-gray-700 space-y-1">
+            <li>JMeter Basics & Installation</li>
+            <li>Thread Groups & Samplers</li>
+            <li>Assertions & Listeners</li>
+          </ul>
+
+          <div class="hidden mt-2 extra-content">
+            <ul class="list-disc ml-5 text-gray-700 space-y-1">
+              <li>CSV Data Set Config</li>
+              <li>Distributed Testing</li>
+            </ul>
+          </div>
+        </div>
+        <button onclick="toggleContent(this)" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
+          Read More
+        </button>
+      </div>
+
+      <!-- k6 -->
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold mb-2 text-green-600">⚡ k6</h2>
+          <ul class="list-disc ml-5 text-gray-700 space-y-1">
+            <li>Intro to Scripting in JavaScript</li>
+            <li>Running CLI Tests</li>
+            <li>k6 Browser Testing</li>
+          </ul>
+
+          <div class="hidden mt-2 extra-content">
+            <ul class="list-disc ml-5 text-gray-700 space-y-1">
+              <li>Thresholds & Checks</li>
+              <li>Test Summary & Reporting</li>
+            </ul>
+          </div>
+        </div>
+        <button onclick="toggleContent(this)" class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+          Read More
+        </button>
+      </div>
+
+      <!-- Gatling -->
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold mb-2 text-indigo-600">🧪 Gatling</h2>
+          <ul class="list-disc ml-5 text-gray-700 space-y-1">
+            <li>Scala Basics for Gatling</li>
+            <li>Simulation Scripts</li>
+          </ul>
+
+          <div class="hidden mt-2 extra-content">
+            <ul class="list-disc ml-5 text-gray-700 space-y-1">
+              <li>Assertions & Reports</li>
+              <li>Load Profiles</li>
+            </ul>
+          </div>
+        </div>
+        <button onclick="toggleContent(this)" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+          Read More
+        </button>
+      </div>
+
+    </div>
+
+    <footer class="text-center text-sm text-gray-500 mt-12">
+      © 2025 Load Testing Academy. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    function toggleContent(button) {
+      const card = button.closest('div');
+      const extraContent = card.querySelector('.extra-content');
+      const isHidden = extraContent.classList.contains('hidden');
+      
+      if (isHidden) {
+        extraContent.classList.remove('hidden');
+        button.textContent = 'Show Less';
+      } else {
+        extraContent.classList.add('hidden');
+        button.textContent = 'Read More';
+      }
+    }
+  </script>
+</body>
+</html>
 
 
 
