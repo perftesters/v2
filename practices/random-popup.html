@@ -1,1 +1,309 @@
 
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function() {
+      // Use the raw URL for the header and footer from GitHub
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Popup Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-items: center;
+        }
+        .popup-button {
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            width: 250px;
+        }
+        .popup-button:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+        .popup-button:active {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(1px);
+        }
+        .popup-button:focus {
+            outline: none;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 100;
+            font-size: 16px;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 50;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .popup button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Popup Button Colors */
+        .alert-popup {
+            background-color: #ffcc00;
+            color: #333;
+        }
+
+        .confirm-popup {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .custom-popup {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .success-popup {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .error-popup {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .info-popup {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .warning-popup {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .browser-alert-popup {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .browser-confirm-popup {
+            background-color: #6610f2;
+            color: white;
+        }
+
+        .browser-prompt-popup {
+            background-color: #fd7e14;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Click a Popup Type</h1>
+    <div class="button-container">
+        <button class="popup-button alert-popup" id="popup-alert" data-popup="alert" onclick="showPopup('alert')">
+            Alert Popup
+        </button>
+        <button class="popup-button confirm-popup" id="popup-confirm" data-popup="confirm" onclick="showPopup('confirm')">
+            Confirm Popup
+        </button>
+        <button class="popup-button custom-popup" id="popup-custom" data-popup="custom" onclick="showPopup('custom')">
+            Custom Modal
+        </button>
+        <button class="popup-button success-popup" id="popup-success" data-popup="success" onclick="showPopup('success')">
+            Success Popup
+        </button>
+        <button class="popup-button error-popup" id="popup-error" data-popup="error" onclick="showPopup('error')">
+            Error Popup
+        </button>
+        <button class="popup-button info-popup" id="popup-info" data-popup="info" onclick="showPopup('info')">
+            Info Popup
+        </button>
+        <button class="popup-button warning-popup" id="popup-warning" data-popup="warning" onclick="showPopup('warning')">
+            Warning Popup
+        </button>
+        <button class="popup-button browser-alert-popup" id="popup-browser-alert" data-popup="browser-alert" onclick="showPopup('browser-alert')">
+            Browser Alert
+        </button>
+        <button class="popup-button browser-confirm-popup" id="popup-browser-confirm" data-popup="browser-confirm" onclick="showPopup('browser-confirm')">
+            Browser Confirm
+        </button>
+        <button class="popup-button browser-prompt-popup" id="popup-browser-prompt" data-popup="browser-prompt" onclick="showPopup('browser-prompt')">
+            Browser Prompt
+        </button>
+    </div>
+
+    <div class="overlay"></div>
+
+    <!-- Popup Elements -->
+    <div class="popup alert-popup" id="alert-popup" role="dialog" aria-labelledby="alert-popup-title" aria-hidden="true">
+        <h2 id="alert-popup-title">Alert Popup</h2>
+        <p>This is an Alert Popup!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <div class="popup confirm-popup" id="confirm-popup" role="dialog" aria-labelledby="confirm-popup-title" aria-hidden="true">
+        <h2 id="confirm-popup-title">Confirm Popup</h2>
+        <p>Do you confirm this action?</p>
+        <button onclick="closePopup()">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+
+    <div class="popup custom-popup" id="custom-popup" role="dialog" aria-labelledby="custom-popup-title" aria-hidden="true">
+        <h2 id="custom-popup-title">Custom Modal</h2>
+        <p>This is a Custom Modal Popup!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <div class="popup success-popup" id="success-popup" role="dialog" aria-labelledby="success-popup-title" aria-hidden="true">
+        <h2 id="success-popup-title">Success Popup</h2>
+        <p>Success! Everything worked!</p>
+        <button onclick="closePopup()">Great!</button>
+    </div>
+
+    <div class="popup error-popup" id="error-popup" role="dialog" aria-labelledby="error-popup-title" aria-hidden="true">
+        <h2 id="error-popup-title">Error Popup</h2>
+        <p>Error: Something went wrong.</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <div class="popup info-popup" id="info-popup" role="dialog" aria-labelledby="info-popup-title" aria-hidden="true">
+        <h2 id="info-popup-title">Info Popup</h2>
+        <p>This is an Info Popup!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <div class="popup warning-popup" id="warning-popup" role="dialog" aria-labelledby="warning-popup-title" aria-hidden="true">
+        <h2 id="warning-popup-title">Warning Popup</h2>
+        <p>This is a Warning Popup!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        function showPopup(type) {
+            // Browser level popups
+            if (type === 'browser-alert') {
+                alert('This is a browser-level alert!');
+                return;
+            }
+            if (type === 'browser-confirm') {
+                const result = confirm('Do you confirm this action?');
+                if (result) {
+                    alert('Action Confirmed!');
+                } else {
+                    alert('Action Canceled!');
+                }
+                return;
+            }
+            if (type === 'browser-prompt') {
+                const name = prompt('Enter your name:');
+                if (name) {
+                    alert(`Hello, ${name}!`);
+                }
+                return;
+            }
+
+            // For custom modals
+            const popup = document.querySelector(`#${type}-popup`);
+            const overlay = document.querySelector('.overlay');
+            overlay.classList.add('active');
+            popup.classList.add('active');
+        }
+
+        function closePopup() {
+            const overlay = document.querySelector('.overlay');
+            overlay.classList.remove('active');
+            document.querySelectorAll('.popup').forEach(popup => {
+                popup.classList.remove('active');
+            });
+        }
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
