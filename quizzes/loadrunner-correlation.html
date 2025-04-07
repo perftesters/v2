@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoadRunner Correlation Quiz: Test Your Knowledge!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      text-align: center;
+    }
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-weight: bold;
+      color: #333;
+      display: none;
+      font-size: 1.2em;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: left;
+      background-color: #e6f3ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    td {
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      text-align: left;
+    }
+    .options label {
+      display: block;
+      background: #f0f8ff;
+      padding: 6px 10px;
+      margin: 4px 0;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options label:hover {
+      background-color: #e0f0ff;
+      border-color: #66b2ff;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+    }
+    button {
+      background: #66b2ff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover:not(:disabled) {
+      background-color: #559eea;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 10px;
+      color: #856404;
+    }
+    #startBtn {
+      animation: pulse 1.5s infinite;
+      font-size: 1.2em;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      border-radius: 30px;
+      padding: 15px 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #quizTable td {
+      cursor: pointer;
+    }
+    .feedback {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="timer" id="timer">Time: 0s</div>
+    <h2 style="text-align: left;">LoadRunner Correlation Quiz: Test Your Knowledge!</h2>
+    <!-- 👉 Instruction Section -->
+  <div id="instructions" style="margin-bottom: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>📘 Instructions:</h3>
+    <ul>
+      <li>This quiz contains multiple-choice questions on LoadRunner Correlation.</li>
+      <li>Each question has one correct answer.</li>
+      <li>Click the "Start Quiz" button to begin.</li>
+      <li>You can navigate between questions using "Prev" and "Next" buttons.</li>
+      <li>Your total time will be recorded and shown at the end.</li>
+      <li>After finishing, you can review explanations for each question.</li>
+      <li>Try to score at least 80% to trigger a fun surprise! 🎉</li>
+    </ul>
+  </div>
+    <button id="startBtn">Start Quiz</button>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+  {
+    "question": "What is correlation in LoadRunner?",
+    "options": [
+      "The process of simulating real user behavior",
+      "The process of handling dynamic data during the recording of scripts",
+      "The process of gathering performance metrics",
+      "The process of storing results for further analysis"
+    ],
+    "answer": "The process of handling dynamic data during the recording of scripts",
+    "explanation": "Correlation in LoadRunner is the process of capturing dynamic values from server responses and handling them in subsequent requests."
+  },
+  {
+    "question": "When is correlation necessary in LoadRunner?",
+    "options": [
+      "When handling static values in server responses",
+      "When simulating user login behavior",
+      "When the server returns dynamic data that changes with each iteration",
+      "When no data is returned by the server"
+    ],
+    "answer": "When the server returns dynamic data that changes with each iteration",
+    "explanation": "Correlation is necessary when the server returns dynamic data that changes for each iteration, such as session IDs or tokens."
+  },
+  {
+    "question": "What type of values does LoadRunner correlation typically handle?",
+    "options": [
+      "Dynamic values such as session IDs and tokens",
+      "Static values like IP addresses and URLs",
+      "Pre-recorded values from previous sessions",
+      "Pre-defined values in script parameters"
+    ],
+    "answer": "Dynamic values such as session IDs and tokens",
+    "explanation": "LoadRunner correlation typically handles dynamic values that change with each request, such as session IDs, cookies, and authentication tokens."
+  },
+  {
+    "question": "What is the purpose of the 'web_reg_save_param' function in LoadRunner?",
+    "options": [
+      "To retrieve dynamic data from server responses",
+      "To simulate user interactions",
+      "To check the status of virtual users",
+      "To define the number of virtual users"
+    ],
+    "answer": "To retrieve dynamic data from server responses",
+    "explanation": "'web_reg_save_param' is used to extract dynamic data from a server response, which can then be used in subsequent requests."
+  },
+  {
+    "question": "What is a 'correlation rule' in LoadRunner?",
+    "options": [
+      "A rule for assigning user credentials",
+      "A method for handling user input validation",
+      "A function for capturing dynamic values from server responses",
+      "A technique for reducing server load"
+    ],
+    "answer": "A function for capturing dynamic values from server responses",
+    "explanation": "A correlation rule in LoadRunner defines how dynamic data should be handled, captured, and used in subsequent requests."
+  },
+  {
+    "question": "What happens if you fail to correlate dynamic values in LoadRunner?",
+    "options": [
+      "The script will run successfully, but with incorrect results",
+      "The script will fail to replay correctly",
+      "The script will be executed faster",
+      "The server will automatically correct the data"
+    ],
+    "answer": "The script will fail to replay correctly",
+    "explanation": "If dynamic values are not properly correlated, the script will not execute correctly during replay, leading to failures or errors."
+  },
+  {
+    "question": "What is the function 'web_reg_find' used for in LoadRunner?",
+    "options": [
+      "To capture dynamic values from the server",
+      "To validate the presence of specific text in server responses",
+      "To simulate user behavior",
+      "To define virtual user parameters"
+    ],
+    "answer": "To validate the presence of specific text in server responses",
+    "explanation": "'web_reg_find' is used to verify that specific text exists in a server response during the replay phase."
+  },
+  {
+    "question": "How can you handle dynamic session IDs in LoadRunner?",
+    "options": [
+      "By using 'web_reg_save_param' to capture the session ID and reuse it",
+      "By manually editing the script before every iteration",
+      "By re-recording the script every time",
+      "By ignoring the session ID altogether"
+    ],
+    "answer": "By using 'web_reg_save_param' to capture the session ID and reuse it",
+    "explanation": "To handle dynamic session IDs, you use 'web_reg_save_param' to capture the session ID from the server response and reuse it in subsequent requests."
+  },
+  {
+    "question": "Which of the following is a method for handling dynamic values in LoadRunner scripts?",
+    "options": [
+      "Correlation",
+      "Load balancing",
+      "Session management",
+      "Data compression"
+    ],
+    "answer": "Correlation",
+    "explanation": "Correlation is the method used in LoadRunner to handle dynamic data like session IDs, timestamps, and authentication tokens."
+  },
+  {
+    "question": "What type of correlation does LoadRunner support?",
+    "options": [
+      "Manual and automatic correlation",
+      "Static and dynamic correlation",
+      "Parallel and sequential correlation",
+      "Synchronous and asynchronous correlation"
+    ],
+    "answer": "Manual and automatic correlation",
+    "explanation": "LoadRunner supports both manual and automatic correlation techniques for handling dynamic data."
+  },
+  {
+    "question": "Which function is used to correlate values in web-based protocols in LoadRunner?",
+    "options": [
+      "web_reg_save_param",
+      "web_submit_data",
+      "web_url",
+      "web_create_header"
+    ],
+    "answer": "web_reg_save_param",
+    "explanation": "The 'web_reg_save_param' function is used to capture dynamic values, such as session tokens or IDs, from web server responses."
+  },
+  {
+    "question": "What is the difference between 'web_reg_save_param' and 'lr_save_param' in LoadRunner?",
+    "options": [
+      "'web_reg_save_param' is used for web protocols, while 'lr_save_param' is used for all protocols",
+      "'lr_save_param' is for saving values to the parameter file, while 'web_reg_save_param' captures dynamic values",
+      "'web_reg_save_param' is for saving parameter values globally, while 'lr_save_param' is local",
+      "'lr_save_param' is a function for setting values for iteration purposes only"
+    ],
+    "answer": "'web_reg_save_param' is used for web protocols, while 'lr_save_param' is used for all protocols",
+    "explanation": "'web_reg_save_param' is used specifically in web-based protocols to capture dynamic data, while 'lr_save_param' is a general function applicable across various protocols."
+  },
+  {
+    "question": "What is 'auto-correlation' in LoadRunner?",
+    "options": [
+      "A method of automatically detecting dynamic values for correlation",
+      "A function to calculate server response time",
+      "A feature for tracking virtual user interactions",
+      "A technique for distributing load across different servers"
+    ],
+    "answer": "A method of automatically detecting dynamic values for correlation",
+    "explanation": "Auto-correlation in LoadRunner automatically detects dynamic values in server responses and applies correlation without manual intervention."
+  },
+  {
+    "question": "How can you view the correlation results in LoadRunner?",
+    "options": [
+      "By using the Controller to view logs",
+      "By checking the Run-Time Viewer",
+      "By analyzing the correlation report",
+      "By reviewing the LoadRunner script manually"
+    ],
+    "answer": "By checking the Run-Time Viewer",
+    "explanation": "The Run-Time Viewer in LoadRunner provides detailed logs and allows you to verify if correlation was applied correctly during script execution."
+  },
+  {
+    "question": "Which of the following is a correct usage of correlation in LoadRunner?",
+    "options": [
+      "Correlating dynamic values like session IDs that change with each user request",
+      "Correlating static values like hardcoded URLs in the script",
+      "Correlating values to simulate user behavior without using dynamic data",
+      "Correlating error messages to validate script correctness"
+    ],
+    "answer": "Correlating dynamic values like session IDs that change with each user request",
+    "explanation": "Correlation is used to handle dynamic data, such as session IDs or tokens, which change with each user request."
+  },
+  {
+    "question": "What is the purpose of the 'web_reg_save_param_ex' function in LoadRunner?",
+    "options": [
+      "To capture values with advanced options like regular expressions",
+      "To validate server responses",
+      "To check for errors in the script",
+      "To store data in a log file"
+    ],
+    "answer": "To capture values with advanced options like regular expressions",
+    "explanation": "'web_reg_save_param_ex' allows for advanced handling of dynamic values, such as using regular expressions to match complex patterns."
+  },
+  {
+    "question": "Which of the following is NOT a feature of LoadRunner's correlation process?",
+    "options": [
+      "Automatic correlation of dynamic values",
+      "Automatic insertion of correlation values into the script",
+      "Automatic validation of dynamic data in server responses",
+      "Manual correction of hardcoded values"
+    ],
+    "answer": "Manual correction of hardcoded values",
+    "explanation": "While LoadRunner provides features like automatic correlation, manual correction of hardcoded values is necessary when the tool cannot automatically detect dynamic values."
+  },
+  {
+    "question": "What should you do if a LoadRunner script fails to run due to missing correlation?",
+    "options": [
+      "Re-record the script",
+      "Manually correlate the missing values",
+      "Use auto-correlation",
+      "Change the server configuration"
+    ],
+    "answer": "Manually correlate the missing values",
+    "explanation": "If missing correlation causes a script failure, you need to manually identify and correlate the missing dynamic values for the script to function correctly."
+  },
+  {
+    "question": "Which protocol in LoadRunner requires the most correlation work due to dynamic data?",
+    "options": [
+      "Web (HTTP/HTTPS)",
+      "SAP",
+      "RDP",
+      "Citrix"
+    ],
+    "answer": "Web (HTTP/HTTPS)",
+    "explanation": "Web protocols often require extensive correlation due to the large amount of dynamic data (like session IDs and cookies) generated during requests."
+  },
+  {
+    "question": "What happens if you use an old dynamic value in a subsequent request without correlating it?",
+    "options": [
+      "The script may run with incorrect data",
+      "The server will automatically adjust the value",
+      "The server will ignore the incorrect value",
+      "The script will run faster"
+    ],
+    "answer": "The script may run with incorrect data",
+    "explanation": "If old or incorrect dynamic values are used in subsequent requests, it will cause the script to fail or generate incorrect data."
+  },
+  {
+    "question": "What should you do if LoadRunner's automatic correlation misses a dynamic value?",
+    "options": [
+      "Manually correlate the value",
+      "Ignore the error",
+      "Use a different protocol",
+      "Change the load generation settings"
+    ],
+    "answer": "Manually correlate the value",
+    "explanation": "If automatic correlation fails, you should manually correlate the missing dynamic value to ensure the script runs correctly."
+  },
+  {
+    "question": "Which of the following is an advantage of using correlation in LoadRunner?",
+    "options": [
+      "It ensures the accuracy of dynamic data in scripts",
+      "It speeds up the testing process",
+      "It reduces the need for performance analysis",
+      "It increases the complexity of scripts"
+    ],
+    "answer": "It ensures the accuracy of dynamic data in scripts",
+    "explanation": "Correlation ensures that dynamic data is handled correctly, which is essential for accurate script execution and performance testing."
+  },
+  {
+    "question": "Which argument in the 'web_reg_save_param_ex' function defines the boundaries of the dynamic data to be captured?",
+    "options": [
+      "Left and right boundaries",
+      "Start and end tokens",
+      "Parameter name and value",
+      "Regular expression"
+    ],
+    "answer": "Left and right boundaries",
+    "explanation": "The 'web_reg_save_param_ex' function allows you to specify left and right boundaries to define the location of dynamic data in the server response."
+  },
+  {
+    "question": "When would you use the 'web_reg_save_param_json' function in LoadRunner?",
+    "options": [
+      "When the dynamic data is returned in JSON format and needs to be captured",
+      "When dynamic data is located between specified boundaries",
+      "When you need to extract data using a regular expression",
+      "When you want to validate server responses"
+    ],
+    "answer": "When the dynamic data is returned in JSON format and needs to be captured",
+    "explanation": "The 'web_reg_save_param_json' function is specifically designed to capture dynamic data formatted as JSON in the server response."
+  },
+  {
+    "question": "Which argument in the 'web_reg_save_param_json' function specifies the name of the parameter to store the captured data?",
+    "options": [
+      "ParamName",
+      "JsonPath",
+      "LeftBoundary",
+      "RightBoundary"
+    ],
+    "answer": "ParamName",
+    "explanation": "The 'ParamName' argument in 'web_reg_save_param_json' specifies the name of the parameter where the captured dynamic data will be stored."
+  },
+  {
+    "question": "What is the main difference between 'web_reg_save_param_ex' and 'web_reg_save_param_json' in LoadRunner?",
+    "options": [
+      "'web_reg_save_param_ex' captures data between specified boundaries, while 'web_reg_save_param_json' is used to capture data in JSON format",
+      "'web_reg_save_param_ex' is used only for web protocols, while 'web_reg_save_param_json' is used for all protocols",
+      "'web_reg_save_param_ex' saves data as a binary file, while 'web_reg_save_param_json' stores the data as a parameter",
+      "'web_reg_save_param_ex' uses regular expressions, while 'web_reg_save_param_json' uses JSON parsing"
+    ],
+    "answer": "'web_reg_save_param_ex' captures data between specified boundaries, while 'web_reg_save_param_json' is used to capture data in JSON format",
+    "explanation": "The key difference is that 'web_reg_save_param_ex' is used for capturing data between specified boundaries, while 'web_reg_save_param_json' is tailored to capture data formatted as JSON."
+  },
+  {
+    "question": "How does 'web_reg_save_param_regexp' function work in LoadRunner?",
+    "options": [
+      "It saves dynamic data that matches a regular expression to a parameter",
+      "It captures data formatted in JSON structure",
+      "It validates server responses for specific text",
+      "It stores dynamic data located between specified boundaries"
+    ],
+    "answer": "It saves dynamic data that matches a regular expression to a parameter",
+    "explanation": "'web_reg_save_param_regexp' is used to capture dynamic data that matches a given regular expression pattern from the server response."
+  },
+  {
+    "question": "Which argument in the 'web_reg_save_param_regexp' function specifies the regular expression to match dynamic data?",
+    "options": [
+      "RegExp",
+      "JsonPath",
+      "ParamName",
+      "LeftBoundary"
+    ],
+    "answer": "RegExp",
+    "explanation": "The 'RegExp' argument in 'web_reg_save_param_regexp' specifies the regular expression pattern used to match dynamic data in the server response."
+  },
+  {
+    "question": "When should you use the 'web_reg_save_param_regexp' function instead of 'web_reg_save_param_ex'?",
+    "options": [
+      "When you need to capture dynamic data based on a regular expression pattern",
+      "When the dynamic data is structured as JSON",
+      "When you need to capture data based on exact text matches",
+      "When you want to save data between left and right boundaries"
+    ],
+    "answer": "When you need to capture dynamic data based on a regular expression pattern",
+    "explanation": "'web_reg_save_param_regexp' is ideal when the dynamic data follows a regular expression pattern, making it difficult to capture with simple boundary markers."
+  },
+  {
+    "question": "What is the function of the 'Search' argument in 'web_reg_save_param_regexp'?",
+    "options": [
+      "To specify the search direction (backwards or forwards)",
+      "To set the number of matches to capture",
+      "To define the scope of the response to search for matches",
+      "To set the regular expression pattern"
+    ],
+    "answer": "To specify the search direction (backwards or forwards)",
+    "explanation": "The 'Search' argument defines whether to search forwards or backwards in the server response for a matching regular expression pattern."
+  },
+  {
+    "question": "In the 'web_reg_save_param_json' function, what does the 'JsonPath' argument specify?",
+    "options": [
+      "The path within the JSON structure to the data to be captured",
+      "The parameter name where the data will be saved",
+      "The left boundary of the JSON data",
+      "The regular expression used to capture the data"
+    ],
+    "answer": "The path within the JSON structure to the data to be captured",
+    "explanation": "The 'JsonPath' argument specifies the exact path to the dynamic data in the JSON structure that should be saved to a parameter."
+  },
+  {
+    "question": "Which LoadRunner function would you use to capture a session ID that is embedded in a JSON response?",
+    "options": [
+      "web_reg_save_param_ex",
+      "web_reg_save_param_json",
+      "web_reg_save_param_regexp",
+      "web_url"
+    ],
+    "answer": "web_reg_save_param_json",
+    "explanation": "The 'web_reg_save_param_json' function is ideal for capturing dynamic values embedded in a JSON response."
+  },
+  {
+    "question": "Which of the following functions does not require specifying regular expressions for capturing dynamic data?",
+    "options": [
+      "web_reg_save_param_ex",
+      "web_reg_save_param_json",
+      "web_reg_save_param_regexp",
+      "web_reg_find"
+    ],
+    "answer": "web_reg_save_param_json",
+    "explanation": "'web_reg_save_param_json' does not require a regular expression since it is designed to capture values from a JSON response based on a specified JSON path."
+  },
+  {
+    "question": "Which of the following options is NOT a valid argument for the 'web_reg_save_param_ex' function?",
+    "options": [
+      "ParamName",
+      "LeftBoundary",
+      "RightBoundary",
+      "JsonPath"
+    ],
+    "answer": "JsonPath",
+    "explanation": "The 'JsonPath' argument is used in 'web_reg_save_param_json' to capture data from JSON responses, not in 'web_reg_save_param_ex'."
+  },
+  {
+    "question": "In the 'web_reg_save_param_regexp' function, what does the 'Occur' argument specify?",
+    "options": [
+      "The number of times the regular expression should match the dynamic data",
+      "The location where the dynamic data is stored",
+      "The regular expression pattern used for matching",
+      "The direction of search (forward or backward)"
+    ],
+    "answer": "The number of times the regular expression should match the dynamic data",
+    "explanation": "The 'Occur' argument specifies how many times the regular expression should match dynamic data in the server response."
+  },
+  {
+    "question": "What is the main advantage of using the 'web_reg_save_param_regexp' function over other correlation functions?",
+    "options": [
+      "It captures dynamic data based on regular expression patterns, offering flexibility for complex scenarios",
+      "It automatically captures JSON-formatted data",
+      "It uses boundary markers to identify dynamic data",
+      "It saves captured data in a log file"
+    ],
+    "answer": "It captures dynamic data based on regular expression patterns, offering flexibility for complex scenarios",
+    "explanation": "'web_reg_save_param_regexp' allows for flexible and powerful matching of dynamic data based on regular expressions, useful when data cannot be captured using simple boundaries."
+  }
+];
+
+
+    let current = 0;
+    let answers = [];
+    let startTime;
+    let interval;
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    shuffleArray(questions);
+    questions.forEach(q => shuffleArray(q.options));
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizEl.style.display = 'block';
+      timerEl.style.display = 'block';
+      startTime = Date.now();
+      showQuestion(0);
+      interval = setInterval(updateTimer, 1000);
+    });
+
+    function showQuestion(index, reviewMode = false) {
+      const q = questions[index];
+      quizEl.innerHTML = '';
+
+      const progressDiv = document.createElement("div");
+      progressDiv.className = "progress";
+      progressDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+      quizEl.appendChild(progressDiv);
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.textContent = `${q.question}`;
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const table = document.createElement("table");
+      table.id = "quizTable";
+      q.options.forEach(opt => {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        const label = document.createElement("label");
+        label.textContent = opt;
+
+        if (reviewMode) {
+          if (opt === q.answer) label.classList.add("correct");
+          if (answers[index].selected === opt && opt !== q.answer) label.classList.add("incorrect");
+        } else {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "option";
+          input.value = opt;
+          if (answers[index] && answers[index].selected === opt) input.checked = true;
+          input.addEventListener('click', (e) => {
+            nextBtn.disabled = false;
+          });
+          label.prepend(input);
+        }
+
+        cell.appendChild(label);
+        row.appendChild(cell);
+        table.appendChild(row);
+      });
+      optionsDiv.appendChild(table);
+
+      if (reviewMode) {
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsDiv.appendChild(feedback);
+      }
+
+      const navContainer = document.createElement("div");
+      navContainer.style.display = "flex";
+      navContainer.style.justifyContent = "space-between";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "⬅ Prev";
+      prevBtn.disabled = index === 0;
+      prevBtn.onclick = () => {
+        current--;
+        showQuestion(current, reviewMode);
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.innerHTML = index === questions.length - 1 ? (reviewMode ? "Finish Review" : "Submit") : "Next ➡";
+      nextBtn.disabled = !reviewMode && !answers[index];
+
+      nextBtn.onclick = () => {
+        if (!reviewMode) {
+          const selected = optionsDiv.querySelector("input[name='option']:checked");
+          const answer = selected ? selected.value : "";
+          answers[index] = { selected: answer, correct: q.answer };
+        }
+
+        if (index + 1 < questions.length) {
+          current++;
+          showQuestion(current, reviewMode);
+        } else {
+          reviewMode ? resetQuiz() : showResult();
+        }
+      };
+
+      quizEl.appendChild(questionDiv);
+      quizEl.appendChild(optionsDiv);
+      navContainer.appendChild(prevBtn);
+      navContainer.appendChild(nextBtn);
+      quizEl.appendChild(navContainer);
+    }
+
+    function showResult() {
+      clearInterval(interval);
+      quizEl.style.display = "none";
+      resultEl.style.display = "block";
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        if (ans.selected === questions[i].answer) score++;
+      });
+
+      resultEl.innerHTML = `<p>You scored ${score} out of ${questions.length} in ${totalTime} seconds.</p>`;
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.textContent = "Review Answers";
+      reviewBtn.onclick = () => {
+        current = 0;
+        quizEl.style.display = "block";
+        resultEl.style.display = "none";
+        showQuestion(current, true);
+      };
+      resultEl.appendChild(reviewBtn);
+
+      if ((score / questions.length) * 100 >= 80) {
+        confetti();
+      }
+    }
+
+    function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+    
+    // Calculate minutes and seconds
+    const minutes = Math.floor(elapsed / 60); // Get the total minutes
+    const seconds = elapsed % 60; // Get the remaining seconds
+
+    // Format the time as "minutes:seconds", ensuring two-digit format for seconds
+    timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+
+    function confetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#bb0000', '#ffffff'];
+      (function frame() {
+        confettiEffect();
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    function confettiEffect() {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.width = '10px';
+      el.style.height = '10px';
+      el.style.background = 'radial-gradient(circle, #ff0, #f00)';
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.zIndex = 9999;
+      el.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(el);
+      setTimeout(() => document.body.removeChild(el), 2000);
+    }
+	
+	function resetQuiz() {
+  current = 0;
+  answers = [];
+  clearInterval(interval);
+  timerEl.textContent = "Time: 0s";
+  timerEl.style.display = "none";
+  resultEl.style.display = "none";
+  quizEl.style.display = "none";
+  document.getElementById("instructions").style.display = "block";
+  startBtn.style.display = "inline-block";
+
+  // Re-shuffle questions and options
+  shuffleArray(questions);
+  questions.forEach(q => shuffleArray(q.options));
+}
+
+
+  </script>
+  
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      document.getElementById("instructions").style.display = "none";
+    });
+  </script>
+  
+</body>
+</html>
