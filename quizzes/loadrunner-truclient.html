@@ -1,1 +1,536 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoadRunner Interview Questions PART-III: Test Your Knowledge!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      text-align: center;
+    }
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-weight: bold;
+      color: #333;
+      display: none;
+      font-size: 1.2em;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: left;
+      background-color: #e6f3ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    td {
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      text-align: left;
+    }
+    .options label {
+      display: block;
+      background: #f0f8ff;
+      padding: 6px 10px;
+      margin: 4px 0;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options label:hover {
+      background-color: #e0f0ff;
+      border-color: #66b2ff;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+    }
+    button {
+      background: #66b2ff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover:not(:disabled) {
+      background-color: #559eea;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 10px;
+      color: #856404;
+    }
+    #startBtn {
+      animation: pulse 1.5s infinite;
+      font-size: 1.2em;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      border-radius: 30px;
+      padding: 15px 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #quizTable td {
+      cursor: pointer;
+    }
+    .feedback {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="timer" id="timer">Time: 0s</div>
+    <h2 style="text-align: left;">LoadRunner TruClient Questions: Test Your Knowledge!</h2>
+    <!-- 👉 Instruction Section -->
+  <div id="instructions" style="margin-bottom: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>📘 Instructions:</h3>
+    <ul>
+      <li>This quiz contains multiple-choice LoadRunner TruClient Questions.</li>
+      <li>Each question has one correct answer.</li>
+      <li>Click the "Start Quiz" button to begin.</li>
+      <li>You can navigate between questions using "Prev" and "Next" buttons.</li>
+      <li>Your total time will be recorded and shown at the end.</li>
+      <li>After finishing, you can review explanations for each question.</li>
+      <li>Try to score at least 80% to trigger a fun surprise! 🎉</li>
+    </ul>
+  </div>
+    <button id="startBtn">Start Quiz</button>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+  { 
+    "question": "Which function in TruClient is used to initiate a new transaction?",
+    "options": ["tc_start_transaction", "tc_end_transaction", "lr_start_transaction", "tc_transaction"],
+    "answer": "tc_start_transaction",
+    "explanation": "The tc_start_transaction function is used to initiate a new transaction in TruClient. This helps in tracking the performance of specific actions in the script."
+  },
+  { 
+    "question": "Which TruClient function is used to log in a user to the application?",
+    "options": ["tc_user_login", "tc_login", "web_submit_data", "tc_input"],
+    "answer": "tc_login",
+    "explanation": "The tc_login function is used to simulate a user login action in TruClient scripts, enabling the user to authenticate into the application."
+  },
+  { 
+    "question": "What is the purpose of the 'Think Time' in TruClient?",
+    "options": ["To simulate real user wait time", "To pause script execution", "To control transaction flow", "To measure response time"],
+    "answer": "To simulate real user wait time",
+    "explanation": "Think Time is used in TruClient to simulate the pause or delay between user actions, mimicking real user interaction with the application."
+  },
+  { 
+    "question": "Which TruClient function is used to extract dynamic data from the server’s response?",
+    "options": ["tc_reg_save_param", "tc_save_param", "web_reg_save_param", "tc_reg_capture"],
+    "answer": "tc_reg_save_param",
+    "explanation": "The tc_reg_save_param function in TruClient is used to capture dynamic values such as session tokens from the server’s response and store them as parameters for future use."
+  },
+  { 
+    "question": "Which TruClient step is used to interact with a web page's button element?",
+    "options": ["Click", "Submit", "Press", "Enter"],
+    "answer": "Click",
+    "explanation": "The Click step is used to simulate a user clicking on a button element in TruClient scripts."
+  },
+  { 
+    "question": "Which TruClient step is used to fill a text field on a web page?",
+    "options": ["SetText", "Input", "Type", "EnterText"],
+    "answer": "SetText",
+    "explanation": "The SetText step is used to input or type text into a text field or input box on a web page in TruClient scripts."
+  },
+  { 
+    "question": "In TruClient, which function is used to record a user action?",
+    "options": ["tc_record", "tc_capture", "tc_action", "tc_record_action"],
+    "answer": "tc_record",
+    "explanation": "The tc_record function is used to record user interactions with the web application during script creation in TruClient."
+  },
+  { 
+    "question": "What is the purpose of the 'Transaction' in TruClient?",
+    "options": ["To group related actions together", "To simulate a real user transaction", "To measure script execution time", "To test the database connection"],
+    "answer": "To group related actions together",
+    "explanation": "In TruClient, a transaction is used to group a set of related actions together and measure the time it takes to complete that group, which helps in performance testing."
+  },
+  { 
+    "question": "Which TruClient step is used to pause execution for a specific duration?",
+    "options": ["Wait", "Pause", "Delay", "Sleep"],
+    "answer": "Wait",
+    "explanation": "The Wait step in TruClient is used to pause the execution of a script for a specific time period, allowing for realistic simulation of user wait times."
+  },
+  { 
+    "question": "Which TruClient function is used to handle unexpected pop-up dialogs during script execution?",
+    "options": ["tc_handle_popup", "tc_popup", "tc_alert", "tc_dialog"],
+    "answer": "tc_handle_popup",
+    "explanation": "The tc_handle_popup function is used to manage and interact with pop-up dialogs that may appear during TruClient script execution, such as accepting or dismissing them."
+  },
+  { 
+    "question": "Which step is used to verify if an element exists on a web page in TruClient?",
+    "options": ["VerifyExist", "ElementExists", "CheckExistence", "FindElement"],
+    "answer": "VerifyExist",
+    "explanation": "The VerifyExist step is used in TruClient to verify whether a specified element exists on the web page."
+  },
+  { 
+    "question": "Which TruClient function is used to validate the value of a field on a web page?",
+    "options": ["tc_verify_value", "tc_check_value", "VerifyText", "tc_validate_field"],
+    "answer": "VerifyText",
+    "explanation": "The VerifyText function in TruClient is used to validate that the value in a specific field matches the expected value, which is useful for validation in test scripts."
+  },
+  { 
+    "question": "What is the main purpose of using the 'Transaction' in TruClient scripts?",
+    "options": ["To measure response time", "To generate test data", "To pause script execution", "To execute loop"],
+    "answer": "To measure response time",
+    "explanation": "Transactions in TruClient are used primarily to measure the time taken to complete a set of actions, helping to assess application performance during testing."
+  },
+  { 
+    "question": "Which TruClient step is used to check for the existence of a link on a page?",
+    "options": ["VerifyLink", "CheckLink", "VerifyExist", "FindLink"],
+    "answer": "VerifyExist",
+    "explanation": "The VerifyExist step in TruClient is used to check whether a particular link is present on the web page."
+  },
+  { 
+    "question": "Which TruClient step is used to execute JavaScript code within the script?",
+    "options": ["ExecuteJS", "RunJS", "tc_execute_script", "ExecuteScript"],
+    "answer": "ExecuteJS",
+    "explanation": "The ExecuteJS step is used to run custom JavaScript code within TruClient scripts, allowing for advanced functionality or validation during script execution."
+  },
+  { 
+    "question": "Which function is used in TruClient to check if a page has loaded?",
+    "options": ["tc_page_loaded", "tc_check_page", "tc_wait_for_load", "tc_page_ready"],
+    "answer": "tc_page_loaded",
+    "explanation": "The tc_page_loaded function is used to check whether a page has completely loaded before proceeding with further actions in the script."
+  },
+  { 
+    "question": "What is the purpose of 'Parameterization' in TruClient?",
+    "options": ["To handle dynamic data", "To execute different scripts", "To simulate multiple users", "To create validations"],
+    "answer": "To handle dynamic data",
+    "explanation": "Parameterization in TruClient is used to handle dynamic data, such as user inputs or session IDs, which can vary during each script execution."
+  },
+  { 
+    "question": "Which TruClient step is used to drag and drop an element on the screen?",
+    "options": ["DragElement", "DropElement", "DragAndDrop", "MoveElement"],
+    "answer": "DragAndDrop",
+    "explanation": "The DragAndDrop step is used to simulate a user dragging an element and dropping it onto a specified location on the screen."
+  },
+  { 
+    "question": "Which function is used in TruClient to handle file upload?",
+    "options": ["tc_upload_file", "tc_file_upload", "tc_handle_upload", "UploadFile"],
+    "answer": "tc_upload_file",
+    "explanation": "The tc_upload_file function is used in TruClient to handle file uploads, allowing a user to upload a file to the server during script execution."
+  },
+  { 
+    "question": "Which TruClient function can be used to stop script execution on a failure?",
+    "options": ["tc_abort", "tc_exit", "tc_stop", "tc_quit"],
+    "answer": "tc_abort",
+    "explanation": "The tc_abort function is used to stop the execution of a TruClient script when a critical error or failure occurs, preventing further actions."
+  },
+  { 
+    "question": "Which TruClient function is used to handle cookies during script execution?",
+    "options": ["tc_get_cookie", "tc_set_cookie", "tc_handle_cookie", "tc_manage_cookie"],
+    "answer": "tc_set_cookie",
+    "explanation": "The tc_set_cookie function in TruClient is used to manage cookies by setting them during script execution, which can help in maintaining session or state between requests."
+  },
+  { 
+    "question": "Which TruClient step is used to assert that a certain text is present on a page?",
+    "options": ["VerifyText", "CheckText", "AssertText", "TextExist"],
+    "answer": "VerifyText",
+    "explanation": "The VerifyText step in TruClient is used to assert that a specific piece of text exists on a web page, which is useful for validation purposes."
+  },
+  { 
+    "question": "In TruClient, what is the default action to take after a failed step?",
+    "options": ["Abort", "Retry", "Skip", "Stop"],
+    "answer": "Abort",
+    "explanation": "By default, TruClient will abort the script execution after a failed step, ensuring that errors are handled immediately."
+  },
+  { 
+    "question": "Which step is used in TruClient to open a new browser window?",
+    "options": ["LaunchBrowser", "OpenWindow", "BrowserOpen", "tc_open_browser"],
+    "answer": "LaunchBrowser",
+    "explanation": "The LaunchBrowser step is used to open a new browser window at the beginning of a TruClient script, allowing interaction with the web application."
+  },
+  { 
+    "question": "What does the tc_wait function do in TruClient?",
+    "options": ["Pause script for a specified time", "Wait for a page to load", "Wait for user input", "Pause after each transaction"],
+    "answer": "Pause script for a specified time",
+    "explanation": "The tc_wait function is used to pause the script for a specified amount of time, simulating user pauses between actions."
+  },
+  { 
+    "question": "What is the default mode for executing TruClient scripts?",
+    "options": ["Interactive", "Headless", "Debug", "Batch"],
+    "answer": "Interactive",
+    "explanation": "TruClient scripts are executed in interactive mode by default, which allows testers to watch and interact with the script execution as it runs."
+  },
+  { 
+    "question": "In TruClient, which option is used to test the script without actually interacting with the application?",
+    "options": ["Dry Run", "Simulation", "Run Only", "Headless"],
+    "answer": "Dry Run",
+    "explanation": "The Dry Run option allows users to execute TruClient scripts without interacting with the application, useful for debugging and validation."
+  }
+];
+
+    let current = 0;
+    let answers = [];
+    let startTime;
+    let interval;
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    shuffleArray(questions);
+    questions.forEach(q => shuffleArray(q.options));
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizEl.style.display = 'block';
+      timerEl.style.display = 'block';
+      startTime = Date.now();
+      showQuestion(0);
+      interval = setInterval(updateTimer, 1000);
+    });
+
+    function showQuestion(index, reviewMode = false) {
+      const q = questions[index];
+      quizEl.innerHTML = '';
+
+      const progressDiv = document.createElement("div");
+      progressDiv.className = "progress";
+      progressDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+      quizEl.appendChild(progressDiv);
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.textContent = `${q.question}`;
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const table = document.createElement("table");
+      table.id = "quizTable";
+      q.options.forEach(opt => {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        const label = document.createElement("label");
+        label.textContent = opt;
+
+        if (reviewMode) {
+          if (opt === q.answer) label.classList.add("correct");
+          if (answers[index].selected === opt && opt !== q.answer) label.classList.add("incorrect");
+        } else {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "option";
+          input.value = opt;
+          if (answers[index] && answers[index].selected === opt) input.checked = true;
+          input.addEventListener('click', (e) => {
+            nextBtn.disabled = false;
+          });
+          label.prepend(input);
+        }
+
+        cell.appendChild(label);
+        row.appendChild(cell);
+        table.appendChild(row);
+      });
+      optionsDiv.appendChild(table);
+
+      if (reviewMode) {
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsDiv.appendChild(feedback);
+      }
+
+      const navContainer = document.createElement("div");
+      navContainer.style.display = "flex";
+      navContainer.style.justifyContent = "space-between";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "⬅ Prev";
+      prevBtn.disabled = index === 0;
+      prevBtn.onclick = () => {
+        current--;
+        showQuestion(current, reviewMode);
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.innerHTML = index === questions.length - 1 ? (reviewMode ? "Finish Review" : "Submit") : "Next ➡";
+      nextBtn.disabled = !reviewMode && !answers[index];
+
+      nextBtn.onclick = () => {
+        if (!reviewMode) {
+          const selected = optionsDiv.querySelector("input[name='option']:checked");
+          const answer = selected ? selected.value : "";
+          answers[index] = { selected: answer, correct: q.answer };
+        }
+
+        if (index + 1 < questions.length) {
+          current++;
+          showQuestion(current, reviewMode);
+        } else {
+          reviewMode ? resetQuiz() : showResult();
+        }
+      };
+
+      quizEl.appendChild(questionDiv);
+      quizEl.appendChild(optionsDiv);
+      navContainer.appendChild(prevBtn);
+      navContainer.appendChild(nextBtn);
+      quizEl.appendChild(navContainer);
+    }
+
+    function showResult() {
+      clearInterval(interval);
+      quizEl.style.display = "none";
+      resultEl.style.display = "block";
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        if (ans.selected === questions[i].answer) score++;
+      });
+
+      resultEl.innerHTML = `<p>You scored ${score} out of ${questions.length} in ${totalTime} seconds.</p>`;
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.textContent = "Review Answers";
+      reviewBtn.onclick = () => {
+        current = 0;
+        quizEl.style.display = "block";
+        resultEl.style.display = "none";
+        showQuestion(current, true);
+      };
+      resultEl.appendChild(reviewBtn);
+
+      if ((score / questions.length) * 100 >= 80) {
+        confetti();
+      }
+    }
+
+    function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+    
+    // Calculate minutes and seconds
+    const minutes = Math.floor(elapsed / 60); // Get the total minutes
+    const seconds = elapsed % 60; // Get the remaining seconds
+
+    // Format the time as "minutes:seconds", ensuring two-digit format for seconds
+    timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+
+    function confetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#bb0000', '#ffffff'];
+      (function frame() {
+        confettiEffect();
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    function confettiEffect() {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.width = '10px';
+      el.style.height = '10px';
+      el.style.background = 'radial-gradient(circle, #ff0, #f00)';
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.zIndex = 9999;
+      el.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(el);
+      setTimeout(() => document.body.removeChild(el), 2000);
+    }
+	
+	function resetQuiz() {
+  current = 0;
+  answers = [];
+  clearInterval(interval);
+  timerEl.textContent = "Time: 0s";
+  timerEl.style.display = "none";
+  resultEl.style.display = "none";
+  quizEl.style.display = "none";
+  document.getElementById("instructions").style.display = "block";
+  startBtn.style.display = "inline-block";
+
+  // Re-shuffle questions and options
+  shuffleArray(questions);
+  questions.forEach(q => shuffleArray(q.options));
+}
+
+
+  </script>
+  
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      document.getElementById("instructions").style.display = "none";
+    });
+  </script>
+  
+</body>
+</html>
