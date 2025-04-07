@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoadRunner Interview Questions [Scenario-based and Protocol-based]: Test Your Knowledge!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      text-align: center;
+    }
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-weight: bold;
+      color: #333;
+      display: none;
+      font-size: 1.2em;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: left;
+      background-color: #e6f3ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    td {
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      text-align: left;
+    }
+    .options label {
+      display: block;
+      background: #f0f8ff;
+      padding: 6px 10px;
+      margin: 4px 0;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options label:hover {
+      background-color: #e0f0ff;
+      border-color: #66b2ff;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+    }
+    button {
+      background: #66b2ff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover:not(:disabled) {
+      background-color: #559eea;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 10px;
+      color: #856404;
+    }
+    #startBtn {
+      animation: pulse 1.5s infinite;
+      font-size: 1.2em;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      border-radius: 30px;
+      padding: 15px 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #quizTable td {
+      cursor: pointer;
+    }
+    .feedback {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="timer" id="timer">Time: 0s</div>
+    <h2 style="text-align: left;">LoadRunner Interview Questions [Scenario-based and Protocol-based]: Test Your Knowledge!</h2>
+    <!-- 👉 Instruction Section -->
+  <div id="instructions" style="margin-bottom: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>📘 Instructions:</h3>
+    <ul>
+      <li>This quiz contains multiple-choice LoadRunner Interview Questions [Scenario-based and Protocol-based].</li>
+      <li>Each question has one correct answer.</li>
+      <li>Click the "Start Quiz" button to begin.</li>
+      <li>You can navigate between questions using "Prev" and "Next" buttons.</li>
+      <li>Your total time will be recorded and shown at the end.</li>
+      <li>After finishing, you can review explanations for each question.</li>
+      <li>Try to score at least 80% to trigger a fun surprise! 🎉</li>
+    </ul>
+  </div>
+    <button id="startBtn">Start Quiz</button>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+  { 
+    "question": "You are tasked with testing the performance of an e-commerce website with multiple product categories. The user needs to search for a product, add it to the cart, and checkout. Which LoadRunner protocol would be best suited for this test?", 
+    "options": ["Web (HTTP/HTTPS)", "JDBC", "Oracle", "FTP"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is best suited for testing e-commerce websites, as it simulates typical web interactions like browsing, searching, and checking out products." 
+  },
+  { 
+    "question": "You are testing a mobile application that interacts with a RESTful API. Which LoadRunner protocol should you use for performance testing?", 
+    "options": ["Web Services", "Mobile", "REST API", "JDBC"], 
+    "answer": "Web Services", 
+    "explanation": "The Web Services protocol in LoadRunner is ideal for testing RESTful APIs, as it allows you to simulate interactions with web services that typically use HTTP or HTTPS." 
+  },
+  { 
+    "question": "You are asked to test the performance of a Citrix application, which uses the Citrix ICA protocol. Which LoadRunner protocol should you use?", 
+    "options": ["Citrix ICA", "Web (HTTP/HTTPS)", "Oracle", "JDBC"], 
+    "answer": "Citrix ICA", 
+    "explanation": "The Citrix ICA protocol is specifically designed for testing Citrix applications and simulates user interactions with Citrix-based environments." 
+  },
+  { 
+    "question": "In a scenario where the system under test includes both web-based and database components, which LoadRunner protocol would be most appropriate to simulate both types of traffic?", 
+    "options": ["Web (HTTP/HTTPS) and JDBC", "Web Services and Oracle", "JDBC and FTP", "Citrix ICA and Web (HTTP/HTTPS)"], 
+    "answer": "Web (HTTP/HTTPS) and JDBC", 
+    "explanation": "To simulate both web-based interactions and database transactions, you would use the Web (HTTP/HTTPS) protocol for the web component and JDBC for the database interactions." 
+  },
+  { 
+    "question": "You are testing a system that uses HTTP requests to communicate with a backend Java application. The Java application is based on Remote Method Invocation (RMI). Which protocol in LoadRunner would you use?", 
+    "options": ["Java RMI", "Web Services", "Web (HTTP/HTTPS)", "JDBC"], 
+    "answer": "Java RMI", 
+    "explanation": "The Java RMI protocol in LoadRunner is designed to simulate interactions with Java-based applications that use Remote Method Invocation to communicate between clients and servers." 
+  },
+  { 
+    "question": "During a load test, you want to simulate different network conditions like packet loss and latency for your web application. Which LoadRunner feature should you use?", 
+    "options": ["Network Virtualization", "Pacing", "Transaction", "Think Time"], 
+    "answer": "Network Virtualization", 
+    "explanation": "Network Virtualization allows you to simulate network conditions such as latency, packet loss, and bandwidth restrictions, which can help you evaluate the performance of your application under different network scenarios." 
+  },
+  { 
+    "question": "You are testing a large file transfer between a client and server over FTP. Which LoadRunner protocol would be most appropriate to simulate this load?", 
+    "options": ["FTP", "Web Services", "Web (HTTP/HTTPS)", "JDBC"], 
+    "answer": "FTP", 
+    "explanation": "The FTP protocol in LoadRunner is designed for simulating file transfer operations, making it ideal for testing performance in systems that involve file uploads or downloads." 
+  },
+  { 
+    "question": "You are tasked with simulating an online banking application where users perform account login, fund transfer, and check account balance. Which LoadRunner protocol would be best suited for this test?", 
+    "options": ["Web (HTTP/HTTPS)", "Web Services", "JDBC", "Citrix ICA"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is ideal for testing online banking applications, as it allows you to simulate common web-based interactions like logging in, transferring funds, and checking account balances." 
+  },
+  { 
+    "question": "In a scenario where your application uses Oracle databases to process transactions, which LoadRunner protocol should you choose to simulate database interactions?", 
+    "options": ["Oracle", "Web (HTTP/HTTPS)", "JDBC", "FTP"], 
+    "answer": "Oracle", 
+    "explanation": "The Oracle protocol in LoadRunner is used to simulate interactions with Oracle databases, making it ideal for testing database-intensive applications." 
+  },
+  { 
+    "question": "You are testing an application that integrates with a third-party service via SOAP. Which LoadRunner protocol should you use to test this SOAP-based web service?", 
+    "options": ["Web Services", "SOAP", "JDBC", "FTP"], 
+    "answer": "Web Services", 
+    "explanation": "The Web Services protocol in LoadRunner supports testing of both SOAP and REST web services, allowing you to simulate interactions with third-party services." 
+  },
+  { 
+    "question": "You are testing an application that uses a combination of HTTP requests and database queries. The system uses JDBC for database interactions. Which protocol combination in LoadRunner would you use for this scenario?", 
+    "options": ["Web (HTTP/HTTPS) and JDBC", "Web Services and JDBC", "JDBC and FTP", "Citrix ICA and Web (HTTP/HTTPS)"], 
+    "answer": "Web (HTTP/HTTPS) and JDBC", 
+    "explanation": "For this scenario, using Web (HTTP/HTTPS) to simulate web-based interactions and JDBC to simulate database interactions would be the most appropriate protocol combination." 
+  },
+  { 
+    "question": "During a performance test, you want to simulate real user behavior by varying the delay between requests. Which LoadRunner feature should you use?", 
+    "options": ["Think Time", "Transaction", "Pacing", "Network Virtualization"], 
+    "answer": "Think Time", 
+    "explanation": "Think Time is used in LoadRunner to simulate the delay between user actions, allowing you to create a more realistic user experience by varying the time between requests." 
+  },
+  { 
+    "question": "In a performance test, you need to simulate the behavior of multiple users accessing a website and downloading a large file. Which LoadRunner protocol is most appropriate?", 
+    "options": ["FTP", "Web (HTTP/HTTPS)", "JDBC", "Citrix ICA"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is ideal for simulating the behavior of users downloading files from a website, as it accurately represents file transfer over HTTP." 
+  },
+  { 
+    "question": "You need to test the performance of a Windows-based desktop application. Which LoadRunner protocol should you use to simulate user interactions with the application?", 
+    "options": ["RDP", "Citrix ICA", "Web (HTTP/HTTPS)", "JDBC"], 
+    "answer": "RDP", 
+    "explanation": "The RDP (Remote Desktop Protocol) protocol in LoadRunner is designed to simulate user interactions with Windows-based desktop applications." 
+  },
+  { 
+    "question": "You are testing a web application that involves complex transactions with both client-side JavaScript and backend database queries. Which LoadRunner protocol should you use to simulate both aspects?", 
+    "options": ["Web (HTTP/HTTPS)", "Web Services", "JDBC", "Java RMI"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol can simulate both client-side JavaScript interactions and backend database queries, making it suitable for testing complex web applications." 
+  },
+  { 
+    "question": "You are testing a cloud-based application that interacts with a database over an HTTP connection. Which LoadRunner protocol would be appropriate for testing this cloud application?", 
+    "options": ["Web (HTTP/HTTPS)", "JDBC", "Web Services", "Citrix ICA"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is best suited for testing cloud-based applications, especially those that interact with a backend database over HTTP." 
+  },
+  { 
+    "question": "In a scenario where you need to simulate high network latency and bandwidth restrictions for a video streaming application, which LoadRunner feature would you use?", 
+    "options": ["Network Virtualization", "Pacing", "Think Time", "Transaction"], 
+    "answer": "Network Virtualization", 
+    "explanation": "Network Virtualization is the LoadRunner feature used to simulate different network conditions such as high latency, packet loss, and limited bandwidth, which is crucial for testing video streaming applications." 
+  },
+  { 
+    "question": "You are testing a performance scenario for an online movie streaming website. The application involves users browsing movies, selecting them, and streaming video content. Which LoadRunner protocol would you use?", 
+    "options": ["Web (HTTP/HTTPS)", "FTP", "Citrix ICA", "Web Services"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is best suited for testing online video streaming websites, as it can simulate web-based interactions such as browsing, selecting, and streaming video content over HTTP/HTTPS." 
+  },
+  { 
+    "question": "You are testing a web application where users submit large forms with multiple fields. Which LoadRunner protocol would be appropriate to simulate the form submission under heavy load?", 
+    "options": ["Web (HTTP/HTTPS)", "JDBC", "Oracle", "FTP"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is ideal for simulating web form submissions, as it handles all types of HTTP requests, including POST and GET methods commonly used for form submissions." 
+  },
+  { 
+    "question": "You are testing an application that communicates with a backend Oracle database via SQL queries. Which LoadRunner protocol should you use to simulate database interactions?", 
+    "options": ["JDBC", "Oracle", "Web (HTTP/HTTPS)", "FTP"], 
+    "answer": "Oracle", 
+    "explanation": "The Oracle protocol in LoadRunner is designed to simulate database interactions with Oracle databases, allowing you to test performance of SQL queries and database transactions." 
+  },
+  { 
+    "question": "In a scenario where you are testing a REST API that performs CRUD operations, which LoadRunner protocol should you use?", 
+    "options": ["Web Services", "SOAP", "JDBC", "Web (HTTP/HTTPS)"], 
+    "answer": "Web Services", 
+    "explanation": "The Web Services protocol in LoadRunner is designed for testing web services, including REST APIs, and allows you to simulate interactions with API endpoints for operations like Create, Read, Update, and Delete." 
+  },
+  { 
+    "question": "You are testing an application that uses complex AJAX-based interactions with frequent client-server communication. Which LoadRunner protocol would be best suited for testing this scenario?", 
+    "options": ["Web (HTTP/HTTPS)", "Web Services", "Java RMI", "JDBC"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is best suited for testing web applications that use AJAX for client-server communication. It can simulate dynamic content loading, form submissions, and requests triggered by JavaScript." 
+  },
+  { 
+    "question": "You are testing a Java application that uses Java Message Service (JMS) for communication between components. Which LoadRunner protocol would you use to simulate JMS communication?", 
+    "options": ["Java RMI", "JMS", "Web (HTTP/HTTPS)", "JDBC"], 
+    "answer": "JMS", 
+    "explanation": "The JMS protocol in LoadRunner is specifically designed to simulate communication using the Java Message Service, allowing you to test message-based applications and services." 
+  },
+  { 
+    "question": "You need to simulate users interacting with an online game server over the Internet. The server uses a proprietary protocol. Which LoadRunner protocol would you use to simulate this traffic?", 
+    "options": ["Custom Protocol", "Web (HTTP/HTTPS)", "Citrix ICA", "FTP"], 
+    "answer": "Custom Protocol", 
+    "explanation": "The Custom Protocol in LoadRunner allows you to simulate interactions over any protocol, including proprietary protocols, making it suitable for testing applications with non-standard communication methods." 
+  },
+  { 
+    "question": "You are testing a system where users upload files to the server using a specific protocol. Which LoadRunner protocol would you use to simulate file uploads?", 
+    "options": ["FTP", "Web (HTTP/HTTPS)", "Web Services", "JDBC"], 
+    "answer": "FTP", 
+    "explanation": "The FTP protocol in LoadRunner is designed to simulate file transfers, including uploading and downloading files to and from the server." 
+  },
+  { 
+    "question": "You are asked to test the performance of an application with a front-end written in JavaScript and a back-end communicating with a database using SQL queries. Which LoadRunner protocol should you use?", 
+    "options": ["Web (HTTP/HTTPS) and JDBC", "Java RMI and Web (HTTP/HTTPS)", "Oracle and Web Services", "Citrix ICA and Web (HTTP/HTTPS)"], 
+    "answer": "Web (HTTP/HTTPS) and JDBC", 
+    "explanation": "For testing an application with both JavaScript front-end and SQL-based back-end interactions, the Web (HTTP/HTTPS) protocol would simulate user interactions, while JDBC would simulate database queries." 
+  },
+  { 
+    "question": "You are tasked with testing an enterprise resource planning (ERP) system that uses SAP. Which LoadRunner protocol should you use to simulate user interactions with the SAP GUI?", 
+    "options": ["SAP GUI", "Web (HTTP/HTTPS)", "Citrix ICA", "JDBC"], 
+    "answer": "SAP GUI", 
+    "explanation": "The SAP GUI protocol in LoadRunner is specifically designed to simulate interactions with SAP GUI-based applications, making it ideal for ERP system performance testing." 
+  },
+  { 
+    "question": "You are testing a cloud-based application that communicates with a NoSQL database over HTTP. Which LoadRunner protocol would you use to simulate this behavior?", 
+    "options": ["Web Services", "Web (HTTP/HTTPS)", "JDBC", "Oracle"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is suitable for simulating HTTP-based communication with cloud applications and databases, including NoSQL databases that are accessed via HTTP endpoints." 
+  },
+  { 
+    "question": "You are testing an application that communicates with an external payment gateway using SOAP. Which LoadRunner protocol would you use to simulate this interaction?", 
+    "options": ["SOAP", "Web Services", "Web (HTTP/HTTPS)", "JDBC"], 
+    "answer": "SOAP", 
+    "explanation": "The SOAP protocol in LoadRunner is designed to simulate interactions with SOAP-based web services, making it ideal for testing systems that communicate with payment gateways or other SOAP-based services." 
+  },
+  { 
+    "question": "You are testing a client-server application that uses Remote Desktop Protocol (RDP) to display the user interface. Which LoadRunner protocol would you use to simulate user interactions?", 
+    "options": ["RDP", "Citrix ICA", "Web (HTTP/HTTPS)", "JDBC"], 
+    "answer": "RDP", 
+    "explanation": "The RDP protocol in LoadRunner is designed for simulating user interactions with applications that use the Remote Desktop Protocol for graphical user interface (GUI) access." 
+  },
+  { 
+    "question": "In a scenario where you need to test a messaging application that exchanges data over HTTP, which LoadRunner protocol would you use?", 
+    "options": ["Web (HTTP/HTTPS)", "Web Services", "FTP", "JDBC"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is ideal for testing applications that communicate over HTTP, including messaging applications that exchange data through HTTP requests and responses." 
+  },
+  { 
+    "question": "You are testing an application where users download large PDF files from the server. Which LoadRunner protocol should you use to simulate this activity?", 
+    "options": ["Web (HTTP/HTTPS)", "FTP", "Citrix ICA", "Web Services"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is best suited for simulating the downloading of files over the web, including large files such as PDFs." 
+  },
+  { 
+    "question": "You need to test an application that uses complex backend processing with stored procedures on an MS SQL Server database. Which LoadRunner protocol should you choose?", 
+    "options": ["JDBC", "MS SQL Server", "Web (HTTP/HTTPS)", "Oracle"], 
+    "answer": "JDBC", 
+    "explanation": "The JDBC protocol in LoadRunner is ideal for simulating interactions with databases, including SQL queries and stored procedures on MS SQL Server." 
+  },
+  { 
+    "question": "You are testing an application that sends and receives messages in real time over a WebSocket connection. Which LoadRunner protocol would be most appropriate?", 
+    "options": ["WebSocket", "Web Services", "Web (HTTP/HTTPS)", "JDBC"], 
+    "answer": "WebSocket", 
+    "explanation": "LoadRunner offers a WebSocket protocol to simulate real-time communication between clients and servers over a WebSocket connection, making it ideal for applications that rely on this protocol." 
+  },
+  { 
+    "question": "You are testing a multi-tier application where users interact with a front-end web server and the web server interacts with a back-end database. Which combination of LoadRunner protocols would you use?", 
+    "options": ["Web (HTTP/HTTPS) and JDBC", "Web Services and Oracle", "Web (HTTP/HTTPS) and Oracle", "Citrix ICA and Web (HTTP/HTTPS)"], 
+    "answer": "Web (HTTP/HTTPS) and JDBC", 
+    "explanation": "The Web (HTTP/HTTPS) protocol simulates interactions with the web server, while the JDBC protocol simulates database interactions, making this combination suitable for multi-tier applications." 
+  },
+  { 
+    "question": "You are testing a web-based application that communicates with a server using a combination of HTTP and JSON messages. Which LoadRunner protocol should you use?", 
+    "options": ["Web (HTTP/HTTPS)", "Web Services", "JDBC", "SOAP"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol can simulate HTTP-based communication, including sending and receiving JSON messages between the client and server." 
+  },
+  { 
+    "question": "You are testing an application that sends and receives large amounts of data using binary protocols. Which LoadRunner protocol should you use to simulate this traffic?", 
+    "options": ["Custom Protocol", "Web (HTTP/HTTPS)", "FTP", "Web Services"], 
+    "answer": "Custom Protocol", 
+    "explanation": "The Custom Protocol in LoadRunner is designed to simulate communication over any protocol, including binary and proprietary protocols, which are not supported by standard protocols like HTTP or FTP." 
+  },
+  { 
+    "question": "You are testing a hybrid application that uses both HTTP and WebSocket for real-time communication. Which LoadRunner protocol should you use to test this application?", 
+    "options": ["WebSocket and Web (HTTP/HTTPS)", "Web Services", "JDBC", "FTP"], 
+    "answer": "WebSocket and Web (HTTP/HTTPS)", 
+    "explanation": "To test an application that uses both HTTP and WebSocket, you would use the Web (HTTP/HTTPS) protocol for HTTP communication and the WebSocket protocol for real-time bidirectional communication." 
+  },
+  { 
+    "question": "You are testing a cloud-based application that uses OAuth 2.0 for user authentication. Which LoadRunner protocol is best suited for this scenario?", 
+    "options": ["Web (HTTP/HTTPS)", "Web Services", "SOAP", "JDBC"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is suitable for simulating HTTP-based user authentication flows, including OAuth 2.0, which is often used in cloud applications." 
+  },
+  { 
+    "question": "You are testing a microservices-based application that communicates over HTTP and uses RESTful APIs. Which LoadRunner protocol would you use for this test?", 
+    "options": ["Web Services", "Web (HTTP/HTTPS)", "SOAP", "JDBC"], 
+    "answer": "Web Services", 
+    "explanation": "The Web Services protocol in LoadRunner is ideal for testing microservices applications that rely on RESTful APIs for communication between services." 
+  },
+  { 
+    "question": "You are tasked with testing the performance of a web application that involves submitting data using a POST request. Which LoadRunner protocol would be used to simulate this type of request?", 
+    "options": ["Web (HTTP/HTTPS)", "JDBC", "FTP", "SOAP"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is the most appropriate for simulating HTTP POST requests, commonly used for submitting form data to the server." 
+  },
+  { 
+    "question": "You need to simulate users accessing a highly interactive web application that uses AJAX calls. Which LoadRunner protocol should you use?", 
+    "options": ["Web (HTTP/HTTPS)", "Web Services", "JDBC", "SOAP"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is best suited for testing AJAX-based applications, as it can simulate asynchronous HTTP requests made by the browser in the background." 
+  },
+  { 
+    "question": "You are testing an application where users interact with a graphical user interface (GUI) via Citrix. Which LoadRunner protocol would you use?", 
+    "options": ["Citrix ICA", "Web (HTTP/HTTPS)", "JDBC", "FTP"], 
+    "answer": "Citrix ICA", 
+    "explanation": "The Citrix ICA protocol in LoadRunner is designed for simulating user interactions with applications that run through Citrix environments, allowing you to test Citrix-based applications effectively." 
+  },
+  { 
+    "question": "You are testing a web application that uses a combination of HTML5 WebSockets and WebRTC for peer-to-peer communication. Which LoadRunner protocol would you use to test this traffic?", 
+    "options": ["WebSocket", "Web (HTTP/HTTPS)", "JDBC", "Web Services"], 
+    "answer": "WebSocket", 
+    "explanation": "The WebSocket protocol in LoadRunner is designed to simulate real-time, bidirectional communication between clients and servers, which is critical for applications using WebSockets and WebRTC." 
+  },
+  { 
+    "question": "You are testing an application that uses FTP for file transfers between client and server. Which LoadRunner protocol would you use to simulate this behavior?", 
+    "options": ["FTP", "Web (HTTP/HTTPS)", "JDBC", "Web Services"], 
+    "answer": "FTP", 
+    "explanation": "The FTP protocol in LoadRunner is specifically designed to simulate file transfer operations over FTP, which is essential for applications that involve uploading and downloading files." 
+  },
+  { 
+    "question": "You are testing a web application that includes server-side processing using Java Server Pages (JSP). Which LoadRunner protocol would be used for this test?", 
+    "options": ["Web (HTTP/HTTPS)", "Java RMI", "JDBC", "SOAP"], 
+    "answer": "Web (HTTP/HTTPS)", 
+    "explanation": "The Web (HTTP/HTTPS) protocol is the most suitable for simulating HTTP requests to a web server, including applications that use JSP for dynamic page generation and server-side processing." 
+  }
+];
+
+
+    let current = 0;
+    let answers = [];
+    let startTime;
+    let interval;
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    shuffleArray(questions);
+    questions.forEach(q => shuffleArray(q.options));
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizEl.style.display = 'block';
+      timerEl.style.display = 'block';
+      startTime = Date.now();
+      showQuestion(0);
+      interval = setInterval(updateTimer, 1000);
+    });
+
+    function showQuestion(index, reviewMode = false) {
+      const q = questions[index];
+      quizEl.innerHTML = '';
+
+      const progressDiv = document.createElement("div");
+      progressDiv.className = "progress";
+      progressDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+      quizEl.appendChild(progressDiv);
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.textContent = `${q.question}`;
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const table = document.createElement("table");
+      table.id = "quizTable";
+      q.options.forEach(opt => {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        const label = document.createElement("label");
+        label.textContent = opt;
+
+        if (reviewMode) {
+          if (opt === q.answer) label.classList.add("correct");
+          if (answers[index].selected === opt && opt !== q.answer) label.classList.add("incorrect");
+        } else {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "option";
+          input.value = opt;
+          if (answers[index] && answers[index].selected === opt) input.checked = true;
+          input.addEventListener('click', (e) => {
+            nextBtn.disabled = false;
+          });
+          label.prepend(input);
+        }
+
+        cell.appendChild(label);
+        row.appendChild(cell);
+        table.appendChild(row);
+      });
+      optionsDiv.appendChild(table);
+
+      if (reviewMode) {
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsDiv.appendChild(feedback);
+      }
+
+      const navContainer = document.createElement("div");
+      navContainer.style.display = "flex";
+      navContainer.style.justifyContent = "space-between";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "⬅ Prev";
+      prevBtn.disabled = index === 0;
+      prevBtn.onclick = () => {
+        current--;
+        showQuestion(current, reviewMode);
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.innerHTML = index === questions.length - 1 ? (reviewMode ? "Finish Review" : "Submit") : "Next ➡";
+      nextBtn.disabled = !reviewMode && !answers[index];
+
+      nextBtn.onclick = () => {
+        if (!reviewMode) {
+          const selected = optionsDiv.querySelector("input[name='option']:checked");
+          const answer = selected ? selected.value : "";
+          answers[index] = { selected: answer, correct: q.answer };
+        }
+
+        if (index + 1 < questions.length) {
+          current++;
+          showQuestion(current, reviewMode);
+        } else {
+          reviewMode ? resetQuiz() : showResult();
+        }
+      };
+
+      quizEl.appendChild(questionDiv);
+      quizEl.appendChild(optionsDiv);
+      navContainer.appendChild(prevBtn);
+      navContainer.appendChild(nextBtn);
+      quizEl.appendChild(navContainer);
+    }
+
+    function showResult() {
+      clearInterval(interval);
+      quizEl.style.display = "none";
+      resultEl.style.display = "block";
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        if (ans.selected === questions[i].answer) score++;
+      });
+
+      resultEl.innerHTML = `<p>You scored ${score} out of ${questions.length} in ${totalTime} seconds.</p>`;
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.textContent = "Review Answers";
+      reviewBtn.onclick = () => {
+        current = 0;
+        quizEl.style.display = "block";
+        resultEl.style.display = "none";
+        showQuestion(current, true);
+      };
+      resultEl.appendChild(reviewBtn);
+
+      if ((score / questions.length) * 100 >= 80) {
+        confetti();
+      }
+    }
+
+    function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+    
+    // Calculate minutes and seconds
+    const minutes = Math.floor(elapsed / 60); // Get the total minutes
+    const seconds = elapsed % 60; // Get the remaining seconds
+
+    // Format the time as "minutes:seconds", ensuring two-digit format for seconds
+    timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+
+    function confetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#bb0000', '#ffffff'];
+      (function frame() {
+        confettiEffect();
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    function confettiEffect() {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.width = '10px';
+      el.style.height = '10px';
+      el.style.background = 'radial-gradient(circle, #ff0, #f00)';
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.zIndex = 9999;
+      el.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(el);
+      setTimeout(() => document.body.removeChild(el), 2000);
+    }
+	
+	function resetQuiz() {
+  current = 0;
+  answers = [];
+  clearInterval(interval);
+  timerEl.textContent = "Time: 0s";
+  timerEl.style.display = "none";
+  resultEl.style.display = "none";
+  quizEl.style.display = "none";
+  document.getElementById("instructions").style.display = "block";
+  startBtn.style.display = "inline-block";
+
+  // Re-shuffle questions and options
+  shuffleArray(questions);
+  questions.forEach(q => shuffleArray(q.options));
+}
+
+
+  </script>
+  
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      document.getElementById("instructions").style.display = "none";
+    });
+  </script>
+  
+</body>
+</html>
