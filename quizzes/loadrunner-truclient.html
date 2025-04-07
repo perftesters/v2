@@ -322,6 +322,162 @@
     "options": ["Dry Run", "Simulation", "Run Only", "Headless"],
     "answer": "Dry Run",
     "explanation": "The Dry Run option allows users to execute TruClient scripts without interacting with the application, useful for debugging and validation."
+  },
+  { 
+    "question": "Which TruClient function is used to simulate a mouse hover over a web element?",
+    "options": ["Hover", "MouseOver", "Click", "MoveToElement"],
+    "answer": "MouseOver",
+    "explanation": "The MouseOver function is used in TruClient to simulate the action of hovering the mouse over a web element, such as a button or link."
+  },
+  { 
+    "question": "Which TruClient step is used to drag an item from one location and drop it in another?",
+    "options": ["Drag", "DragAndDrop", "Move", "Reposition"],
+    "answer": "DragAndDrop",
+    "explanation": "The DragAndDrop step is used in TruClient to simulate dragging an element from one place and dropping it to another, emulating a user interaction."
+  },
+  { 
+    "question": "Which TruClient function allows you to handle and assert on a pop-up confirmation box?",
+    "options": ["tc_confirm_popup", "tc_handle_popup", "tc_alert", "tc_confirmation"],
+    "answer": "tc_confirm_popup",
+    "explanation": "The tc_confirm_popup function is used in TruClient to handle confirmation pop-ups, including actions like accepting or dismissing the pop-up."
+  },
+  { 
+    "question": "In TruClient, which function is used to submit a form?",
+    "options": ["tc_submit_form", "Submit", "tc_form_submit", "tc_submit"],
+    "answer": "Submit",
+    "explanation": "The Submit function in TruClient is used to submit a form on a web page, which is a common action in many web applications."
+  },
+  { 
+    "question": "Which TruClient step is used to capture text from a web page and store it in a parameter?",
+    "options": ["tc_save_text", "tc_capture_text", "tc_reg_save_param", "tc_capture_param"],
+    "answer": "tc_reg_save_param",
+    "explanation": "The tc_reg_save_param function is used to capture dynamic text (such as session IDs or user names) from a page and store it for later use in TruClient."
+  },
+  { 
+    "question": "Which TruClient step is used to select an item from a drop-down menu?",
+    "options": ["Select", "tc_select_item", "Choose", "tc_select"],
+    "answer": "Select",
+    "explanation": "The Select step is used in TruClient to choose an option from a drop-down menu by simulating a user selection."
+  },
+  { 
+    "question": "What function in TruClient is used to measure the response time of a transaction?",
+    "options": ["tc_start_transaction", "tc_measure_time", "tc_transaction", "tc_end_transaction"],
+    "answer": "tc_start_transaction",
+    "explanation": "The tc_start_transaction function in TruClient is used to begin tracking the time for a transaction, helping to measure its performance."
+  },
+  { 
+    "question": "Which TruClient step can be used to verify the existence of a text field on a page?",
+    "options": ["VerifyTextField", "CheckExistence", "VerifyExist", "TextFieldExist"],
+    "answer": "VerifyExist",
+    "explanation": "The VerifyExist step is used in TruClient to check if a text field or any other element exists on the page."
+  },
+  { 
+    "question": "Which function is used in TruClient to perform an action after validating an element?",
+    "options": ["tc_action", "tc_process", "tc_execute", "tc_continue"],
+    "answer": "tc_continue",
+    "explanation": "The tc_continue function is used to proceed with the next action after validating that an element exists or after performing a check."
+  },
+  { 
+    "question": "Which TruClient function is used to assert that an image is visible on the screen?",
+    "options": ["tc_verify_image", "VerifyImage", "ImageExists", "tc_image_check"],
+    "answer": "VerifyImage",
+    "explanation": "The VerifyImage function in TruClient is used to check that a specified image is visible on the web page during script execution."
+  },
+  { 
+    "question": "In TruClient, which function is used to handle browser-specific interactions?",
+    "options": ["tc_browser_action", "tc_browser_event", "BrowserAction", "tc_handle_browser"],
+    "answer": "tc_browser_event",
+    "explanation": "The tc_browser_event function is used in TruClient to simulate interactions with the browser, such as opening, closing, or navigating between tabs."
+  },
+  { 
+    "question": "Which TruClient step is used to set a custom value for a variable?",
+    "options": ["SetVariable", "tc_set_value", "AssignValue", "SetText"],
+    "answer": "SetVariable",
+    "explanation": "The SetVariable step in TruClient is used to assign custom values to variables, which can be used throughout the script for dynamic actions."
+  },
+  { 
+    "question": "What function in TruClient is used to stop the execution of a script at a specific point?",
+    "options": ["tc_abort", "tc_end", "Stop", "Exit"],
+    "answer": "tc_abort",
+    "explanation": "The tc_abort function is used in TruClient to immediately stop script execution, typically used after an error or failure condition."
+  },
+  { 
+    "question": "Which TruClient function allows you to validate the time taken to load a page?",
+    "options": ["tc_measure_load_time", "tc_page_load", "tc_page_load_time", "tc_time_check"],
+    "answer": "tc_page_load_time",
+    "explanation": "The tc_page_load_time function is used to validate and measure the time taken for a page to load, which is important for performance testing."
+  },
+  { 
+    "question": "Which TruClient function is used to interact with an iframe on a web page?",
+    "options": ["tc_iframe_switch", "SwitchToIframe", "tc_iframe", "tc_switch_frame"],
+    "answer": "SwitchToIframe",
+    "explanation": "The SwitchToIframe function is used in TruClient to interact with elements inside an iframe, allowing for navigation and actions within nested frames."
+  },
+  { 
+    "question": "Which step in TruClient is used to extract an attribute value of an element?",
+    "options": ["GetAttribute", "tc_extract_attribute", "ExtractValue", "tc_reg_save_param"],
+    "answer": "GetAttribute",
+    "explanation": "The GetAttribute step in TruClient is used to extract the value of a specific attribute of an element on the web page."
+  },
+  { 
+    "question": "Which TruClient function can be used to execute a custom JavaScript snippet?",
+    "options": ["ExecuteJS", "RunScript", "tc_execute_script", "ExecuteCode"],
+    "answer": "ExecuteJS",
+    "explanation": "The ExecuteJS function in TruClient allows users to run custom JavaScript code within the script, enabling complex operations beyond native TruClient functions."
+  },
+  { 
+    "question": "Which TruClient function is used to simulate an input action for a password field?",
+    "options": ["SetText", "TypeText", "EnterPassword", "SetPassword"],
+    "answer": "SetText",
+    "explanation": "The SetText function is used in TruClient to simulate typing or entering text into any input field, including password fields."
+  },
+  { 
+    "question": "Which function is used in TruClient to create a custom transaction?",
+    "options": ["tc_custom_transaction", "tc_start_transaction", "tc_transaction", "tc_create_transaction"],
+    "answer": "tc_custom_transaction",
+    "explanation": "The tc_custom_transaction function in TruClient allows users to create and name custom transactions for performance tracking and reporting purposes."
+  },
+  { 
+    "question": "Which TruClient function can be used to generate random data for parameterization?",
+    "options": ["tc_random_value", "tc_generate_data", "tc_random", "tc_random_param"],
+    "answer": "tc_random_value",
+    "explanation": "The tc_random_value function in TruClient is used to generate random values, such as numbers or strings, for use in parameterized tests."
+  },
+  { 
+    "question": "Which TruClient step is used to simulate the action of submitting a form by pressing the Enter key?",
+    "options": ["PressEnter", "SubmitForm", "tc_press_enter", "tc_submit"],
+    "answer": "PressEnter",
+    "explanation": "The PressEnter step is used in TruClient to simulate pressing the Enter key, commonly used to submit forms on a web page."
+  },
+  { 
+    "question": "Which TruClient function allows you to perform an assertion based on the current page URL?",
+    "options": ["tc_check_url", "AssertURL", "VerifyURL", "tc_validate_url"],
+    "answer": "VerifyURL",
+    "explanation": "The VerifyURL function is used in TruClient to assert that the current page URL matches the expected URL, ensuring the correct page has been loaded."
+  },
+  { 
+    "question": "Which function in TruClient is used to handle dynamic user authentication during a test?",
+    "options": ["tc_authenticate", "tc_user_login", "tc_handle_authentication", "tc_login"],
+    "answer": "tc_handle_authentication",
+    "explanation": "The tc_handle_authentication function is used in TruClient to manage dynamic authentication, including handling login credentials and security measures."
+  },
+  { 
+    "question": "Which TruClient step is used to pause script execution for an arbitrary amount of time?",
+    "options": ["Wait", "Pause", "Sleep", "Delay"],
+    "answer": "Wait",
+    "explanation": "The Wait step is used in TruClient to pause the script for a specific duration, helping simulate realistic user actions and wait times."
+  },
+  { 
+    "question": "Which TruClient function is used to create a loop for iterating through a set of actions?",
+    "options": ["Loop", "Repeat", "tc_iterate", "tc_repeat_action"],
+    "answer": "Loop",
+    "explanation": "The Loop function in TruClient is used to repeat a set of actions multiple times, useful for testing scenarios where repetitive actions are required."
+  },
+  { 
+    "question": "Which TruClient step can be used to validate if a particular image is displayed on a page?",
+    "options": ["ImageDisplayCheck", "VerifyImage", "ImageExists", "CheckImagePresence"],
+    "answer": "VerifyImage",
+    "explanation": "The VerifyImage step is used in TruClient to validate whether a specific image is displayed on the page, assisting with visual validation during tests."
   }
 ];
 
