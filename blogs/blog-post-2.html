@@ -1,1 +1,130 @@
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+      fetch(file)
+          .then(response => response.text())
+          .then(data => {
+              document.getElementById(elementId).innerHTML = data;
+          })
+          .catch(error => console.error('Error loading file:', error));
+  }
 
+  window.onload = function() {
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  }
+</script>
+
+<div id="header"></div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Getting Started with LoadRunner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth"
+          });
+        });
+      });
+    });
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans leading-relaxed">
+
+  <div class="max-w-6xl mx-auto px-4 py-10 flex flex-col lg:flex-row gap-8">
+
+    <!-- TOC Sidebar -->
+    <aside class="lg:w-1/4 hidden lg:block sticky top-10 h-fit">
+      <div class="bg-white p-4 rounded-xl shadow">
+        <h3 class="text-lg font-semibold mb-2 text-blue-600">📚 Contents</h3>
+        <ul class="text-sm space-y-2">
+          <li><a href="#installation" class="text-blue-500 hover:underline">🛠️ Installation</a></li>
+          <li><a href="#vugen" class="text-blue-500 hover:underline">🧪 Scripting with VuGen</a></li>
+          <li><a href="#controller" class="text-blue-500 hover:underline">🎛️ Load Test with Controller</a></li>
+          <li><a href="#analysis" class="text-blue-500 hover:underline">📊 Analyzing Results</a></li>
+          <li><a href="#tips" class="text-blue-500 hover:underline">💡 Tips & Best Practices</a></li>
+          <li><a href="#conclusion" class="text-blue-500 hover:underline">🔚 Conclusion</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Blog Content -->
+    <main class="lg:w-3/4 bg-white p-8 rounded-2xl shadow-lg">
+      <h1 class="text-4xl font-bold text-blue-600 mb-2">Getting Started with LoadRunner</h1>
+      <p class="text-sm text-gray-500 mb-6">📅 Published: April 2025 • Category: Performance Testing</p>
+
+      <div class="prose lg:prose-lg max-w-none">
+        <p>LoadRunner by Micro Focus is an industry-standard tool for performance testing, allowing testers to simulate thousands of users and measure system behavior under load. It's known for its robust scripting (VuGen), orchestration (Controller), and insightful reports (Analysis).</p>
+
+        <h2 id="installation">🛠️ Installation</h2>
+        <ul>
+          <li>Download the latest LoadRunner Professional version from the <a href="https://www.microfocus.com/en-us/products/loadrunner-professional/overview" target="_blank">official Micro Focus site</a>.</li>
+          <li>Install components: VuGen, Controller, Analysis, and Load Generator (optional).</li>
+          <li>Activation may require a license; free community edition allows up to 50 virtual users.</li>
+        </ul>
+
+        <h2 id="vugen">🧪 Scripting with VuGen</h2>
+        <details class="mb-4">
+          <summary class="cursor-pointer font-semibold text-blue-600">Expand steps</summary>
+          <ol class="mt-2">
+            <li>Launch VuGen and create a new script (choose protocol like Web HTTP/HTML).</li>
+            <li>Record a session or manually write C code to simulate user actions.</li>
+            <li>Insert transactions using <code>lr_start_transaction()</code> and <code>lr_end_transaction()</code>.</li>
+            <li>Enhance with parameterization and correlation for dynamic data.</li>
+            <li>Run script in VuGen to validate logic before execution in Controller.</li>
+          </ol>
+        </details>
+
+        <h2 id="controller">🎛️ Load Test with Controller</h2>
+        <p>The Controller lets you design, schedule, and run tests using virtual users.</p>
+        <ul>
+          <li>Import VuGen scripts into Controller.</li>
+          <li>Define the number of Vusers, ramp-up time, and duration.</li>
+          <li>Monitor servers and performance metrics in real time.</li>
+          <li>Run scenarios locally or distribute load across generators.</li>
+        </ul>
+
+        <h2 id="analysis">📊 Analyzing Results</h2>
+        <p>Once a test is completed, Analysis helps visualize and interpret the outcomes:</p>
+        <ul>
+          <li>View response time trends, throughput, error rates, and transaction summary.</li>
+          <li>Filter metrics by transaction, user group, or time slice.</li>
+          <li>Export reports in PDF or HTML format for stakeholders.</li>
+        </ul>
+
+        <blockquote class="border-l-4 border-blue-400 pl-4 text-gray-600">💡 Pro Tip: Always correlate session-specific values to avoid replay errors during tests.</blockquote>
+
+        <h2 id="tips">💡 Tips & Best Practices</h2>
+        <ul>
+          <li>Use meaningful transaction names to make reports easier to interpret.</li>
+          <li>Correlate dynamic values using LoadRunner’s correlation studio.</li>
+          <li>Use parameterization to simulate real user behavior (e.g., login credentials).</li>
+          <li>Keep scripts modular and reusable—especially for login/logout flows.</li>
+        </ul>
+
+        <h2 id="conclusion">🔚 Conclusion</h2>
+        <p>LoadRunner is a powerful and feature-rich performance testing suite trusted by enterprise teams. Mastering scripting in VuGen, orchestrating tests in Controller, and analyzing results thoroughly will give you an edge in ensuring application performance under load.</p>
+      </div>
+
+      <!-- Navigation Button -->
+      <div class="mt-10 flex flex-col sm:flex-row justify-between items-start gap-4">
+        <a href="blogs-main-page.html" class="text-blue-600 hover:underline flex items-center">
+          ← Back to Blog Home
+        </a>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
