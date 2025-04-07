@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Performance Testing Quiz PART-I: Test Your Knowledge!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      text-align: center;
+    }
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-weight: bold;
+      color: #333;
+      display: none;
+      font-size: 1.2em;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: left;
+      background-color: #e6f3ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    td {
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      text-align: left;
+    }
+    .options label {
+      display: block;
+      background: #f0f8ff;
+      padding: 6px 10px;
+      margin: 4px 0;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options label:hover {
+      background-color: #e0f0ff;
+      border-color: #66b2ff;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+    }
+    button {
+      background: #66b2ff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover:not(:disabled) {
+      background-color: #559eea;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 10px;
+      color: #856404;
+    }
+    #startBtn {
+      animation: pulse 1.5s infinite;
+      font-size: 1.2em;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      border-radius: 30px;
+      padding: 15px 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #quizTable td {
+      cursor: pointer;
+    }
+    .feedback {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="timer" id="timer">Time: 0s</div>
+    <h2 style="text-align: left;">Performance Testing Quiz PART-I: Test Your Knowledge!</h2>
+    <!-- 👉 Instruction Section -->
+  <div id="instructions" style="margin-bottom: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>📘 Instructions:</h3>
+    <ul>
+      <li>This quiz contains multiple-choice questions on Performance Testing.</li>
+      <li>Each question has one correct answer.</li>
+      <li>Click the "Start Quiz" button to begin.</li>
+      <li>You can navigate between questions using "Prev" and "Next" buttons.</li>
+      <li>Your total time will be recorded and shown at the end.</li>
+      <li>After finishing, you can review explanations for each question.</li>
+      <li>Try to score at least 80% to trigger a fun surprise! 🎉</li>
+    </ul>
+  </div>
+    <button id="startBtn">Start Quiz</button>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+  
+  { 
+    question: "What is the main purpose of performance testing?", 
+    options: ["To check UI bugs", "To assess application speed and scalability", "To test security features", "To validate user interface design"], 
+    answer: "To assess application speed and scalability", 
+    explanation: "Performance testing evaluates how fast and scalable an application is under load." 
+  },
+  { 
+    question: "Which of the following is a type of performance testing?", 
+    options: ["Unit testing", "Load testing", "Functional testing", "Smoke testing"], 
+    answer: "Load testing", 
+    explanation: "Load testing is a type of performance testing used to determine how a system handles expected user load." 
+  },
+  { 
+    question: "What is the main difference between load testing and stress testing?", 
+    options: ["Stress testing is more focused on performance under load", "Load testing checks the system under normal load", "Stress testing simulates abnormal or peak load", "Load testing tests response time"], 
+    answer: "Stress testing simulates abnormal or peak load", 
+    explanation: "Stress testing pushes a system beyond its limits to see how it handles excessive load, whereas load testing focuses on expected usage." 
+  },
+  { 
+    question: "What is the key objective of endurance testing?", 
+    options: ["To test scalability", "To test system behavior under extended load", "To identify memory leaks", "To check response times"], 
+    answer: "To test system behavior under extended load", 
+    explanation: "Endurance testing evaluates how the system performs over a long period of time under continuous load." 
+  },
+  { 
+    question: "What tool is commonly used for load testing?", 
+    options: ["Selenium", "JMeter", "Postman", "JUnit"], 
+    answer: "JMeter", 
+    explanation: "JMeter is a widely used open-source tool for performance testing, including load testing." 
+  },
+  { 
+    question: "What does the term 'scalability' refer to in performance testing?", 
+    options: ["The ability to reduce load", "The ability to handle increasing load without performance degradation", "The ability to improve system security", "The ability to fix bugs under pressure"], 
+    answer: "The ability to handle increasing load without performance degradation", 
+    explanation: "Scalability refers to the system's capacity to scale up or down while maintaining good performance as the load increases." 
+  },
+  { 
+    question: "Which of the following is the best practice for measuring system response times during load testing?", 
+    options: ["Use a stopwatch", "Use server-side logs", "Use performance monitoring tools", "Use a test automation framework"], 
+    answer: "Use performance monitoring tools", 
+    explanation: "Performance monitoring tools like JMeter, LoadRunner, or New Relic are designed to measure response times and performance metrics accurately." 
+  },
+  { 
+    question: "What metric is most commonly used in performance testing to evaluate system behavior?", 
+    options: ["CPU usage", "Response time", "Security logs", "System availability"], 
+    answer: "Response time", 
+    explanation: "Response time is the amount of time taken by the system to respond to a user request, and is a key metric in performance testing." 
+  },
+  { 
+    question: "What is a common cause of performance bottlenecks?", 
+    options: ["Excessive system load", "Unoptimized code", "Inefficient database queries", "All of the above"], 
+    answer: "All of the above", 
+    explanation: "Bottlenecks can be caused by high system load, poorly written code, and inefficient database queries." 
+  },
+  { 
+    question: "What is the goal of capacity testing?", 
+    options: ["To measure maximum load the system can handle", "To identify the system's limits", "To check response time under normal load", "To test database performance only"], 
+    answer: "To measure maximum load the system can handle", 
+    explanation: "Capacity testing determines the maximum load a system can handle before performance degradation or failure occurs." 
+  },
+  { 
+    question: "Which tool can be used for stress testing an application?", 
+    options: ["Selenium", "Apache JMeter", "Cypress", "Katalon Studio"], 
+    answer: "Apache JMeter", 
+    explanation: "Apache JMeter can simulate high traffic and perform stress tests by pushing the application beyond its limits." 
+  },
+  { 
+    question: "In a performance testing scenario, what does the term 'throughput' refer to?", 
+    options: ["The amount of data transferred per second", "The total number of users", "The number of requests processed per second", "The response time"], 
+    answer: "The number of requests processed per second", 
+    explanation: "Throughput refers to how many requests a system can handle per second, which is a measure of system performance." 
+  },
+  { 
+    question: "Which type of testing is conducted to verify how well a system performs under normal load?", 
+    options: ["Load testing", "Stress testing", "Scalability testing", "Endurance testing"], 
+    answer: "Load testing", 
+    explanation: "Load testing evaluates how a system performs under normal or expected traffic and load conditions." 
+  },
+  { 
+    question: "Which of the following is true about performance testing?", 
+    options: ["It only tests system functionality", "It checks how the system behaves under varying loads", "It only measures security flaws", "It is used to validate UI design"], 
+    answer: "It checks how the system behaves under varying loads", 
+    explanation: "Performance testing focuses on testing the system's ability to handle different loads without crashing or degrading performance." 
+  },
+  { 
+    question: "Which performance testing metric is useful for determining how much time a user must wait for a page to load?", 
+    options: ["Response time", "Throughput", "Scalability", "Load time"], 
+    answer: "Response time", 
+    explanation: "Response time is a key metric that measures the time it takes for a system to process a user request, including page loads." 
+  },
+  { 
+    question: "What is the purpose of spike testing?", 
+    options: ["To simulate sudden bursts of load on the system", "To check the system's ability to recover from failures", "To check the user interface design under load", "To validate memory usage during load"], 
+    answer: "To simulate sudden bursts of load on the system", 
+    explanation: "Spike testing simulates sudden, extreme increases in load to determine how the system handles abrupt changes in traffic." 
+  },
+  { 
+    question: "What does the term 'concurrency' refer to in performance testing?", 
+    options: ["The number of users accessing the system simultaneously", "The time it takes for a request to be processed", "The number of requests processed per second", "The total time to complete a test scenario"], 
+    answer: "The number of users accessing the system simultaneously", 
+    explanation: "Concurrency refers to the number of users or processes interacting with the system at the same time." 
+  },
+  { 
+    question: "What is the primary goal of performance benchmarking?", 
+    options: ["To identify the most effective testing tools", "To compare the performance of different systems", "To measure the system's maximum load capacity", "To ensure the system can handle all test cases"], 
+    answer: "To compare the performance of different systems", 
+    explanation: "Performance benchmarking compares the performance of a system against predefined standards or other similar systems." 
+  },
+  { 
+    question: "What is the focus of volume testing?", 
+    options: ["System stability under heavy load", "System behavior with large volumes of data", "System performance under normal conditions", "System performance during long periods of use"], 
+    answer: "System behavior with large volumes of data", 
+    explanation: "Volume testing checks how the system handles large amounts of data or database entries, ensuring it can process or store them efficiently." 
+  },
+  { 
+    question: "What type of performance testing is used to determine how an application behaves under continuous heavy load?", 
+    options: ["Endurance testing", "Load testing", "Stress testing", "Scalability testing"], 
+    answer: "Endurance testing", 
+    explanation: "Endurance testing focuses on evaluating the system's ability to perform under continuous, heavy load for an extended period." 
+  },
+  { 
+    question: "What does a high throughput indicate in performance testing?", 
+    options: ["The system is processing a large number of requests per second", "The system is handling too many concurrent users", "The system is responding very slowly", "The system is encountering errors"], 
+    answer: "The system is processing a large number of requests per second", 
+    explanation: "High throughput means the system is capable of processing a large volume of requests efficiently." 
+  },
+  { 
+    question: "What kind of performance testing should be conducted for an application expected to handle millions of users?", 
+    options: ["Stress testing", "Scalability testing", "Volume testing", "Load testing"], 
+    answer: "Scalability testing", 
+    explanation: "Scalability testing evaluates how well the system can handle increasing numbers of users, especially when a system is expected to grow." 
+  },
+  { 
+    question: "Which of the following metrics is crucial for evaluating the effectiveness of a caching mechanism?", 
+    options: ["Latency", "Cache hit rate", "Concurrency", "Load time"], 
+    answer: "Cache hit rate", 
+    explanation: "The cache hit rate measures how often the system successfully retrieves data from the cache, which impacts system performance." 
+  },
+{ 
+    question: "What is the primary focus of load testing?", 
+    options: ["Checking the system’s resilience under stress", "Evaluating system performance under normal load", "Measuring database query performance", "Testing system availability"], 
+    answer: "Evaluating system performance under normal load", 
+    explanation: "Load testing helps determine how a system performs under expected normal usage to ensure it can handle typical traffic without issues." 
+  },
+  { 
+    question: "What is the primary goal of stress testing?", 
+    options: ["To simulate real-world user interactions", "To evaluate how much load the system can handle", "To identify the system's breaking point", "To test scalability under normal conditions"], 
+    answer: "To identify the system's breaking point", 
+    explanation: "Stress testing intentionally overloads the system to identify the point at which it breaks or fails under excessive load." 
+  },
+  { 
+    question: "Which of the following best defines scalability in performance testing?", 
+    options: ["The ability to handle high numbers of users in a short time", "The ability to recover from crashes", "The ability to handle increasing loads while maintaining performance", "The ability to validate security features under heavy load"], 
+    answer: "The ability to handle increasing loads while maintaining performance", 
+    explanation: "Scalability is the system's capacity to handle growth, such as more users or higher transaction volume, without compromising performance." 
+  },
+  { 
+    question: "Which performance testing metric is used to assess the responsiveness of a system?", 
+    options: ["Throughput", "Response time", "Memory usage", "Network bandwidth"], 
+    answer: "Response time", 
+    explanation: "Response time measures how quickly the system responds to a request or action, indicating overall responsiveness." 
+  },
+  { 
+    question: "What is the main objective of endurance testing?", 
+    options: ["To test system recovery after failure", "To evaluate system performance over long periods under constant load", "To measure the system's throughput", "To check load balancing"], 
+    answer: "To evaluate system performance over long periods under constant load", 
+    explanation: "Endurance testing assesses how well the system performs over extended periods of time under continuous use to check for memory leaks or other performance issues." 
+  },
+  { 
+    question: "Which tool is often used for conducting performance testing on web applications?", 
+    options: ["Jenkins", "Selenium", "LoadRunner", "GitHub Actions"], 
+    answer: "LoadRunner", 
+    explanation: "LoadRunner is a powerful tool used to simulate virtual users and conduct performance testing for web applications." 
+  },
+  { 
+    question: "What is the focus of volume testing in performance testing?", 
+    options: ["Testing database size", "Simulating a high number of concurrent users", "Evaluating the system's ability to handle large volumes of data", "Testing response time under heavy load"], 
+    answer: "Evaluating the system's ability to handle large volumes of data", 
+    explanation: "Volume testing tests how well the system handles large volumes of data, ensuring it processes data correctly without performance degradation." 
+  },
+  { 
+    question: "What is the goal of spike testing?", 
+    options: ["To simulate sudden surges in user traffic", "To test the system’s ability to handle prolonged high load", "To check how the system performs under normal load", "To measure database performance during peak usage"], 
+    answer: "To simulate sudden surges in user traffic", 
+    explanation: "Spike testing simulates sharp, rapid increases in load to see how the system handles sudden, extreme changes in traffic." 
+  },
+  { 
+    question: "Which of the following is a key difference between performance testing and functional testing?", 
+    options: ["Performance testing checks how fast an application runs, while functional testing checks correctness", "Performance testing checks security features", "Performance testing only evaluates UI design", "Functional testing is focused on scalability"], 
+    answer: "Performance testing checks how fast an application runs, while functional testing checks correctness", 
+    explanation: "Performance testing assesses how well the system performs under load, whereas functional testing checks if the application behaves as expected." 
+  },
+  { 
+    question: "What type of performance testing helps to identify memory leaks?", 
+    options: ["Endurance testing", "Load testing", "Stress testing", "Scalability testing"], 
+    answer: "Endurance testing", 
+    explanation: "Endurance testing is used to check if the system has any memory leaks or resource-related issues over time when subjected to continuous usage." 
+  },
+  { 
+    question: "Which performance testing tool is best for testing distributed systems?", 
+    options: ["Selenium", "LoadRunner", "JMeter", "JUnit"], 
+    answer: "JMeter", 
+    explanation: "JMeter is often used for load and performance testing distributed systems, simulating large numbers of users across multiple locations." 
+  },
+  { 
+    question: "Which metric is critical to measure in performance testing when testing a website’s page load?", 
+    options: ["Throughput", "Load time", "Page hits", "Cache hit rate"], 
+    answer: "Load time", 
+    explanation: "Load time measures how long it takes for a webpage to fully load, which is a crucial metric in web performance testing." 
+  },
+  { 
+    question: "What is the primary objective of a load test in a cloud environment?", 
+    options: ["To determine the maximum number of concurrent users", "To check cloud server availability", "To validate the cloud infrastructure's security", "To evaluate the cloud storage system’s performance"], 
+    answer: "To determine the maximum number of concurrent users", 
+    explanation: "Load testing in a cloud environment helps identify how many users or requests the cloud system can handle simultaneously." 
+  },
+  { 
+    question: "What does a response time graph in performance testing show?", 
+    options: ["CPU usage over time", "The time taken by the system to respond to requests", "The number of requests processed per second", "The system’s throughput"], 
+    answer: "The time taken by the system to respond to requests", 
+    explanation: "Response time graphs provide a visual representation of the time it takes for a system to process a user request, helping identify performance bottlenecks." 
+  },
+  { 
+    question: "What is the role of a load balancer in performance testing?", 
+    options: ["To distribute user traffic across multiple servers", "To reduce the load on individual servers", "To monitor system performance", "All of the above"], 
+    answer: "All of the above", 
+    explanation: "A load balancer ensures the efficient distribution of traffic to prevent overloading a single server, improving overall system performance." 
+  },
+  { 
+    question: "In performance testing, what does the term 'bottleneck' refer to?", 
+    options: ["A system error", "A process that limits the overall performance", "A memory leak", "A network outage"], 
+    answer: "A process that limits the overall performance", 
+    explanation: "A bottleneck is any point in the system where the flow of data or processing is delayed, impacting the overall performance of the system." 
+  },
+  { 
+    question: "What is the typical purpose of a response time SLA (Service Level Agreement)?", 
+    options: ["To define the maximum acceptable response time for users", "To determine the maximum load a system can handle", "To ensure system availability", "To establish a framework for database queries"], 
+    answer: "To define the maximum acceptable response time for users", 
+    explanation: "SLAs are often used to define acceptable performance thresholds, including maximum response times, to ensure customer satisfaction." 
+  }
+];
+
+
+    let current = 0;
+    let answers = [];
+    let startTime;
+    let interval;
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    shuffleArray(questions);
+    questions.forEach(q => shuffleArray(q.options));
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizEl.style.display = 'block';
+      timerEl.style.display = 'block';
+      startTime = Date.now();
+      showQuestion(0);
+      interval = setInterval(updateTimer, 1000);
+    });
+
+    function showQuestion(index, reviewMode = false) {
+      const q = questions[index];
+      quizEl.innerHTML = '';
+
+      const progressDiv = document.createElement("div");
+      progressDiv.className = "progress";
+      progressDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+      quizEl.appendChild(progressDiv);
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.textContent = `${q.question}`;
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const table = document.createElement("table");
+      table.id = "quizTable";
+      q.options.forEach(opt => {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        const label = document.createElement("label");
+        label.textContent = opt;
+
+        if (reviewMode) {
+          if (opt === q.answer) label.classList.add("correct");
+          if (answers[index].selected === opt && opt !== q.answer) label.classList.add("incorrect");
+        } else {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "option";
+          input.value = opt;
+          if (answers[index] && answers[index].selected === opt) input.checked = true;
+          input.addEventListener('click', (e) => {
+            nextBtn.disabled = false;
+          });
+          label.prepend(input);
+        }
+
+        cell.appendChild(label);
+        row.appendChild(cell);
+        table.appendChild(row);
+      });
+      optionsDiv.appendChild(table);
+
+      if (reviewMode) {
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsDiv.appendChild(feedback);
+      }
+
+      const navContainer = document.createElement("div");
+      navContainer.style.display = "flex";
+      navContainer.style.justifyContent = "space-between";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "⬅ Prev";
+      prevBtn.disabled = index === 0;
+      prevBtn.onclick = () => {
+        current--;
+        showQuestion(current, reviewMode);
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.innerHTML = index === questions.length - 1 ? (reviewMode ? "Finish Review" : "Submit") : "Next ➡";
+      nextBtn.disabled = !reviewMode && !answers[index];
+
+      nextBtn.onclick = () => {
+        if (!reviewMode) {
+          const selected = optionsDiv.querySelector("input[name='option']:checked");
+          const answer = selected ? selected.value : "";
+          answers[index] = { selected: answer, correct: q.answer };
+        }
+
+        if (index + 1 < questions.length) {
+          current++;
+          showQuestion(current, reviewMode);
+        } else {
+          reviewMode ? resetQuiz() : showResult();
+        }
+      };
+
+      quizEl.appendChild(questionDiv);
+      quizEl.appendChild(optionsDiv);
+      navContainer.appendChild(prevBtn);
+      navContainer.appendChild(nextBtn);
+      quizEl.appendChild(navContainer);
+    }
+
+    function showResult() {
+      clearInterval(interval);
+      quizEl.style.display = "none";
+      resultEl.style.display = "block";
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        if (ans.selected === questions[i].answer) score++;
+      });
+
+      resultEl.innerHTML = `<p>You scored ${score} out of ${questions.length} in ${totalTime} seconds.</p>`;
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.textContent = "Review Answers";
+      reviewBtn.onclick = () => {
+        current = 0;
+        quizEl.style.display = "block";
+        resultEl.style.display = "none";
+        showQuestion(current, true);
+      };
+      resultEl.appendChild(reviewBtn);
+
+      if ((score / questions.length) * 100 >= 80) {
+        confetti();
+      }
+    }
+
+    function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+    
+    // Calculate minutes and seconds
+    const minutes = Math.floor(elapsed / 60); // Get the total minutes
+    const seconds = elapsed % 60; // Get the remaining seconds
+
+    // Format the time as "minutes:seconds", ensuring two-digit format for seconds
+    timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+
+    function confetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#bb0000', '#ffffff'];
+      (function frame() {
+        confettiEffect();
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    function confettiEffect() {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.width = '10px';
+      el.style.height = '10px';
+      el.style.background = 'radial-gradient(circle, #ff0, #f00)';
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.zIndex = 9999;
+      el.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(el);
+      setTimeout(() => document.body.removeChild(el), 2000);
+    }
+	
+	function resetQuiz() {
+  current = 0;
+  answers = [];
+  clearInterval(interval);
+  timerEl.textContent = "Time: 0s";
+  timerEl.style.display = "none";
+  resultEl.style.display = "none";
+  quizEl.style.display = "none";
+  document.getElementById("instructions").style.display = "block";
+  startBtn.style.display = "inline-block";
+
+  // Re-shuffle questions and options
+  shuffleArray(questions);
+  questions.forEach(q => shuffleArray(q.options));
+}
+
+
+  </script>
+  
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      document.getElementById("instructions").style.display = "none";
+    });
+  </script>
+  
+</body>
+</html>
