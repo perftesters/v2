@@ -1,1 +1,72 @@
 
+<!-- --- Header Section --- -->
+<script>
+  function loadFile(file, elementId) {
+    fetch('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/' + file)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById(elementId).innerHTML = data;
+      })
+      .catch(error => console.error('Error loading file:', error));
+  }
+
+  window.onload = function () {
+    loadFile('header.html', 'header');
+    loadFile('footer.html', 'footer');
+  };
+</script>
+
+<div id="header"></div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms of Use | PerfTesters</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans leading-relaxed">
+
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold text-blue-600 mb-6 text-center">📄 Terms of Use</h1>
+
+    <p class="mb-4">Welcome to <strong>PerfTesters.com</strong>. By accessing and using this website, you agree to the following terms and conditions. Please read them carefully.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">1. Use of Content</h2>
+    <p class="mb-4">All content provided on this website is for educational and informational purposes only. You may not copy, redistribute, or use any materials for commercial purposes without written permission.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">2. Intellectual Property</h2>
+    <p class="mb-4">All content, including code samples, blog posts, tutorials, and graphics, are the intellectual property of PerfTesters unless otherwise credited. Unauthorized use is strictly prohibited.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">3. User Responsibilities</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Do not use this site for any illegal or unauthorized activities.</li>
+      <li>Do not attempt to access restricted areas of the website or disrupt its functionality.</li>
+      <li>Respect all copyright and proprietary notices contained in the content.</li>
+    </ul>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">4. Third-Party Links</h2>
+    <p class="mb-4">Our website may include links to third-party websites for additional resources or tools. We do not control or endorse the content on these external sites and are not responsible for their practices or policies.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">5. Disclaimer</h2>
+    <p class="mb-4">All content is provided "as is" without warranties of any kind. We make no guarantees regarding accuracy, completeness, or usefulness. Use the content at your own risk.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">6. Limitation of Liability</h2>
+    <p class="mb-4">PerfTesters shall not be held liable for any direct or indirect damages resulting from your use of the website, including but not limited to loss of data or profits.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">7. Modifications to Terms</h2>
+    <p class="mb-4">We reserve the right to update or modify these terms at any time without prior notice. Continued use of the site constitutes your acceptance of the revised terms.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">8. Governing Law</h2>
+    <p class="mb-4">These terms shall be governed by and construed in accordance with the laws of your jurisdiction, without regard to its conflict of law provisions.</p>
+
+    <h2 class="text-2xl font-semibold text-blue-500 mt-8 mb-2">9. Contact Us</h2>
+    <p>If you have any questions or concerns regarding these Terms of Use, feel free to contact us at <a href="mailto:training@perftesters.com" class="text-blue-600 underline">training@perftesters.com</a>.</p>
+  </div>
+
+</body>
+</html>
+
+<!-- --- Footer Section --- -->
+<div id="footer"></div>
