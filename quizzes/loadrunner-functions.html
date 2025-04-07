@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoadRunner Functions Quiz: Test Your Knowledge!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      text-align: center;
+    }
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-weight: bold;
+      color: #333;
+      display: none;
+      font-size: 1.2em;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: left;
+      background-color: #e6f3ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    td {
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      text-align: left;
+    }
+    .options label {
+      display: block;
+      background: #f0f8ff;
+      padding: 6px 10px;
+      margin: 4px 0;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options label:hover {
+      background-color: #e0f0ff;
+      border-color: #66b2ff;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+    }
+    button {
+      background: #66b2ff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover:not(:disabled) {
+      background-color: #559eea;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 10px;
+      color: #856404;
+    }
+    #startBtn {
+      animation: pulse 1.5s infinite;
+      font-size: 1.2em;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      border-radius: 30px;
+      padding: 15px 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #quizTable td {
+      cursor: pointer;
+    }
+    .feedback {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="timer" id="timer">Time: 0s</div>
+    <h2 style="text-align: left;">LoadRunner Functions Quiz: Test Your Knowledge!</h2>
+    <!-- 👉 Instruction Section -->
+  <div id="instructions" style="margin-bottom: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>📘 Instructions:</h3>
+    <ul>
+      <li>This quiz contains multiple-choice questions on LoadRunner Functions.</li>
+      <li>Each question has one correct answer.</li>
+      <li>Click the "Start Quiz" button to begin.</li>
+      <li>You can navigate between questions using "Prev" and "Next" buttons.</li>
+      <li>Your total time will be recorded and shown at the end.</li>
+      <li>After finishing, you can review explanations for each question.</li>
+      <li>Try to score at least 80% to trigger a fun surprise! 🎉</li>
+    </ul>
+  </div>
+    <button id="startBtn">Start Quiz</button>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+  {
+    "question": "What is the purpose of the 'web_reg_save_param' function in LoadRunner?",
+    "options": [
+      "To capture dynamic values from server responses",
+      "To validate the presence of specific text in server responses",
+      "To handle user input for dynamic values",
+      "To simulate user behavior"
+    ],
+    "answer": "To capture dynamic values from server responses",
+    "explanation": "'web_reg_save_param' captures dynamic data from server responses to be used in subsequent requests."
+  },
+  {
+    "question": "Which LoadRunner function is used to save dynamic values to a parameter?",
+    "options": [
+      "web_reg_save_param",
+      "web_url",
+      "web_submit_data",
+      "web_reg_find"
+    ],
+    "answer": "web_reg_save_param",
+    "explanation": "'web_reg_save_param' is used to capture dynamic values such as session IDs or tokens and save them as parameters for use in future requests."
+  },
+  {
+    "question": "What does the 'lr_save_param' function do in LoadRunner?",
+    "options": [
+      "Saves the value of a parameter for use in the script",
+      "Saves performance data for analysis",
+      "Saves transaction times to a parameter",
+      "Saves the results of a server response to a parameter"
+    ],
+    "answer": "Saves the value of a parameter for use in the script",
+    "explanation": "'lr_save_param' allows you to save values from the script to a parameter, which can then be used throughout the test."
+  },
+  {
+    "question": "What does the 'web_reg_find' function do in LoadRunner?",
+    "options": [
+      "Validates the presence of specific text in a server response",
+      "Captures dynamic data from the server",
+      "Simulates user interactions with the server",
+      "Records performance data"
+    ],
+    "answer": "Validates the presence of specific text in a server response",
+    "explanation": "'web_reg_find' is used to validate that specific text appears in the server response, which helps in ensuring the correctness of the application."
+  },
+  {
+    "question": "What is the primary use of the 'web_submit_data' function in LoadRunner?",
+    "options": [
+      "To submit form data to a web server",
+      "To validate server responses",
+      "To capture dynamic values",
+      "To save data to a file"
+    ],
+    "answer": "To submit form data to a web server",
+    "explanation": "'web_submit_data' is used to simulate the submission of form data to a web server during the load test."
+  },
+  {
+    "question": "What does the 'web_url' function in LoadRunner do?",
+    "options": [
+      "Sends a GET request to a specified URL",
+      "Sends a POST request with form data",
+      "Captures dynamic values from the server",
+      "Validates server response time"
+    ],
+    "answer": "Sends a GET request to a specified URL",
+    "explanation": "'web_url' is used to send a simple GET request to a specified URL and capture the server's response."
+  },
+  {
+    "question": "Which function is used to extract dynamic values based on a regular expression in LoadRunner?",
+    "options": [
+      "web_reg_save_param_regexp",
+      "web_url",
+      "web_submit_data",
+      "web_reg_save_param"
+    ],
+    "answer": "web_reg_save_param_regexp",
+    "explanation": "'web_reg_save_param_regexp' is used to capture dynamic values that match a regular expression pattern in the server's response."
+  },
+  {
+    "question": "What does the 'web_reg_save_param_ex' function do in LoadRunner?",
+    "options": [
+      "Captures dynamic data between specified boundaries",
+      "Captures dynamic values using regular expressions",
+      "Submits data to a web server",
+      "Validates the server response"
+    ],
+    "answer": "Captures dynamic data between specified boundaries",
+    "explanation": "'web_reg_save_param_ex' is used to save dynamic values from the server response by specifying left and right boundaries."
+  },
+  {
+    "question": "Which function in LoadRunner is used to specify a custom header in an HTTP request?",
+    "options": [
+      "web_add_header",
+      "web_url",
+      "web_submit_data",
+      "web_reg_find"
+    ],
+    "answer": "web_add_header",
+    "explanation": "'web_add_header' is used to add custom headers to HTTP requests to simulate specific client behaviors."
+  },
+  {
+    "question": "What is the purpose of the 'lr_start_transaction' function in LoadRunner?",
+    "options": [
+      "Marks the start of a transaction to measure its response time",
+      "Starts the performance test execution",
+      "Starts a new virtual user session",
+      "Starts recording user actions"
+    ],
+    "answer": "Marks the start of a transaction to measure its response time",
+    "explanation": "'lr_start_transaction' marks the start of a transaction and helps in measuring the response time for the transaction."
+  },
+  {
+    "question": "What does the 'lr_end_transaction' function do in LoadRunner?",
+    "options": [
+      "Marks the end of a transaction and records its response time",
+      "Ends the virtual user session",
+      "Ends the performance test",
+      "Ends the script execution"
+    ],
+    "answer": "Marks the end of a transaction and records its response time",
+    "explanation": "'lr_end_transaction' marks the end of a transaction and calculates the total time taken to complete the transaction."
+  },
+  {
+    "question": "Which LoadRunner function is used to set the iteration count for a virtual user?",
+    "options": [
+      "lr_set_iteration",
+      "lr_set_timeout",
+      "lr_set_vuser",
+      "lr_init_vuser"
+    ],
+    "answer": "lr_set_iteration",
+    "explanation": "'lr_set_iteration' is used to set the number of iterations a virtual user should run during the test."
+  },
+  {
+    "question": "What does the 'web_create_header' function in LoadRunner do?",
+    "options": [
+      "Creates a custom header for HTTP requests",
+      "Captures response headers from the server",
+      "Sends a request to a specific URL",
+      "Validates HTTP response codes"
+    ],
+    "answer": "Creates a custom header for HTTP requests",
+    "explanation": "'web_create_header' allows you to create custom HTTP headers that can be added to requests to simulate various client behaviors."
+  },
+  {
+    "question": "Which function is used to simulate a user clicking a link in LoadRunner?",
+    "options": [
+      "web_link",
+      "web_submit_form",
+      "web_url",
+      "web_add_header"
+    ],
+    "answer": "web_link",
+    "explanation": "'web_link' is used to simulate a user clicking a hyperlink in a webpage during the load test."
+  },
+  {
+    "question": "What does the 'lr_output_message' function do in LoadRunner?",
+    "options": [
+      "Displays a custom message in the output log",
+      "Saves data to a log file",
+      "Outputs performance data",
+      "Prints server responses to the console"
+    ],
+    "answer": "Displays a custom message in the output log",
+    "explanation": "'lr_output_message' is used to display custom messages in the LoadRunner output log for debugging or informative purposes."
+  },
+  {
+    "question": "Which LoadRunner function is used to get the current time during script execution?",
+    "options": [
+      "lr_current_time",
+      "lr_start_transaction",
+      "lr_end_transaction",
+      "lr_set_timeout"
+    ],
+    "answer": "lr_current_time",
+    "explanation": "'lr_current_time' is used to retrieve the current time in the format needed for the test (e.g., for logging or calculation purposes)."
+  },
+  {
+    "question": "What does the 'web_reg_save_param_json' function do in LoadRunner?",
+    "options": [
+      "Captures dynamic data in JSON format from a server response",
+      "Captures dynamic data from HTML responses",
+      "Validates JSON structure in server responses",
+      "Handles JSON data for file storage"
+    ],
+    "answer": "Captures dynamic data in JSON format from a server response",
+    "explanation": "'web_reg_save_param_json' is used to capture data formatted as JSON from the server response and save it as a parameter for use in subsequent requests."
+  },
+  {
+    "question": "Which function in LoadRunner is used to capture dynamic data from a URL?",
+    "options": [
+      "web_reg_save_param",
+      "web_url",
+      "web_submit_data",
+      "web_add_header"
+    ],
+    "answer": "web_reg_save_param",
+    "explanation": "'web_reg_save_param' is used to capture dynamic data from the server's response to a URL request."
+  },
+  {
+    "question": "What is the purpose of the 'web_concurrent_requests' function in LoadRunner?",
+    "options": [
+      "Defines the number of concurrent requests to be sent by a virtual user",
+      "Captures response times for concurrent users",
+      "Simulates multiple users accessing the same page",
+      "Simulates the server's concurrent request handling"
+    ],
+    "answer": "Defines the number of concurrent requests to be sent by a virtual user",
+    "explanation": "'web_concurrent_requests' is used to control how many concurrent requests a virtual user will send during a test."
+  },
+  {
+    "question": "What does the 'web_set_user' function do in LoadRunner?",
+    "options": [
+      "Sets the user credentials for the HTTP request",
+      "Captures the username from the server response",
+      "Validates user login data",
+      "Simulates a user entering credentials in a form"
+    ],
+    "answer": "Sets the user credentials for the HTTP request",
+    "explanation": "'web_set_user' is used to set the authentication credentials for a virtual user to simulate a login process."
+  },
+  {
+    "question": "Which function is used to log a transaction start time in LoadRunner?",
+    "options": [
+      "lr_start_transaction",
+      "lr_end_transaction",
+      "lr_output_message",
+      "lr_save_param"
+    ],
+    "answer": "lr_start_transaction",
+    "explanation": "'lr_start_transaction' logs the beginning of a transaction to record its execution time."
+  },
+  {
+    "question": "What is the purpose of the 'web_reg_find' function in LoadRunner?",
+    "options": [
+      "Validates if a particular string or pattern is found in the server response",
+      "Captures dynamic data from the response",
+      "Simulates user clicks on the page",
+      "Records server errors"
+    ],
+    "answer": "Validates if a particular string or pattern is found in the server response",
+    "explanation": "'web_reg_find' is used to ensure that a certain string or pattern appears in the server's response, acting as a verification point in the test."
+  },
+  {
+    "question": "What does the 'web_add_cookie' function do in LoadRunner?",
+    "options": [
+      "Adds a custom cookie to the HTTP request",
+      "Saves a server-side cookie",
+      "Simulates cookie expiration",
+      "Captures cookies from the server response"
+    ],
+    "answer": "Adds a custom cookie to the HTTP request",
+    "explanation": "'web_add_cookie' is used to add custom cookies to HTTP requests, simulating user sessions across requests."
+  },
+  {
+    "question": "What is the purpose of the 'web_set_max_html_param_len' function in LoadRunner?",
+    "options": [
+      "To set the maximum length for HTML parameter extraction",
+      "To limit the size of the response data captured",
+      "To set the maximum response time for a request",
+      "To define the timeout for HTML requests"
+    ],
+    "answer": "To set the maximum length for HTML parameter extraction",
+    "explanation": "'web_set_max_html_param_len' defines the maximum length for extracting parameters from HTML responses, helping to prevent buffer overflow issues."
+  },
+  {
+    "question": "Which LoadRunner function is used to set a proxy server for HTTP requests?",
+    "options": [
+      "web_set_proxy",
+      "web_add_header",
+      "web_url",
+      "web_reg_save_param"
+    ],
+    "answer": "web_set_proxy",
+    "explanation": "'web_set_proxy' is used to set the proxy server for HTTP requests, which is useful for monitoring and modifying HTTP traffic."
+  },
+  {
+    "question": "What does the 'lr_exit' function do in LoadRunner?",
+    "options": [
+      "Ends the script execution immediately with a specified status",
+      "Marks the end of a transaction",
+      "Exits the virtual user session after a specified time",
+      "Exits the performance test execution"
+    ],
+    "answer": "Ends the script execution immediately with a specified status",
+    "explanation": "'lr_exit' is used to terminate the execution of a script immediately and return a specified status (e.g., passed or failed)."
+  },
+  {
+    "question": "What is the purpose of the 'lr_get_vuser_ip' function in LoadRunner?",
+    "options": [
+      "Retrieves the IP address of the virtual user",
+      "Sets the IP address for the virtual user",
+      "Validates the server IP address",
+      "Retrieves the IP address of the server"
+    ],
+    "answer": "Retrieves the IP address of the virtual user",
+    "explanation": "'lr_get_vuser_ip' is used to get the IP address of the virtual user during the script execution, useful for debugging or log analysis."
+  },
+  {
+    "question": "Which function is used to control the randomization of parameter values in LoadRunner?",
+    "options": [
+      "lr_random",
+      "web_reg_save_param",
+      "web_url",
+      "lr_set_randomization"
+    ],
+    "answer": "lr_random",
+    "explanation": "'lr_random' is used to generate random values for parameterization, which helps simulate varied user behavior in a load test."
+  },
+  {
+    "question": "What does the 'web_add_cookie' function do in LoadRunner?",
+    "options": [
+      "Adds a custom cookie to the HTTP request",
+      "Captures cookies from the server response",
+      "Simulates cookie expiration",
+      "Validates server-side cookies"
+    ],
+    "answer": "Adds a custom cookie to the HTTP request",
+    "explanation": "'web_add_cookie' is used to add custom cookies to HTTP requests, allowing you to simulate user sessions and maintain state across requests."
+  },
+  {
+    "question": "What is the function of 'lr_think_time' in LoadRunner?",
+    "options": [
+      "Simulates the delay between user actions",
+      "Simulates the time to process server responses",
+      "Waits for a specified time before the script execution",
+      "Sets the maximum time for each transaction"
+    ],
+    "answer": "Simulates the delay between user actions",
+    "explanation": "'lr_think_time' introduces a delay between user actions in the script, simulating realistic user think time and improving test accuracy."
+  },
+  {
+    "question": "Which function is used to parameterize the request headers in LoadRunner?",
+    "options": [
+      "web_add_header",
+      "web_reg_save_param",
+      "web_submit_form",
+      "web_set_header"
+    ],
+    "answer": "web_add_header",
+    "explanation": "'web_add_header' allows you to add custom headers to HTTP requests, which is essential for simulating various client configurations and authentication mechanisms."
+  },
+  {
+    "question": "Which function is used to measure the elapsed time for a specific action or transaction in LoadRunner?",
+    "options": [
+      "lr_start_transaction",
+      "lr_end_transaction",
+      "lr_get_transaction_time",
+      "lr_output_message"
+    ],
+    "answer": "lr_get_transaction_time",
+    "explanation": "'lr_get_transaction_time' is used to measure and capture the elapsed time for a transaction or action in a script, useful for performance analysis."
+  },
+  {
+    "question": "What is the role of the 'lr_save_param_regexp' function in LoadRunner?",
+    "options": [
+      "Captures dynamic values using regular expressions",
+      "Validates server response codes",
+      "Simulates user input based on regular expressions",
+      "Saves transaction data"
+    ],
+    "answer": "Captures dynamic values using regular expressions",
+    "explanation": "'lr_save_param_regexp' is used to capture dynamic values from a server response based on a regular expression, offering flexibility for capturing complex data."
+  },
+  {
+    "question": "What does the 'web_add_auto_header' function do in LoadRunner?",
+    "options": [
+      "Automatically adds common HTTP headers like Content-Type",
+      "Adds custom headers for a specific request",
+      "Automatically saves dynamic values",
+      "Validates headers in server responses"
+    ],
+    "answer": "Automatically adds common HTTP headers like Content-Type",
+    "explanation": "'web_add_auto_header' automatically adds common HTTP headers (e.g., Content-Type, User-Agent) to requests, simplifying header management."
+  },
+  {
+    "question": "What is the function of 'lr_continue_on_error' in LoadRunner?",
+    "options": [
+      "Allows the script to continue running even if an error occurs",
+      "Restarts the test in case of an error",
+      "Stops the virtual user if an error occurs",
+      "Captures the error for debugging purposes"
+    ],
+    "answer": "Allows the script to continue running even if an error occurs",
+    "explanation": "'lr_continue_on_error' ensures that the script continues running even when an error is encountered, which is useful for simulating non-fatal failures."
+  },
+  {
+    "question": "Which function is used to set the time limit for a virtual user in LoadRunner?",
+    "options": [
+      "lr_set_timeout",
+      "lr_max_iterations",
+      "lr_end_transaction",
+      "lr_start_transaction"
+    ],
+    "answer": "lr_set_timeout",
+    "explanation": "'lr_set_timeout' is used to define a time limit for the virtual user's activity, which helps in controlling test duration."
+  },
+  {
+    "question": "What does the 'web_reg_find' function do in LoadRunner?",
+    "options": [
+      "Validates the presence of specific text in a server response",
+      "Captures dynamic values",
+      "Sets response time thresholds",
+      "Performs server health checks"
+    ],
+    "answer": "Validates the presence of specific text in a server response",
+    "explanation": "'web_reg_find' is used to ensure that a specified string or pattern exists in the server response, acting as a checkpoint in the test."
+  },
+  {
+    "question": "What is the purpose of the 'lr_param_sprintf' function in LoadRunner?",
+    "options": [
+      "Formats and stores data into a parameter",
+      "Saves dynamic values from server responses",
+      "Logs a message to the console",
+      "Sets transaction response times"
+    ],
+    "answer": "Formats and stores data into a parameter",
+    "explanation": "'lr_param_sprintf' allows you to format data (e.g., concatenating strings or values) and store it into a LoadRunner parameter."
+  },
+  {
+    "question": "Which function is used to set the request timeout in LoadRunner?",
+    "options": [
+      "web_set_timeout",
+      "lr_set_timeout",
+      "web_url",
+      "web_add_header"
+    ],
+    "answer": "web_set_timeout",
+    "explanation": "'web_set_timeout' is used to set the timeout for a request, ensuring that the request doesn't hang indefinitely in case of network issues."
+  },
+  {
+    "question": "What is the purpose of 'lr_get_transaction_status' in LoadRunner?",
+    "options": [
+      "Checks the status of a specific transaction",
+      "Gets the response time for the transaction",
+      "Logs errors during the test",
+      "Ends a transaction"
+    ],
+    "answer": "Checks the status of a specific transaction",
+    "explanation": "'lr_get_transaction_status' is used to retrieve the status of a transaction (e.g., success or failure) during the script execution."
+  },
+  {
+    "question": "What does the 'web_add_auto_header' function do in LoadRunner?",
+    "options": [
+      "Automatically adds HTTP headers like Content-Type and User-Agent",
+      "Adds custom headers to HTTP requests",
+      "Logs headers from the server response",
+      "Validates response headers"
+    ],
+    "answer": "Automatically adds HTTP headers like Content-Type and User-Agent",
+    "explanation": "'web_add_auto_header' automatically includes commonly required headers like Content-Type, User-Agent, etc., simplifying header management."
+  },
+  {
+    "question": "Which LoadRunner function can be used to simulate a delay before starting a transaction?",
+    "options": [
+      "lr_think_time",
+      "lr_start_transaction",
+      "lr_end_transaction",
+      "lr_delay"
+    ],
+    "answer": "lr_think_time",
+    "explanation": "'lr_think_time' introduces a delay between user actions in the script, simulating realistic user thinking time before starting a transaction."
+  },
+  {
+    "question": "Which LoadRunner function is used to retrieve the value of a parameter?",
+    "options": [
+      "lr_get_param",
+      "lr_param_sprintf",
+      "web_reg_save_param",
+      "web_url"
+    ],
+    "answer": "lr_get_param",
+    "explanation": "'lr_get_param' is used to retrieve the value of a parameter that was previously stored in the LoadRunner script."
+  },
+  {
+    "question": "What is the role of the 'web_add_header' function in LoadRunner?",
+    "options": [
+      "Adds custom headers to HTTP requests",
+      "Captures headers from the server response",
+      "Sets default headers for requests",
+      "Validates headers in server responses"
+    ],
+    "answer": "Adds custom headers to HTTP requests",
+    "explanation": "'web_add_header' is used to add custom HTTP headers to requests, allowing the user to simulate various client configurations."
+  }
+];
+
+
+    let current = 0;
+    let answers = [];
+    let startTime;
+    let interval;
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    shuffleArray(questions);
+    questions.forEach(q => shuffleArray(q.options));
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizEl.style.display = 'block';
+      timerEl.style.display = 'block';
+      startTime = Date.now();
+      showQuestion(0);
+      interval = setInterval(updateTimer, 1000);
+    });
+
+    function showQuestion(index, reviewMode = false) {
+      const q = questions[index];
+      quizEl.innerHTML = '';
+
+      const progressDiv = document.createElement("div");
+      progressDiv.className = "progress";
+      progressDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+      quizEl.appendChild(progressDiv);
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.textContent = `${q.question}`;
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const table = document.createElement("table");
+      table.id = "quizTable";
+      q.options.forEach(opt => {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        const label = document.createElement("label");
+        label.textContent = opt;
+
+        if (reviewMode) {
+          if (opt === q.answer) label.classList.add("correct");
+          if (answers[index].selected === opt && opt !== q.answer) label.classList.add("incorrect");
+        } else {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "option";
+          input.value = opt;
+          if (answers[index] && answers[index].selected === opt) input.checked = true;
+          input.addEventListener('click', (e) => {
+            nextBtn.disabled = false;
+          });
+          label.prepend(input);
+        }
+
+        cell.appendChild(label);
+        row.appendChild(cell);
+        table.appendChild(row);
+      });
+      optionsDiv.appendChild(table);
+
+      if (reviewMode) {
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsDiv.appendChild(feedback);
+      }
+
+      const navContainer = document.createElement("div");
+      navContainer.style.display = "flex";
+      navContainer.style.justifyContent = "space-between";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "⬅ Prev";
+      prevBtn.disabled = index === 0;
+      prevBtn.onclick = () => {
+        current--;
+        showQuestion(current, reviewMode);
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.innerHTML = index === questions.length - 1 ? (reviewMode ? "Finish Review" : "Submit") : "Next ➡";
+      nextBtn.disabled = !reviewMode && !answers[index];
+
+      nextBtn.onclick = () => {
+        if (!reviewMode) {
+          const selected = optionsDiv.querySelector("input[name='option']:checked");
+          const answer = selected ? selected.value : "";
+          answers[index] = { selected: answer, correct: q.answer };
+        }
+
+        if (index + 1 < questions.length) {
+          current++;
+          showQuestion(current, reviewMode);
+        } else {
+          reviewMode ? resetQuiz() : showResult();
+        }
+      };
+
+      quizEl.appendChild(questionDiv);
+      quizEl.appendChild(optionsDiv);
+      navContainer.appendChild(prevBtn);
+      navContainer.appendChild(nextBtn);
+      quizEl.appendChild(navContainer);
+    }
+
+    function showResult() {
+      clearInterval(interval);
+      quizEl.style.display = "none";
+      resultEl.style.display = "block";
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        if (ans.selected === questions[i].answer) score++;
+      });
+
+      resultEl.innerHTML = `<p>You scored ${score} out of ${questions.length} in ${totalTime} seconds.</p>`;
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.textContent = "Review Answers";
+      reviewBtn.onclick = () => {
+        current = 0;
+        quizEl.style.display = "block";
+        resultEl.style.display = "none";
+        showQuestion(current, true);
+      };
+      resultEl.appendChild(reviewBtn);
+
+      if ((score / questions.length) * 100 >= 80) {
+        confetti();
+      }
+    }
+
+    function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+    
+    // Calculate minutes and seconds
+    const minutes = Math.floor(elapsed / 60); // Get the total minutes
+    const seconds = elapsed % 60; // Get the remaining seconds
+
+    // Format the time as "minutes:seconds", ensuring two-digit format for seconds
+    timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+
+    function confetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#bb0000', '#ffffff'];
+      (function frame() {
+        confettiEffect();
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    function confettiEffect() {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.width = '10px';
+      el.style.height = '10px';
+      el.style.background = 'radial-gradient(circle, #ff0, #f00)';
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.zIndex = 9999;
+      el.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(el);
+      setTimeout(() => document.body.removeChild(el), 2000);
+    }
+	
+	function resetQuiz() {
+  current = 0;
+  answers = [];
+  clearInterval(interval);
+  timerEl.textContent = "Time: 0s";
+  timerEl.style.display = "none";
+  resultEl.style.display = "none";
+  quizEl.style.display = "none";
+  document.getElementById("instructions").style.display = "block";
+  startBtn.style.display = "inline-block";
+
+  // Re-shuffle questions and options
+  shuffleArray(questions);
+  questions.forEach(q => shuffleArray(q.options));
+}
+
+
+  </script>
+  
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      document.getElementById("instructions").style.display = "none";
+    });
+  </script>
+  
+</body>
+</html>
