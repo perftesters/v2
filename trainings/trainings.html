@@ -1,19 +1,17 @@
-
 <!-- --- Header Section --- -->
 <script>
   function loadFile(file, elementId) {
-      fetch(file)
-          .then(response => response.text())
-          .then(data => {
-              document.getElementById(elementId).innerHTML = data;
-          })
-          .catch(error => console.error('Error loading file:', error));
+    fetch(file)
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById(elementId).innerHTML = data;
+      })
+      .catch(error => console.error('Error loading file:', error));
   }
 
-  window.onload = function() {
-      // Use the raw URL for the header and footer from GitHub
-      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
-      loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
+  window.onload = function () {
+    loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/header.html', 'header');
+    loadFile('https://raw.githubusercontent.com/perftesters/v2/refs/heads/main/src/footer.html', 'footer');
   }
 </script>
 
@@ -23,120 +21,415 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Load Testing Training List</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
   <div class="max-w-5xl mx-auto py-10 px-4">
     <h1 class="text-4xl font-bold text-center mb-10 text-blue-600">Load Testing Training List</h1>
-    
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
       <!-- LoadRunner -->
-      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
-        <div>
-          <h2 class="text-2xl font-semibold mb-2 text-purple-700">🎯 LoadRunner</h2>
-          <ul class="list-disc ml-5 text-gray-700 space-y-1">
-            <li>Introduction to LoadRunner</li>
-            <li>Installation & Licensing</li>
-            <li>VuGen Scripting</li>
-            <li>Parameterization</li>
-            <li>Correlation (Manual & Auto)</li>
-          </ul>
-          <div class="hidden mt-2 extra-content">
-            <ul class="list-disc ml-5 text-gray-700 space-y-1">
-              <li>Transactions & Rendezvous</li>
-              <li>Controller Design & Execution</li>
-              <li>Scenarios & Load Types</li>
-              <li>Results Analysis</li>
-              <li>Monitoring & Reporting</li>
-            </ul>
-          </div>
-        </div>
-        <button onclick="toggleContent(this)" class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition">
-          Read More
-        </button>
-      </div>
+      <!-- LoadRunner -->
+<div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+  <div>
+    <h2 class="text-2xl font-semibold mb-2 text-purple-700">🎯 LoadRunner – Micro Focus</h2>
+    <ul class="list-disc ml-5 text-gray-700 space-y-1">
+      <li>💡 Introduction to LoadRunner
+        <ul class="ml-5 list-disc">
+          <li>Overview & Components</li>
+          <li>Protocols & Architecture</li>
+        </ul>
+      </li>
+      <li>🛠️ Installation & Licensing
+        <ul class="ml-5 list-disc">
+          <li>Installing VuGen, Controller, Analysis</li>
+          <li>License Types & Setup</li>
+        </ul>
+      </li>
+      <li>✍️ VuGen Scripting
+        <ul class="ml-5 list-disc">
+          <li>Script Recording (Web/TruClient)</li>
+          <li>Script Replay & Debugging</li>
+        </ul>
+      </li>
+      <li>🔢 Parameterization
+        <ul class="ml-5 list-disc">
+          <li>Data Files, Randomization</li>
+          <li>Runtime Settings</li>
+        </ul>
+      </li>
+      <li>🔗 Correlation
+        <ul class="ml-5 list-disc">
+          <li>Manual vs Auto Correlation</li>
+          <li>Correlating dynamic values</li>
+        </ul>
+      </li>
+    </ul>
 
-      <!-- Apache JMeter -->
-      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
-        <div>
-          <h2 class="text-2xl font-semibold mb-2 text-red-600">🔥 Apache JMeter</h2>
-          <ul class="list-disc ml-5 text-gray-700 space-y-1">
-            <li>JMeter Installation & Setup</li>
-            <li>Test Plan Structure</li>
-            <li>Thread Groups & Controllers</li>
-            <li>Samplers (HTTP, JDBC, etc.)</li>
-            <li>Config Elements</li>
+    <div class="hidden mt-4 extra-content">
+      <ul class="list-disc ml-5 text-gray-700 space-y-1">
+        <li>⏱️ Transactions & Think Time
+          <ul class="ml-5 list-disc">
+            <li>Defining Transactions</li>
+            <li>Think Time & Pacing</li>
           </ul>
-          <div class="hidden mt-2 extra-content">
-            <ul class="list-disc ml-5 text-gray-700 space-y-1">
-              <li>Pre & Post Processors</li>
-              <li>Assertions & Timers</li>
-              <li>Listeners & Reports</li>
-              <li>Data Parameterization</li>
-              <li>Distributed Testing</li>
-              <li>Plugins & Best Practices</li>
-            </ul>
-          </div>
-        </div>
-        <button onclick="toggleContent(this)" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
-          Read More
-        </button>
-      </div>
+        </li>
+        <li>🎮 Controller
+          <ul class="ml-5 list-disc">
+            <li>Designing Scenarios</li>
+            <li>Manual & Goal-Oriented</li>
+          </ul>
+        </li>
+        <li>📊 Load Generators & Monitoring
+          <ul class="ml-5 list-disc">
+            <li>Connecting LGs</li>
+            <li>System Resource Monitoring</li>
+          </ul>
+        </li>
+        <li>📈 Results & Analysis
+          <ul class="ml-5 list-disc">
+            <li>Analyzing Graphs</li>
+            <li>Response Time, Throughput</li>
+          </ul>
+        </li>
+        <li>⚙️ LoadRunner Functions
+          <ul class="ml-5 list-disc">
+            <li>Common APIs (lr_start_transaction, lr_output_message)</li>
+          </ul>
+        </li>
+        <li>🔁 CI/CD Integration & Best Practices
+          <ul class="ml-5 list-disc">
+            <li>Integration with Jenkins</li>
+            <li>Script Maintenance Tips</li>
+ <li>📍 Transactions, Rendezvous & Think Time</li>
+        <li>🎯 Controller: Scenarios, Load Models</li>
+        <li>🧪 Load Generators & Setup</li>
+        <li>📊 Analysis & Results Interpretation</li>
+        <li>📈 Monitoring (App/Web/DB Servers)</li>
+        <li>🔍 Error Handling & Debugging</li>
+        <li>📂 Scripting for Web Services, TruClient, Citrix</li>
+        <li>⚙️ Runtime Settings Configuration</li>
+        <li>🔁 Iterations, Pacing, Delays</li>
+        <li>🧠 Advanced Scripting & Custom Code</li>
+        <li>🧰 LoadRunner Functions (lr_save, lr_output)</li>
+        <li>🔒 Security, Certificates, & Authentication</li>
+        <li>📦 Modular Scripting & Libraries</li>
+        <li>🧬 Correlation Rules, Rules Studio</li>
+        <li>🛠 DevWeb Protocol Introduction</li>
+        <li>📥 Data Handling: CSV, JSON, XML</li>
+        <li>🔄 Integrating with CI/CD (Jenkins, GitHub)</li>
+        <li>🧪 Load Testing in Pipelines</li>
+        <li>📚 Best Practices & Real Projects</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <button onclick="toggleContent(this)" class="mt-4 bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition">Read More</button>
+</div>
+
+     
+<!-- Apache JMeter -->
+<div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+  <div>
+    <h2 class="text-2xl font-semibold mb-2 text-red-600">🔥 Apache JMeter – Apache Software Foundation</h2>
+    <ul class="list-disc ml-5 text-gray-700 space-y-1">
+      <li>🚀 Introduction to JMeter
+        <ul class="ml-5 list-disc">
+          <li>What is JMeter?</li>
+          <li>JMeter Features</li>
+        </ul>
+      </li>
+      <li>⚙️ Installation & Setup
+        <ul class="ml-5 list-disc">
+          <li>System Requirements</li>
+          <li>Download & Install</li>
+        </ul>
+      </li>
+      <li>📐 Test Plan Components
+        <ul class="ml-5 list-disc">
+          <li>Thread Groups</li>
+          <li>Samplers (HTTP, JDBC, FTP, etc.)</li>
+        </ul>
+      </li>
+      <li>🔀 Controllers
+        <ul class="ml-5 list-disc">
+          <li>Logic Controllers</li>
+          <li>Loop & If Controllers</li>
+        </ul>
+      </li>
+      <li>🧰 Config Elements
+        <ul class="ml-5 list-disc">
+          <li>HTTP Request Defaults</li>
+          <li>User Defined Variables</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="hidden mt-4 extra-content">
+      <ul class="list-disc ml-5 text-gray-700 space-y-1">
+        <li>🔃 Pre & Post Processors
+          <ul class="ml-5 list-disc">
+            <li>Regular Expression Extractor</li>
+            <li>BeanShell/PostProcessors</li>
+          </ul>
+        </li>
+        <li>✅ Assertions & Timers
+          <ul class="ml-5 list-disc">
+            <li>Response Assertions</li>
+            <li>Constant/Uniform Timers</li>
+          </ul>
+        </li>
+        <li>📊 Listeners
+          <ul class="ml-5 list-disc">
+            <li>View Results Tree</li>
+            <li>Aggregate Report, Summary Report</li>
+          </ul>
+        </li>
+        <li>📁 Parameterization & CSV Data
+          <ul class="ml-5 list-disc">
+            <li>CSV Data Set Config</li>
+            <li>Dynamic Test Data</li>
+          </ul>
+        </li>
+        <li>🌐 Distributed Testing
+          <ul class="ml-5 list-disc">
+            <li>Master-Slave Setup</li>
+            <li>Running Tests Remotely</li>
+          </ul>
+        </li>
+        <li>🔌 Plugins & CI/CD Integration
+          <ul class="ml-5 list-disc">
+            <li>JMeter Plugins Manager</li>
+            <li>Integrating with Jenkins</li>
+          </ul>
+        </li>
+        <li>🏁 Best Practices & Optimization
+          <ul class="ml-5 list-disc">
+            <li>Thread Management</li>
+            <li>Resource Optimization Tips</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <button onclick="toggleContent(this)" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Read More</button>
+</div>
 
       <!-- k6 -->
-      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
-        <div>
-          <h2 class="text-2xl font-semibold mb-2 text-green-600">⚡ k6</h2>
-          <ul class="list-disc ml-5 text-gray-700 space-y-1">
-            <li>Overview & Setup</li>
-            <li>Writing Scripts in JavaScript</li>
-            <li>Virtual Users & Stages</li>
-            <li>Checks & Thresholds</li>
-            <li>CLI & Test Execution</li>
+     <!-- k6 -->
+<div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+  <div>
+    <h2 class="text-2xl font-semibold mb-2 text-green-600">⚡ k6 – k6.io</h2>
+    <ul class="list-disc ml-5 text-gray-700 space-y-1">
+      <li>📘 Introduction to k6
+        <ul class="ml-5 list-disc">
+          <li>What is k6?</li>
+          <li>Key Features & Use Cases</li>
+        </ul>
+      </li>
+      <li>🛠️ Installation & Setup
+        <ul class="ml-5 list-disc">
+          <li>Installing via CLI & Docker</li>
+          <li>Basic Setup & Configuration</li>
+        </ul>
+      </li>
+      <li>📜 Writing Scripts
+        <ul class="ml-5 list-disc">
+          <li>JavaScript Fundamentals</li>
+          <li>Modularizing Tests</li>
+        </ul>
+      </li>
+      <li>👥 Virtual Users & Load Stages
+        <ul class="ml-5 list-disc">
+          <li>Scenarios & Execution Modes</li>
+          <li>Ramp-Up and Constant VUs</li>
+        </ul>
+      </li>
+      <li>🧪 Checks & Thresholds
+        <ul class="ml-5 list-disc">
+          <li>Built-in Check Functions</li>
+          <li>Defining SLA Metrics</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="hidden mt-4 extra-content">
+      <ul class="list-disc ml-5 text-gray-700 space-y-1">
+        <li>🔁 Parameterization
+          <ul class="ml-5 list-disc">
+            <li>Using JSON & CSV Data</li>
+            <li>Data-Driven Scenarios</li>
           </ul>
-          <div class="hidden mt-2 extra-content">
-            <ul class="list-disc ml-5 text-gray-700 space-y-1">
-              <li>Data-driven Tests</li>
-              <li>k6 Cloud Overview</li>
-              <li>k6 Browser (UI Testing)</li>
-              <li>Summary Reports & Metrics</li>
-              <li>CI/CD Integration</li>
-            </ul>
-          </div>
-        </div>
-        <button onclick="toggleContent(this)" class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
-          Read More
-        </button>
-      </div>
+        </li>
+        <li>🌐 HTTP Testing
+          <ul class="ml-5 list-disc">
+            <li>GET, POST, PUT, DELETE</li>
+            <li>Headers, Cookies, and Auth</li>
+          </ul>
+        </li>
+        <li>📈 Result Output & Reports
+          <ul class="ml-5 list-disc">
+            <li>CLI Output</li>
+            <li>HTML & JSON Reports</li>
+          </ul>
+        </li>
+        <li>☁️ k6 Cloud
+          <ul class="ml-5 list-disc">
+            <li>Using the Cloud Dashboard</li>
+            <li>Running Tests on k6 Cloud</li>
+          </ul>
+        </li>
+        <li>🧑‍💻 CI/CD Integration
+          <ul class="ml-5 list-disc">
+            <li>Using k6 in GitHub Actions</li>
+            <li>Integration with Jenkins/GitLab</li>
+          </ul>
+        </li>
+        <li>🔍 Browser-level Testing (k6 Browser)
+          <ul class="ml-5 list-disc">
+            <li>UI Test Basics with k6 Browser</li>
+            <li>Combining API & UI Tests</li>
+          </ul>
+        </li>
+        <li>💡 Best Practices
+          <ul class="ml-5 list-disc">
+            <li>Script Optimization</li>
+            <li>Error Handling & Debugging</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <button onclick="toggleContent(this)" class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">Read More</button>
+</div>
 
       <!-- Gatling -->
-      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
-        <div>
-          <h2 class="text-2xl font-semibold mb-2 text-indigo-600">🧪 Gatling</h2>
-          <ul class="list-disc ml-5 text-gray-700 space-y-1">
-            <li>Gatling Introduction</li>
-            <li>Scala Basics</li>
-            <li>Simulation Scripts</li>
-            <li>Feeder & Checks</li>
-            <li>Session Handling</li>
-          </ul>
-          <div class="hidden mt-2 extra-content">
-            <ul class="list-disc ml-5 text-gray-700 space-y-1">
-              <li>Assertions & Metrics</li>
-              <li>Simulation Setup & Execution</li>
-              <li>Advanced Load Scenarios</li>
-              <li>Gatling Reports</li>
-              <li>CI/CD Integration</li>
-            </ul>
-          </div>
-        </div>
-        <button onclick="toggleContent(this)" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
-          Read More
-        </button>
-      </div>
+<div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+  <div>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">🧪 Gatling – Gatling Corp</h2>
+    <ul class="list-disc ml-5 text-gray-700 space-y-1">
+      <li>🚀 Introduction to Gatling</li>
+      <li>💻 Installation & Setup</li>
+      <li>📝 Understanding Simulation Structure</li>
+      <li>📜 Scala Basics for Gatling Scripting</li>
+      <li>🔁 Looping, Grouping & Pausing</li>
+    </ul>
+    <div class="hidden mt-2 extra-content">
+      <ul class="list-disc ml-5 text-gray-700 space-y-1">
+        <li>📥 Feeders for Data-driven Testing</li>
+        <li>📌 Session Management</li>
+        <li>✔️ Checks & Validations</li>
+        <li>📊 Assertions & Thresholds</li>
+        <li>⚙️ Protocol Configuration (HTTP, JMS, WebSocket)</li>
+        <li>🧪 Creating and Running Simulations</li>
+        <li>📈 Reports: HTML & Advanced Metrics</li>
+        <li>🎯 Injection Profiles & Load Patterns</li>
+        <li>📂 Modularizing Test Scripts</li>
+        <li>🛠️ Debugging & Troubleshooting</li>
+        <li>🧱 Building Complex Scenarios</li>
+        <li>🔄 Reusability & Maintainability</li>
+        <li>🧵 Running with Maven/Gradle</li>
+        <li>🔬 Integrating with Jenkins for CI</li>
+        <li>☁️ Gatling Enterprise Overview</li>
+        <li>📡 Distributed Load Testing</li>
+        <li>💡 Performance Tuning Tips</li>
+        <li>✅ Best Practices</li>
+      </ul>
+    </div>
+  </div>
+  <button onclick="toggleContent(this)" class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition">
+    Read More
+  </button>
+</div>
+
+
+      <!-- NeoLoad -->
+<div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+  <div>
+    <h2 class="text-2xl font-semibold mb-2 text-blue-700">🚀 NeoLoad – Tricentis</h2>
+    <ul class="list-disc ml-5 text-gray-700 space-y-1">
+      <li>🔹 Introduction to NeoLoad</li>
+      <li>🛠️ Installation & Licensing</li>
+      <li>🧭 User Interface Overview</li>
+      <li>🎥 Recording a Test Scenario</li>
+      <li>👥 Understanding Virtual Users (VU)</li>
+    </ul>
+    <div class="hidden mt-2 extra-content">
+      <ul class="list-disc ml-5 text-gray-700 space-y-1">
+        <li>📦 Actions & Containers</li>
+        <li>📝 Parameterization Techniques</li>
+        <li>🔗 Correlation using Variables</li>
+        <li>🔄 Logical Actions: Loops, Conditions</li>
+        <li>⏱️ Think Time & Pacing Settings</li>
+        <li>✅ Validation & Response Assertions</li>
+        <li>⚙️ Runtime Parameters</li>
+        <li>🎯 Designing Performance Scenarios</li>
+        <li>🚀 Test Execution in Controller</li>
+        <li>🌍 Using Populations and Zones</li>
+        <li>📡 Monitoring Infrastructure</li>
+        <li>📊 Analyzing Runtime Graphs</li>
+        <li>🧾 Report Generation & Analysis</li>
+        <li>🔍 Advanced Correlation Rules</li>
+        <li>🌐 NeoLoad Web Overview</li>
+        <li>🔧 Server Monitoring Integration</li>
+        <li>🧩 Custom Actions and JavaScript</li>
+        <li>📱 Testing Web & Mobile Apps</li>
+        <li>☁️ Cloud Execution Options</li>
+        <li>🔄 CI/CD & DevOps Integration</li>
+      </ul>
+    </div>
+  </div>
+  <button onclick="toggleContent(this)" class="mt-4 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">
+    Read More
+  </button>
+</div>
+
+
+
+
+      <!-- BlazeMeter -->
+<div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition flex flex-col justify-between">
+  <div>
+    <h2 class="text-2xl font-semibold mb-2 text-orange-600">🔥 BlazeMeter – Perforce</h2>
+    <ul class="list-disc ml-5 text-gray-700 space-y-1">
+      <li>🌟 Introduction to BlazeMeter</li>
+      <li>🧰 Account Setup & Dashboard Overview</li>
+      <li>📁 Importing JMeter, Gatling, Selenium Scripts</li>
+      <li>🔧 Creating and Configuring Tests</li>
+      <li>⏱️ Test Scheduling & Duration Setup</li>
+    </ul>
+    <div class="hidden mt-2 extra-content">
+      <ul class="list-disc ml-5 text-gray-700 space-y-1">
+        <li>🚀 Running Tests in Cloud & Local Agents</li>
+        <li>📊 Analyzing Real-Time Reports</li>
+        <li>📍 KPIs, Percentiles & Error Tracking</li>
+        <li>🌎 Global Load Distribution</li>
+        <li>🧪 Mock Services & API Testing</li>
+        <li>🧩 Creating Multi-Test Scenarios</li>
+        <li>🔗 Integrations: Jenkins, Git, CI/CD</li>
+        <li>📈 Performance Thresholds & SLA Configs</li>
+        <li>📤 Result Sharing & Exporting</li>
+        <li>🔐 Security & Role Management</li>
+        <li>📶 BlazeMeter Chrome Extension</li>
+        <li>🖥️ GUI Functional Testing with Taurus</li>
+        <li>🧠 Smart JMX Editing</li>
+        <li>📚 Test History & Logs Management</li>
+        <li>💡 Best Practices for BlazeMeter Usage</li>
+        <li>📂 Test Data Management</li>
+        <li>📲 Mobile & Web App Testing</li>
+        <li>🕵️ Test Failures Debugging Tools</li>
+        <li>🎯 Tips for Large Scale Load Testing</li>
+      </ul>
+    </div>
+  </div>
+  <button onclick="toggleContent(this)" class="mt-4 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition">
+    Read More
+  </button>
+</div>
 
     </div>
   </div>
@@ -146,7 +439,7 @@
       const card = button.closest('div');
       const extraContent = card.querySelector('.extra-content');
       const isHidden = extraContent.classList.contains('hidden');
-      
+
       if (isHidden) {
         extraContent.classList.remove('hidden');
         button.textContent = 'Show Less';
@@ -158,9 +451,6 @@
   </script>
 </body>
 </html>
-
-
-
 
 <!-- --- Footer Section --- -->
 <div id="footer"></div>
