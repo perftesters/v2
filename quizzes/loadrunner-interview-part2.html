@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoadRunner Interview Questions PART-II: Test Your Knowledge!</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    }
+    .quiz-container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      position: relative;
+      text-align: center;
+    }
+    .timer {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-weight: bold;
+      color: #333;
+      display: none;
+      font-size: 1.2em;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: left;
+      background-color: #e6f3ff;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .progress {
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+      color: #666;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    td {
+      padding: 2px 6px;
+      border: 1px solid #eee;
+      text-align: left;
+    }
+    .options label {
+      display: block;
+      background: #f0f8ff;
+      padding: 6px 10px;
+      margin: 4px 0;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options label:hover {
+      background-color: #e0f0ff;
+      border-color: #66b2ff;
+    }
+    .options input[type="radio"] {
+      margin-right: 10px;
+    }
+    .correct {
+      background-color: #d4edda !important;
+      border-color: #28a745 !important;
+    }
+    .incorrect {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+    }
+    button {
+      background: #66b2ff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+    button:hover:not(:disabled) {
+      background-color: #559eea;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 1.4em;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 10px;
+      color: #856404;
+    }
+    #startBtn {
+      animation: pulse 1.5s infinite;
+      font-size: 1.2em;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      border-radius: 30px;
+      padding: 15px 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    #quizTable td {
+      cursor: pointer;
+    }
+    .feedback {
+      text-align: left;
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="timer" id="timer">Time: 0s</div>
+    <h2 style="text-align: left;">LoadRunner Interview Questions PART-II: Test Your Knowledge!</h2>
+    <!-- 👉 Instruction Section -->
+  <div id="instructions" style="margin-bottom: 20px; text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+    <h3>📘 Instructions:</h3>
+    <ul>
+      <li>This quiz contains multiple-choice LoadRunner Interview Questions.</li>
+      <li>Each question has one correct answer.</li>
+      <li>Click the "Start Quiz" button to begin.</li>
+      <li>You can navigate between questions using "Prev" and "Next" buttons.</li>
+      <li>Your total time will be recorded and shown at the end.</li>
+      <li>After finishing, you can review explanations for each question.</li>
+      <li>Try to score at least 80% to trigger a fun surprise! 🎉</li>
+    </ul>
+  </div>
+    <button id="startBtn">Start Quiz</button>
+    <div id="quiz" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    const questions = [
+  { 
+    "question": "Which LoadRunner feature allows you to test how an application performs under different geographic locations?", 
+    "options": ["Network Virtualization", "Load Generator", "Geographic Load Testing", "Global Load Balancing"], 
+    "answer": "Geographic Load Testing", 
+    "explanation": "LoadRunner allows you to simulate users from different geographic locations by deploying load generators in different regions, helping to test application performance under various network conditions." 
+  },
+  { 
+    "question": "Which of the following is a common reason for using LoadRunner's 'Think Time' feature?", 
+    "options": ["To simulate server processing time", "To simulate human delays between user actions", "To measure response time", "To simulate network congestion"], 
+    "answer": "To simulate human delays between user actions", 
+    "explanation": "Think Time in LoadRunner is used to simulate the time a real user would take between actions, such as clicking a link or submitting a form, making the test more realistic." 
+  },
+  { 
+    "question": "What is the primary function of LoadRunner’s ‘Runtime Settings’?", 
+    "options": ["To generate load", "To simulate multiple types of traffic", "To configure the test execution environment", "To analyze results"], 
+    "answer": "To configure the test execution environment", 
+    "explanation": "Runtime Settings in LoadRunner are used to configure test parameters, such as pacing, think time, and logging options, to control the virtual user's behavior during the test." 
+  },
+  { 
+    "question": "Which LoadRunner function is used to mark the end of a transaction?", 
+    "options": ["lr_start_transaction", "lr_end_transaction", "lr_think_time", "lr_save_string"], 
+    "answer": "lr_end_transaction", 
+    "explanation": "The lr_end_transaction function is used to mark the end of a transaction, allowing LoadRunner to measure the time taken for that particular set of actions." 
+  },
+  { 
+    "question": "In LoadRunner, what is a 'parameter' used for?", 
+    "options": ["To simulate dynamic values like session IDs", "To configure test execution", "To create virtual user scripts", "To analyze test results"], 
+    "answer": "To simulate dynamic values like session IDs", 
+    "explanation": "Parameters in LoadRunner are used to handle dynamic values, such as session IDs or timestamps, that may change during each test execution." 
+  },
+  { 
+    "question": "Which LoadRunner component helps in coordinating the test by managing the execution and distributing load?", 
+    "options": ["VuGen", "Controller", "Analysis", "Load Generator"], 
+    "answer": "Controller", 
+    "explanation": "The Controller is responsible for orchestrating the test, managing virtual user load, and distributing the load across multiple Load Generators." 
+  },
+  { 
+    "question": "What does the term 'load testing' mean in the context of LoadRunner?", 
+    "options": ["Testing system functionality", "Evaluating user interfaces", "Simulating expected usage to determine system behavior", "Measuring data throughput"], 
+    "answer": "Simulating expected usage to determine system behavior", 
+    "explanation": "Load testing involves simulating a specific amount of virtual users and their actions on the application to determine its behavior under expected or peak load conditions." 
+  },
+  { 
+    "question": "Which LoadRunner tool is used to write, edit, and debug virtual user scripts?", 
+    "options": ["VuGen", "Controller", "Analysis", "Load Generator"], 
+    "answer": "VuGen", 
+    "explanation": "VuGen (Virtual User Generator) is used to write, edit, and debug virtual user scripts, which simulate user actions during the performance test." 
+  },
+  { 
+    "question": "Which of the following is NOT a valid protocol in LoadRunner?", 
+    "options": ["RDP", "Citrix ICA", "JDBC", "Excel"], 
+    "answer": "Excel", 
+    "explanation": "Excel is not a valid protocol in LoadRunner. The tool supports protocols like RDP, Citrix ICA, JDBC, and many others for performance testing." 
+  },
+  { 
+    "question": "What is the 'Controller' used for in LoadRunner?", 
+    "options": ["Creating virtual user scripts", "Generating load", "Orchestrating the execution of the test", "Analyzing test results"], 
+    "answer": "Orchestrating the execution of the test", 
+    "explanation": "The Controller in LoadRunner is used to configure, schedule, and manage the test execution. It coordinates virtual user load, scenario execution, and collects real-time data during the test." 
+  },
+  { 
+    "question": "Which LoadRunner feature can help analyze server resource utilization like CPU and memory usage during the test?", 
+    "options": ["Agent", "Controller", "Load Generator", "Analysis"], 
+    "answer": "Agent", 
+    "explanation": "The LoadRunner Agent monitors server resources such as CPU, memory, and disk usage during the test, providing insights into how the server performs under load." 
+  },
+  { 
+    "question": "Which LoadRunner protocol is typically used for testing the performance of Oracle applications?", 
+    "options": ["Oracle", "Web Services", "HTTP/HTTPS", "JDBC"], 
+    "answer": "Oracle", 
+    "explanation": "The Oracle protocol in LoadRunner is used to simulate Oracle database interactions and test the performance of Oracle-based applications." 
+  },
+  { 
+    "question": "What is the purpose of LoadRunner’s 'Transaction' feature?", 
+    "options": ["To capture errors", "To simulate user actions", "To group a series of actions as one unit for performance measurement", "To record data"], 
+    "answer": "To group a series of actions as one unit for performance measurement", 
+    "explanation": "Transactions in LoadRunner are used to group several actions into a logical unit, enabling performance measurement for that entire series of actions as a single entity." 
+  },
+  { 
+    "question": "Which LoadRunner function is used to simulate a delay between actions performed by virtual users?", 
+    "options": ["lr_think_time", "lr_save_string", "lr_start_transaction", "lr_user_data"], 
+    "answer": "lr_think_time", 
+    "explanation": "The lr_think_time function in LoadRunner introduces a delay between actions, simulating the time a real user would take to think or pause between actions." 
+  },
+  { 
+    "question": "In LoadRunner, which report is most useful for analyzing the system’s response time over the course of the test?", 
+    "options": ["Throughput Report", "Response Time Report", "Transaction Report", "Error Report"], 
+    "answer": "Response Time Report", 
+    "explanation": "The Response Time Report in LoadRunner provides detailed insights into how the system's response time varied throughout the test, helping to identify performance bottlenecks." 
+  },
+  { 
+    "question": "Which LoadRunner feature is used to simulate different types of users in the same test scenario?", 
+    "options": ["User Groups", "Scenarios", "Parameterization", "Multiple Controllers"], 
+    "answer": "User Groups", 
+    "explanation": "User Groups in LoadRunner allow you to simulate different types of users in the same test scenario, with varying behaviors, actions, and loads." 
+  },
+  { 
+    "question": "Which function in LoadRunner is used to record a response from the server for further use in the script?", 
+    "options": ["lr_save_string", "lr_save_param", "lr_think_time", "lr_start_transaction"], 
+    "answer": "lr_save_param", 
+    "explanation": "The lr_save_param function is used to capture a response from the server and store it as a parameter, which can then be used later in the script." 
+  },
+  { 
+    "question": "In LoadRunner, which of the following metrics indicates the number of virtual users performing actions in a scenario?", 
+    "options": ["Throughput", "Virtual User Load", "Response Time", "Transaction Count"], 
+    "answer": "Virtual User Load", 
+    "explanation": "Virtual User Load is the metric that indicates how many virtual users are active in a scenario, providing insights into the load being generated on the system." 
+  },
+  { 
+    "question": "Which LoadRunner function is used to measure the elapsed time for a transaction?", 
+    "options": ["lr_start_transaction", "lr_end_transaction", "lr_think_time", "lr_transaction_duration"], 
+    "answer": "lr_end_transaction", 
+    "explanation": "The lr_end_transaction function is used to mark the end of a transaction and automatically measures the time it took to complete the transaction from start to finish." 
+  },
+  { 
+    "question": "In LoadRunner, which component is responsible for generating the virtual user traffic during a performance test?", 
+    "options": ["VuGen", "Controller", "Load Generator", "Analysis"], 
+    "answer": "Load Generator", 
+    "explanation": "The Load Generator is responsible for generating virtual user traffic by simulating user actions and sending requests to the system being tested during a performance test." 
+  },
+  { 
+    "question": "Which LoadRunner protocol would you use for performance testing a JDBC-based application?", 
+    "options": ["JDBC", "Web Services", "HTTP/HTTPS", "Citrix ICA"], 
+    "answer": "JDBC", 
+    "explanation": "The JDBC protocol in LoadRunner is used to simulate interactions with a database through Java Database Connectivity (JDBC), which is common in enterprise applications." 
+  },
+  { 
+    "question": "Which LoadRunner function is used to store a dynamic value, such as a session ID, from a server response?", 
+    "options": ["lr_save_param", "lr_think_time", "lr_start_transaction", "lr_end_transaction"], 
+    "answer": "lr_save_param", 
+    "explanation": "The lr_save_param function is used to capture dynamic values like session IDs from server responses and store them in parameters, allowing for reuse later in the script." 
+  },
+  { 
+    "question": "In LoadRunner, which component provides detailed insights into server and application performance during a test?", 
+    "options": ["VuGen", "Controller", "Analysis", "Load Generator"], 
+    "answer": "Analysis", 
+    "explanation": "The Analysis component in LoadRunner provides detailed insights into performance test results, including graphs, reports, and various metrics like response time, throughput, and errors." 
+  },
+  { 
+    "question": "Which feature in LoadRunner is used to simulate different types of virtual users with distinct behaviors during a performance test?", 
+    "options": ["Scenario", "User Group", "Pacing", "Transaction"], 
+    "answer": "User Group", 
+    "explanation": "User Groups in LoadRunner allow you to simulate different types of virtual users, each with distinct behaviors, actions, and loads, to simulate real-world usage more accurately." 
+  },
+  { 
+    "question": "Which of the following can be simulated using LoadRunner’s Network Virtualization feature?", 
+    "options": ["Latency", "Packet loss", "Bandwidth restrictions", "All of the above"], 
+    "answer": "All of the above", 
+    "explanation": "Network Virtualization in LoadRunner can simulate various network conditions, such as latency, packet loss, and bandwidth restrictions, to test how the application performs under different network environments." 
+  },
+  { 
+    "question": "Which LoadRunner component is responsible for recording the virtual user scripts during the test preparation phase?", 
+    "options": ["VuGen", "Controller", "Load Generator", "Analysis"], 
+    "answer": "VuGen", 
+    "explanation": "VuGen (Virtual User Generator) is the component used to record and generate virtual user scripts during the test preparation phase, simulating the actions of real users." 
+  },
+  { 
+    "question": "Which protocol in LoadRunner is commonly used for performance testing of FTP-based applications?", 
+    "options": ["FTP", "HTTP/HTTPS", "JDBC", "Web Services"], 
+    "answer": "FTP", 
+    "explanation": "The FTP protocol in LoadRunner is used for performance testing of File Transfer Protocol (FTP)-based applications, simulating FTP interactions between clients and servers." 
+  },
+  { 
+    "question": "Which LoadRunner function is used to pause the script for a specified amount of time?", 
+    "options": ["lr_think_time", "lr_wait", "lr_sleep", "lr_end_transaction"], 
+    "answer": "lr_wait", 
+    "explanation": "The lr_wait function in LoadRunner is used to pause the script for a specified amount of time, allowing you to control the pacing between different script actions." 
+  },
+  { 
+    "question": "Which of the following LoadRunner components would be used to analyze the results of a performance test?", 
+    "options": ["VuGen", "Controller", "Load Generator", "Analysis"], 
+    "answer": "Analysis", 
+    "explanation": "The Analysis component in LoadRunner is used to view and analyze test results, generate reports, and identify performance bottlenecks based on key metrics." 
+  },
+  { 
+    "question": "Which LoadRunner function is used to mark the start of a transaction in a script?", 
+    "options": ["lr_start_transaction", "lr_think_time", "lr_save_param", "lr_end_transaction"], 
+    "answer": "lr_start_transaction", 
+    "explanation": "The lr_start_transaction function is used to mark the start of a transaction, allowing you to measure the time taken for a series of actions performed by the virtual user." 
+  },
+  { 
+    "question": "What is the 'Virtual User' in LoadRunner?", 
+    "options": ["A representation of a real user interacting with the application", "A system resource monitor", "A performance test result", "A database connection"], 
+    "answer": "A representation of a real user interacting with the application", 
+    "explanation": "A Virtual User in LoadRunner simulates a real user interacting with the application by executing actions defined in a script to simulate user behavior during a performance test." 
+  },
+  { 
+    "question": "Which function in LoadRunner is used to measure the duration of a specific event, such as a page load?", 
+    "options": ["lr_start_transaction", "lr_end_transaction", "lr_think_time", "lr_transaction_duration"], 
+    "answer": "lr_transaction_duration", 
+    "explanation": "The lr_transaction_duration function in LoadRunner is used to measure the time taken to complete a specific event, such as a page load, and it helps in evaluating performance." 
+  },
+  { 
+    "question": "Which LoadRunner protocol is best suited for performance testing of Citrix-based applications?", 
+    "options": ["Citrix ICA", "RDP", "Web Services", "JDBC"], 
+    "answer": "Citrix ICA", 
+    "explanation": "The Citrix ICA protocol in LoadRunner is designed specifically for performance testing Citrix-based applications, simulating user interactions with Citrix environments." 
+  },
+  { 
+    "question": "Which of the following is NOT a metric typically analyzed in LoadRunner's Analysis component?", 
+    "options": ["Throughput", "Response Time", "Error Rate", "CPU Utilization"], 
+    "answer": "CPU Utilization", 
+    "explanation": "CPU Utilization is typically analyzed via the Agent or external monitoring tools, while Analysis focuses on higher-level performance metrics such as throughput, response time, and error rates." 
+  },
+  { 
+    "question": "What is the 'Run-time Settings' feature in LoadRunner used for?", 
+    "options": ["To define virtual user behavior", "To configure server resources", "To analyze test results", "To create user scripts"], 
+    "answer": "To define virtual user behavior", 
+    "explanation": "Run-time Settings in LoadRunner are used to define how virtual users behave during the test, including settings like pacing, think time, and network simulation." 
+  },
+  { 
+    "question": "Which LoadRunner function is used to simulate a user entering text into a web form field?", 
+    "options": ["lr_input_text", "lr_type", "lr_text_input", "web_submit_data"], 
+    "answer": "web_submit_data", 
+    "explanation": "The web_submit_data function in LoadRunner is used to simulate a user entering data into a form field and submitting it, typically as part of a web-based interaction." 
+  },
+  { 
+    "question": "Which of the following tools is commonly used in LoadRunner to generate test scripts?", 
+    "options": ["VuGen", "Controller", "Analysis", "Load Generator"], 
+    "answer": "VuGen", 
+    "explanation": "VuGen (Virtual User Generator) is the primary tool in LoadRunner for creating and editing test scripts that simulate user interactions with the system." 
+  }
+];
+
+
+    let current = 0;
+    let answers = [];
+    let startTime;
+    let interval;
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    shuffleArray(questions);
+    questions.forEach(q => shuffleArray(q.options));
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      quizEl.style.display = 'block';
+      timerEl.style.display = 'block';
+      startTime = Date.now();
+      showQuestion(0);
+      interval = setInterval(updateTimer, 1000);
+    });
+
+    function showQuestion(index, reviewMode = false) {
+      const q = questions[index];
+      quizEl.innerHTML = '';
+
+      const progressDiv = document.createElement("div");
+      progressDiv.className = "progress";
+      progressDiv.textContent = `Question ${index + 1} of ${questions.length}`;
+      quizEl.appendChild(progressDiv);
+
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "question";
+      questionDiv.textContent = `${q.question}`;
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      const table = document.createElement("table");
+      table.id = "quizTable";
+      q.options.forEach(opt => {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        const label = document.createElement("label");
+        label.textContent = opt;
+
+        if (reviewMode) {
+          if (opt === q.answer) label.classList.add("correct");
+          if (answers[index].selected === opt && opt !== q.answer) label.classList.add("incorrect");
+        } else {
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "option";
+          input.value = opt;
+          if (answers[index] && answers[index].selected === opt) input.checked = true;
+          input.addEventListener('click', (e) => {
+            nextBtn.disabled = false;
+          });
+          label.prepend(input);
+        }
+
+        cell.appendChild(label);
+        row.appendChild(cell);
+        table.appendChild(row);
+      });
+      optionsDiv.appendChild(table);
+
+      if (reviewMode) {
+        const feedback = document.createElement("div");
+        feedback.className = "feedback";
+        feedback.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        optionsDiv.appendChild(feedback);
+      }
+
+      const navContainer = document.createElement("div");
+      navContainer.style.display = "flex";
+      navContainer.style.justifyContent = "space-between";
+
+      const prevBtn = document.createElement("button");
+      prevBtn.innerHTML = "⬅ Prev";
+      prevBtn.disabled = index === 0;
+      prevBtn.onclick = () => {
+        current--;
+        showQuestion(current, reviewMode);
+      };
+
+      const nextBtn = document.createElement("button");
+      nextBtn.innerHTML = index === questions.length - 1 ? (reviewMode ? "Finish Review" : "Submit") : "Next ➡";
+      nextBtn.disabled = !reviewMode && !answers[index];
+
+      nextBtn.onclick = () => {
+        if (!reviewMode) {
+          const selected = optionsDiv.querySelector("input[name='option']:checked");
+          const answer = selected ? selected.value : "";
+          answers[index] = { selected: answer, correct: q.answer };
+        }
+
+        if (index + 1 < questions.length) {
+          current++;
+          showQuestion(current, reviewMode);
+        } else {
+          reviewMode ? resetQuiz() : showResult();
+        }
+      };
+
+      quizEl.appendChild(questionDiv);
+      quizEl.appendChild(optionsDiv);
+      navContainer.appendChild(prevBtn);
+      navContainer.appendChild(nextBtn);
+      quizEl.appendChild(navContainer);
+    }
+
+    function showResult() {
+      clearInterval(interval);
+      quizEl.style.display = "none";
+      resultEl.style.display = "block";
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+      let score = 0;
+      answers.forEach((ans, i) => {
+        if (ans.selected === questions[i].answer) score++;
+      });
+
+      resultEl.innerHTML = `<p>You scored ${score} out of ${questions.length} in ${totalTime} seconds.</p>`;
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.textContent = "Review Answers";
+      reviewBtn.onclick = () => {
+        current = 0;
+        quizEl.style.display = "block";
+        resultEl.style.display = "none";
+        showQuestion(current, true);
+      };
+      resultEl.appendChild(reviewBtn);
+
+      if ((score / questions.length) * 100 >= 80) {
+        confetti();
+      }
+    }
+
+    function updateTimer() {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // Get elapsed time in seconds
+    
+    // Calculate minutes and seconds
+    const minutes = Math.floor(elapsed / 60); // Get the total minutes
+    const seconds = elapsed % 60; // Get the remaining seconds
+
+    // Format the time as "minutes:seconds", ensuring two-digit format for seconds
+    timerEl.textContent = `Time: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}
+
+
+    function confetti() {
+      const end = Date.now() + 5 * 1000;
+      const colors = ['#bb0000', '#ffffff'];
+      (function frame() {
+        confettiEffect();
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    }
+
+    function confettiEffect() {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.width = '10px';
+      el.style.height = '10px';
+      el.style.background = 'radial-gradient(circle, #ff0, #f00)';
+      el.style.top = `${Math.random() * 100}vh`;
+      el.style.left = `${Math.random() * 100}vw`;
+      el.style.zIndex = 9999;
+      el.style.animation = 'fall 2s linear forwards';
+      document.body.appendChild(el);
+      setTimeout(() => document.body.removeChild(el), 2000);
+    }
+	
+	function resetQuiz() {
+  current = 0;
+  answers = [];
+  clearInterval(interval);
+  timerEl.textContent = "Time: 0s";
+  timerEl.style.display = "none";
+  resultEl.style.display = "none";
+  quizEl.style.display = "none";
+  document.getElementById("instructions").style.display = "block";
+  startBtn.style.display = "inline-block";
+
+  // Re-shuffle questions and options
+  shuffleArray(questions);
+  questions.forEach(q => shuffleArray(q.options));
+}
+
+
+  </script>
+  
+  <script>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      document.getElementById("instructions").style.display = "none";
+    });
+  </script>
+  
+</body>
+</html>
