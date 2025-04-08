@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Builder by (https://perftesters.com)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body * {
+        visibility: hidden;
+      }
+      #resume-preview, #resume-preview * {
+        visibility: visible;
+      }
+      #resume-preview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm;
+        height: 297mm;
+        margin: 0 auto;
+        padding: 20mm;
+        box-sizing: border-box;
+        background: white;
+        page-break-after: always;
+      }
+      h3 {
+        page-break-after: avoid;
+      }
+      li {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans p-6">
+  <div id="full-page" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Form Section -->
+    <div>
+      <h1 class="text-3xl font-bold mb-4 text-blue-600">Resume Builder by (https://perftesters.com)</h1>
+      <form id="resume-form" class="space-y-4">
+        <button type="button" id="load-sample-data" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 w-full">
+          Load Sample Performance Tester Resume
+        </button>
+        <input type="text" id="name" placeholder="Full Name" class="w-full p-2 rounded border" required />
+        <input type="text" id="email" placeholder="Email Address" class="w-full p-2 rounded border" />
+        <input type="text" id="mobile" placeholder="Mobile Number" class="w-full p-2 rounded border" />
+        <input type="text" id="title" placeholder="Job Title" class="w-full p-2 rounded border" required />
+        <textarea id="summary" placeholder="Professional Summary" class="w-full p-2 rounded border" rows="3"></textarea>
+        <input type="text" id="skills" placeholder="Skills (comma separated)" class="w-full p-2 rounded border" />
+
+        <!-- Experience -->
+        <div>
+          <h2 class="font-semibold text-lg">Experience</h2>
+          <div id="experiences-container" class="space-y-2"></div>
+          <button type="button" onclick="addExperience()" class="mt-2 text-sm text-blue-600">+ Add Experience</button>
+        </div>
+
+        <!-- Education -->
+        <div>
+          <h2 class="font-semibold text-lg">Education</h2>
+          <div id="education-container" class="space-y-2"></div>
+          <button type="button" onclick="addEducation()" class="mt-2 text-sm text-blue-600">+ Add Education</button>
+        </div>
+
+        <!-- Projects -->
+        <div>
+          <h2 class="font-semibold text-lg">Projects</h2>
+          <div id="projects-container" class="space-y-2"></div>
+          <button type="button" onclick="addProject()" class="mt-2 text-sm text-blue-600">+ Add Project</button>
+        </div>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">
+          Generate Resume
+        </button>
+      </form>
+    </div>
+
+    <!-- Resume Preview -->
+    <div id="resume-preview" class="bg-white p-6 shadow-none" style="min-height: 600px; width: 210mm;">
+      <div id="preview-content">
+        <h2 class="text-2xl font-bold text-gray-800" id="preview-name"></h2>
+        <p class="text-sm text-gray-500 mb-1" id="preview-email"></p>
+        <p class="text-sm text-gray-500 mb-2" id="preview-mobile"></p>
+        <p class="text-sm text-gray-500 mb-2" id="preview-title"></p>
+        <hr class="my-2" />
+        <h3 class="font-semibold text-gray-700">Summary</h3>
+        <p id="preview-summary" class="mb-2"></p>
+
+        <h3 class="font-semibold text-gray-700">Skills</h3>
+        <ul id="preview-skills" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 list-disc list-inside mb-2"></ul>
+
+        <h3 class="font-semibold text-gray-700">Experience</h3>
+        <ul id="preview-experience" class="list-disc list-inside mb-2"></ul>
+
+        <h3 class="font-semibold text-gray-700">Education</h3>
+        <ul id="preview-education" class="list-disc list-inside mb-2"></ul>
+
+        <h3 class="font-semibold text-gray-700">Projects</h3>
+        <ul id="preview-projects" class="list-disc list-inside mb-2"></ul>
+      </div>
+    </div>
+
+    <div class="col-span-2 text-center mt-6">
+      <button onclick="window.print()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+        Print Resume (A4)
+      </button>
+      <p class="text-sm text-gray-500 mt-2">
+        <strong>Note:</strong> In the print dialog, uncheck <em>Headers and footers</em> and set margins to <em>None</em> for best results.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("load-sample-data").addEventListener("click", function () {
+      document.getElementById("name").value = "John Doe";
+      document.getElementById("email").value = "john.doe@example.com";
+      document.getElementById("mobile").value = "+1234567890";
+      document.getElementById("title").value = "Senior Performance Test Engineer";
+      document.getElementById("summary").value = "Experienced Performance Test Engineer with over 8 years in load testing and performance optimization across multiple domains.";
+      document.getElementById("skills").value = "LoadRunner, JMeter, k6, Performance Center, Monitoring, Analysis";
+      addExperience("ABC Corp", "Performance Tester", "2018", "2022", "Worked on performance testing for banking and e-commerce clients.");
+      addEducation("XYZ University", "B.Tech in Computer Science", "2014");
+      addProject("E-commerce Load Testing", "Amazon", "Designed and executed performance test scripts simulating 10,000 concurrent users.");
+    });
+
+    function addExperience(company = '', title = '', start = '', end = '', description = '') {
+      const container = document.getElementById("experiences-container");
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <input type="text" placeholder="Company" value="${company}" class="w-full p-2 border rounded" />
+        <input type="text" placeholder="Job Title" value="${title}" class="w-full p-2 border rounded" />
+        <input type="text" placeholder="Start Year" value="${start}" class="w-full p-2 border rounded" />
+        <input type="text" placeholder="End Year" value="${end}" class="w-full p-2 border rounded" />
+        <textarea placeholder="Description" class="w-full p-2 border rounded">${description}</textarea>
+        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 text-sm">Delete</button>
+      `;
+      container.appendChild(div);
+    }
+
+    function addEducation(school = '', degree = '', year = '') {
+      const container = document.getElementById("education-container");
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <input type="text" placeholder="School / University" value="${school}" class="w-full p-2 border rounded" />
+        <input type="text" placeholder="Degree" value="${degree}" class="w-full p-2 border rounded" />
+        <input type="text" placeholder="Year" value="${year}" class="w-full p-2 border rounded" />
+        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 text-sm">Delete</button>
+      `;
+      container.appendChild(div);
+    }
+
+    function addProject(name = '', client = '', description = '') {
+      const container = document.getElementById("projects-container");
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <input type="text" placeholder="Project Name" value="${name}" class="w-full p-2 border rounded" />
+        <input type="text" placeholder="Client" value="${client}" class="w-full p-2 border rounded" />
+        <textarea placeholder="Project Description" class="w-full p-2 border rounded">${description}</textarea>
+        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 text-sm">Delete</button>
+      `;
+      container.appendChild(div);
+    }
+
+    document.getElementById("resume-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      document.getElementById("preview-name").textContent = document.getElementById("name").value;
+      document.getElementById("preview-email").textContent = document.getElementById("email").value;
+      document.getElementById("preview-mobile").textContent = document.getElementById("mobile").value;
+      document.getElementById("preview-title").textContent = document.getElementById("title").value;
+      document.getElementById("preview-summary").textContent = document.getElementById("summary").value;
+
+      const skills = document.getElementById("skills").value.split(",").map(skill => skill.trim()).filter(skill => skill);
+      const skillsList = document.getElementById("preview-skills");
+      skillsList.innerHTML = "";
+      skills.forEach(skill => {
+        const li = document.createElement("li");
+        li.textContent = skill;
+        skillsList.appendChild(li);
+      });
+
+      const expList = document.getElementById("preview-experience");
+      expList.innerHTML = "";
+      document.querySelectorAll("#experiences-container > div").forEach(div => {
+        const [company, title, start, end, desc] = div.querySelectorAll("input, textarea");
+        const li = document.createElement("li");
+        li.textContent = `${title.value} at ${company.value} (${start.value} - ${end.value}): ${desc.value}`;
+        expList.appendChild(li);
+      });
+
+      const eduList = document.getElementById("preview-education");
+      eduList.innerHTML = "";
+      document.querySelectorAll("#education-container > div").forEach(div => {
+        const [school, degree, year] = div.querySelectorAll("input");
+        const li = document.createElement("li");
+        li.textContent = `${degree.value} from ${school.value} (${year.value})`;
+        eduList.appendChild(li);
+      });
+
+      const projList = document.getElementById("preview-projects");
+      projList.innerHTML = "";
+      document.querySelectorAll("#projects-container > div").forEach(div => {
+        const [name, client, desc] = div.querySelectorAll("input, textarea");
+        const li = document.createElement("li");
+        li.textContent = `${name.value} (Client: ${client.value}): ${desc.value}`;
+        projList.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
